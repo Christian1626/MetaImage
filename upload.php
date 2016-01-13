@@ -99,21 +99,6 @@ if(!empty($_POST))
 }
 ?>
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fr">
-  <head>
-    <title>Upload d'une image sur le serveur !</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
-    <link rel="stylesheet" href="//blueimp.github.io/Gallery/css/blueimp-gallery.min.css">
-    <link rel="stylesheet" href="css/bootstrap-image-gallery.css">
-    <link rel="stylesheet" href="css/demo.css">
-    <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
-    <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
- 
-        </head>
-    
-  <body>
  <?php
       if( !empty($message) ) 
       {
@@ -125,7 +110,7 @@ if(!empty($_POST))
     <!-- Debut du formulaire -->
     <form class="form-inline" enctype="multipart/form-data" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>" method="post">
         <div class="form-group">
-            <label for="fichier_a_uploader" title="Recherchez le fichier à uploader !">Envoyer le fichier :</label>
+            <label for="fichier_a_uploader" title="Recherchez le fichier à uploader !">Ajouter une image :</label>
             <input class="form-control" type="hidden" name="MAX_FILE_SIZE" value="<?php echo MAX_SIZE; ?>" />
             <div class="input-group">
                 <span class="input-group-btn">
@@ -138,9 +123,6 @@ if(!empty($_POST))
         </div>
         <button type="submit" class="btn btn-default">Envoyer</button>
     </form>
-    <!-- Fin du formulaire -->
-  </body>
-</html>
 <script>
 $(document).on('change', '.btn-file :file', function() {
   var input = $(this),
