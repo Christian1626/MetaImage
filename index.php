@@ -24,6 +24,8 @@
 <link rel="stylesheet" href="//blueimp.github.io/Gallery/css/blueimp-gallery.min.css">
 <link rel="stylesheet" href="css/bootstrap-image-gallery.css">
 <link rel="stylesheet" href="css/demo.css">
+<script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+<script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
 </head>
 <body>
 <div class="navbar navbar-default navbar-fixed-top navbar-inverse">
@@ -55,14 +57,14 @@
                 <i class="glyphicon glyphicon-film"></i>
                 Launch Video Gallery
             </button>
-        </div>-->
+        </div>
         <div class="form-group">
             <button id="image-gallery-button" type="button" class="btn btn-primary btn-lg">
                 <i class="glyphicon glyphicon-picture"></i>
                 Launch Image Gallery
             </button>
         </div>
-        <!--<div class="btn-group" data-toggle="buttons">
+        <div class="btn-group" data-toggle="buttons">
           <label class="btn btn-success btn-lg">
             <i class="glyphicon glyphicon-leaf"></i>
             <input id="borderless-checkbox" type="checkbox"> Borderless
@@ -73,6 +75,7 @@
           </label>
         </div>-->
     </form>
+    <?php include('upload.php') ?>
     <br>
     <!-- The container for the list of example images -->
     <div id="links"></div>

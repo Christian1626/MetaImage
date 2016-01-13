@@ -4,7 +4,7 @@
  *************************************************************/
  
 // Constantes
-define('TARGET', 'C:/wamp/www/MetaImage/upload/');    // Repertoire cible
+define('TARGET', 'img/');    // Repertoire cible
 define('MAX_SIZE', 1000000);    // Taille max en octets du fichier
 define('WIDTH_MAX', 20000);    // Largeur max de l'image en pixels
 define('HEIGHT_MAX', 20000);    // Hauteur max de l'image en pixels
@@ -17,6 +17,45 @@ $infosImg = array();
 $extension = '';
 $message = '';
 $nomImage = '';
+
+
+   function makeThumbnails($updir, $img, $extension)
+{
+    $thumbnail_width = 75;
+    $thumbnail_height = 75;
+    $thumb_beforeword = "thumb";
+    $arr_image_details = getimagesize("$updir" . "$img" ."." .$extension); // pass id to thumb name
+    $original_width = $arr_image_details[0];
+    $original_height = $arr_image_details[1];
+    if ($original_width > $original_height) {
+        $new_width = $thumbnail_width;
+        $new_height = intval($original_height * $new_width / $original_width);
+    } else {
+        $new_height = $thumbnail_height;
+        $new_width = intval($original_width * $new_height / $original_height);
+    }
+    $dest_x = intval(($thumbnail_width - $new_width) / 2);
+    $dest_y = intval(($thumbnail_height - $new_height) / 2);
+    if ($arr_image_details[2] == 1) {
+        $imgt = "ImageGIF";
+        $imgcreatefrom = "ImageCreateFromGIF";
+    }
+    if ($arr_image_details[2] == 2) {
+        $imgt = "ImageJPEG";
+        $imgcreatefrom = "ImageCreateFromJPEG";
+    }
+    if ($arr_image_details[2] == 3) {
+        $imgt = "ImagePNG";
+        $imgcreatefrom = "ImageCreateFromPNG";
+    }
+    if ($imgt) {
+        $old_image = $imgcreatefrom("$updir" . "$img" ."." .$extension);
+        $new_image = imagecreatetruecolor($thumbnail_width, $thumbnail_height);
+        imagecopyresized($new_image, $old_image, $dest_x, $dest_y, 0, 0, $new_width, $new_height, $original_width, $original_height);
+        $imgt($new_image, "$updir" . $img."_s" ."." .$extension);
+    }
+}
+    
  
 /************************************************************
  * Creation du repertoire cible si inexistant
@@ -60,6 +99,7 @@ if(!empty($_POST))
             // Si c'est OK, on teste l'upload
             if(move_uploaded_file($_FILES['fichier']['tmp_name'], TARGET.$nomImage))
             {
+              makeThumbnails(TARGET, explode(".",$nomImage)[0],$extension);
               $message = 'Upload réussi !';
             }
             else
@@ -99,12 +139,6 @@ if(!empty($_POST))
 }
 ?>
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fr">
-  <head>
-    <title>Upload d'une image sur le serveur !</title>
-  </head>
-  <body>
  <?php
       if( !empty($message) ) 
       {
@@ -114,17 +148,42 @@ if(!empty($_POST))
       }
     ?>
     <!-- Debut du formulaire -->
-   <form enctype="multipart/form-data" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>" method="post">
-    <fieldset>
-        <legend>Formulaire</legend>
-          <p>
-            <label for="fichier_a_uploader" title="Recherchez le fichier à uploader !">Envoyer le fichier :</label>
-            <input type="hidden" name="MAX_FILE_SIZE" value="<?php echo MAX_SIZE; ?>" />
-            <input name="fichier" type="file" id="fichier_a_uploader" />
-            <input type="submit" name="submit" value="Uploader" />
-          </p>
-      </fieldset>
+    <form class="form-inline" enctype="multipart/form-data" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>" method="post">
+        <div class="form-group">
+            <label for="fichier_a_uploader" title="Recherchez le fichier à uploader !">Ajouter une image :</label>
+            <input class="form-control" type="hidden" name="MAX_FILE_SIZE" value="<?php echo MAX_SIZE; ?>" />
+            <div class="input-group">
+                <span class="input-group-btn">
+                    <span class="btn btn-primary btn-file">
+                        Browse&hellip; <input name="fichier" class="file" type="file" id="fichier_a_uploader" >
+                    </span>
+                </span>
+                <input type="text" class="form-control" readonly>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-default">Envoyer</button>
     </form>
-    <!-- Fin du formulaire -->
-  </body>
-</html>
+<script>
+    
+$(document).on('change', '.btn-file :file', function() {
+  var input = $(this),
+      numFiles = input.get(0).files ? input.get(0).files.length : 1,
+      label = input.val().replace(/\\/g, '/').replace(/.*\//, '');
+  input.trigger('fileselect', [numFiles, label]);
+});
+
+$(document).ready( function() {
+    $('.btn-file :file').on('fileselect', function(event, numFiles, label) {
+        
+        var input = $(this).parents('.input-group').find(':text'),
+            log = numFiles > 1 ? numFiles + ' files selected' : label;
+        
+        if( input.length ) {
+            input.val(log);
+        } else {
+            if( log ) alert(log);
+        }
+        
+    });
+});
+</script>
