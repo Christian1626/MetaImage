@@ -48,24 +48,34 @@ $(function () {
         blueimp.Gallery($('#links a'), $('#blueimp-gallery').data());
     });
 
-    /*var fileExt = {};
-    fileExt[0]=".png";
-    fileExt[1]=".jpg";
-    fileExt[2]=".gif";
+    console.log("toto");
+    var dir = "img/";
+    var fileextension = ".jpg";
     $.ajax({
         //This will retrieve the contents of the folder if the folder is configured as 'browsable'
-        url: '../../Images/Avatar/',
+        url: 'https://21102541.users.info.unicaen.fr/MetaImage/img/',
         success: function (data) {
-        $("#fileNames").html('<ul>');
-        //List all png or jpg or gif file names in the page
-        $(data).find('a:contains(" + fileExt[0] + "),a:contains(" + fileExt[1] + "),a:contains(" + fileExt[2] + ")').each(function () {
-            var filename = this.href.replace(window.location.host, "").replace("http:///", "");
-        $("#fileNames").append( '<li>'+filename+<'/li'>);
-            });
-        $("#fileNames").append('</ul>');
-        }     
-    });*/
+            var linksContainer = $('#links');
 
-    
+            console.log("test");
+            //$("#fileNames").html('<ul>');
+            //List all png or jpg or gif file names in the page
+            $(data).find("a:contains(" + fileextension + ")").each(function () {
+            var filename = this.href.replace(window.location.host, "").replace("https://", "").replace("/MetaImage","").replace(".jpg","");
+            console.log("filename:",filename);
 
+
+            var baseUrl = "https://21102541.users.info.unicaen.fr/MetaImage/img" + filename + "_s.jpg";
+            $('<a/>')
+                .append($('<img>').prop('src', baseUrl))
+                .prop('href', baseUrl)
+                .prop('title', filename)
+                .attr('data-gallery', '')
+                .appendTo(linksContainer);
+        });
+            /*$("#fileNames").append( '<li>'+filename+<'/li'>);
+                });
+            $("#fileNames").append('</ul>');*/
+        }
+    });
 });
