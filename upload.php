@@ -17,6 +17,45 @@ $infosImg = array();
 $extension = '';
 $message = '';
 $nomImage = '';
+
+
+   function makeThumbnails($updir, $img, $extension)
+{
+    $thumbnail_width = 75;
+    $thumbnail_height = 75;
+    $thumb_beforeword = "thumb";
+    $arr_image_details = getimagesize("$updir" . "$img" ."." .$extension); // pass id to thumb name
+    $original_width = $arr_image_details[0];
+    $original_height = $arr_image_details[1];
+    if ($original_width > $original_height) {
+        $new_width = $thumbnail_width;
+        $new_height = intval($original_height * $new_width / $original_width);
+    } else {
+        $new_height = $thumbnail_height;
+        $new_width = intval($original_width * $new_height / $original_height);
+    }
+    $dest_x = intval(($thumbnail_width - $new_width) / 2);
+    $dest_y = intval(($thumbnail_height - $new_height) / 2);
+    if ($arr_image_details[2] == 1) {
+        $imgt = "ImageGIF";
+        $imgcreatefrom = "ImageCreateFromGIF";
+    }
+    if ($arr_image_details[2] == 2) {
+        $imgt = "ImageJPEG";
+        $imgcreatefrom = "ImageCreateFromJPEG";
+    }
+    if ($arr_image_details[2] == 3) {
+        $imgt = "ImagePNG";
+        $imgcreatefrom = "ImageCreateFromPNG";
+    }
+    if ($imgt) {
+        $old_image = $imgcreatefrom("$updir" . "$img" ."." .$extension);
+        $new_image = imagecreatetruecolor($thumbnail_width, $thumbnail_height);
+        imagecopyresized($new_image, $old_image, $dest_x, $dest_y, 0, 0, $new_width, $new_height, $original_width, $original_height);
+        $imgt($new_image, "$updir" . $img."_s" ."." .$extension);
+    }
+}
+    
  
 /************************************************************
  * Creation du repertoire cible si inexistant
@@ -60,6 +99,7 @@ if(!empty($_POST))
             // Si c'est OK, on teste l'upload
             if(move_uploaded_file($_FILES['fichier']['tmp_name'], TARGET.$nomImage))
             {
+              makeThumbnails(TARGET, explode(".",$nomImage)[0],$extension);
               $message = 'Upload réussi !';
             }
             else
@@ -124,6 +164,7 @@ if(!empty($_POST))
         <button type="submit" class="btn btn-default">Envoyer</button>
     </form>
 <script>
+    
 $(document).on('change', '.btn-file :file', function() {
   var input = $(this),
       numFiles = input.get(0).files ? input.get(0).files.length : 1,
