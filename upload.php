@@ -103,7 +103,16 @@ if(!empty($_POST))
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fr">
   <head>
     <title>Upload d'une image sur le serveur !</title>
-  </head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//blueimp.github.io/Gallery/css/blueimp-gallery.min.css">
+    <link rel="stylesheet" href="css/bootstrap-image-gallery.css">
+    <link rel="stylesheet" href="css/demo.css">
+    <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+ 
+        </head>
+    
   <body>
  <?php
       if( !empty($message) ) 
@@ -114,17 +123,44 @@ if(!empty($_POST))
       }
     ?>
     <!-- Debut du formulaire -->
-   <form enctype="multipart/form-data" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>" method="post">
-    <fieldset>
-        <legend>Formulaire</legend>
-          <p>
+    <form class="form-inline" enctype="multipart/form-data" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>" method="post">
+        <div class="form-group">
             <label for="fichier_a_uploader" title="Recherchez le fichier à uploader !">Envoyer le fichier :</label>
-            <input type="hidden" name="MAX_FILE_SIZE" value="<?php echo MAX_SIZE; ?>" />
-            <input name="fichier" type="file" id="fichier_a_uploader" />
-            <input type="submit" name="submit" value="Uploader" />
-          </p>
-      </fieldset>
+            <input class="form-control" type="hidden" name="MAX_FILE_SIZE" value="<?php echo MAX_SIZE; ?>" />
+            <div class="input-group">
+                <span class="input-group-btn">
+                    <span class="btn btn-primary btn-file">
+                        Browse&hellip; <input name="fichier" class="file" type="file" id="fichier_a_uploader" >
+                    </span>
+                </span>
+                <input type="text" class="form-control" readonly>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-default">Envoyer</button>
     </form>
     <!-- Fin du formulaire -->
   </body>
 </html>
+<script>
+$(document).on('change', '.btn-file :file', function() {
+  var input = $(this),
+      numFiles = input.get(0).files ? input.get(0).files.length : 1,
+      label = input.val().replace(/\\/g, '/').replace(/.*\//, '');
+  input.trigger('fileselect', [numFiles, label]);
+});
+
+$(document).ready( function() {
+    $('.btn-file :file').on('fileselect', function(event, numFiles, label) {
+        
+        var input = $(this).parents('.input-group').find(':text'),
+            log = numFiles > 1 ? numFiles + ' files selected' : label;
+        
+        if( input.length ) {
+            input.val(log);
+        } else {
+            if( log ) alert(log);
+        }
+        
+    });
+});
+</script>
