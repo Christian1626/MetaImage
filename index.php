@@ -26,6 +26,14 @@
 <link rel="stylesheet" href="css/demo.css">
 <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
 <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+
+	<style media="screen" type="text/css">
+	.mr{
+		margin-right : 35%;
+	}
+
+	</style>
+
 </head>
 <body>
 <div class="navbar navbar-default navbar-fixed-top navbar-inverse">
@@ -106,6 +114,13 @@
                         <i class="glyphicon glyphicon-chevron-left"></i>
                         Previous
                     </button>
+                    
+                    <a href='' id="bouton_modifier" class="mr"><button type="button" class="btn btn-warning pull-middle" >
+                        <i class="glyphicon"></i>
+                        Modifier
+                    </button></a>
+                    
+                    
                     <button type="button" class="btn btn-primary next">
                         Next
                         <i class="glyphicon glyphicon-chevron-right"></i>

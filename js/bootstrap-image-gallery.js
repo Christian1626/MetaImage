@@ -61,8 +61,12 @@
                     });
                     modal.addClass('in');
                 }, factoryInterface);
+                element.title = element.title.substring(1,element.title.length-2);
             modal.find('.modal-title').text(element.title || String.fromCharCode(160));
             modal.find('.modal-body').append(element);
+            
+       		modal.find('#bouton_modifier').attr('href', 'modifyMetadata2.php?imageName='+element.title+'.jpg');
+       		
             return modal[0];
         },
 

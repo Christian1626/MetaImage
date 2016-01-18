@@ -26,10 +26,10 @@
 <?php
 
 	//$img 		= $_POST['imageSelected'];
-	//$imageName 		= $_POST['imageName'];
-	$imageName 	= 'img/photo1.jpg';
+	$imageName 	= $_GET['imageName'];
+	//$imageName 	= 'img/photo1.jpg';
 
-	$str = shell_exec('exiftool -json -g1 '.$imageName);
+	$str = shell_exec('exiftool -json -g1 img/'.$imageName);
 
 	$data=json_decode($str, true);
 	$data = $data[0];
@@ -52,7 +52,7 @@
 
 	echo '<div class="centrer">
 			<h1>Modification de "'.$imageName.'" :</h1>
-			<img src="'.$imageName.'" alt="Modifier L\'image courante" class="img-thumbnail" size="5em">
+			<img src="img/'.$imageName.'" alt="Modifier L\'image courante" class="img-thumbnail" size="5em">
 		</div><br/><br/>';
 
 	

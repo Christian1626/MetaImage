@@ -52,7 +52,7 @@ $(function () {
     var fileextension = ".jpg";
     $.ajax({
         //This will retrieve the contents of the folder if the folder is configured as 'browsable'
-        url: 'https://21102541.users.info.unicaen.fr/MetaImage/img/thumbnails',
+        url: 'https://21101130.users.info.unicaen.fr/MetaImage/img/thumbnails',
         success: function (data) {
             var linksContainer = $('#links');
 
@@ -64,7 +64,7 @@ $(function () {
             console.log("filename:",filename);
 
 
-            var baseUrl = "https://21102541.users.info.unicaen.fr/MetaImage/img";
+            var baseUrl = "https://21101130.users.info.unicaen.fr/MetaImage/img";
             var thumbnails = baseUrl+"/thumbnails" + filename;
             var img = baseUrl + filename.substring(0,filename.length-2) + ".jpg";
             console.log(img);
