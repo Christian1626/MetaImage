@@ -16,7 +16,7 @@ $(function () {
     'use strict';
 
     // Load demo images from flickr:
-    $.ajax({
+    /*$.ajax({
         // Flickr API is SSL only:
         // https://code.flickr.net/2014/04/30/flickr-api-going-ssl-only-on-june-27th-2014/
         url: 'https://api.flickr.com/services/rest/',
@@ -41,19 +41,18 @@ $(function () {
                 .attr('data-gallery', '')
                 .appendTo(linksContainer);
         });
-    });
+    });*/
 
     $('#image-gallery-button').on('click', function (event) {
         event.preventDefault();
         blueimp.Gallery($('#links a'), $('#blueimp-gallery').data());
     });
 
-    console.log("toto");
     var dir = "img/";
     var fileextension = ".jpg";
     $.ajax({
         //This will retrieve the contents of the folder if the folder is configured as 'browsable'
-        url: 'https://21102541.users.info.unicaen.fr/MetaImage/img/',
+        url: 'https://21102541.users.info.unicaen.fr/MetaImage/img/thumbnails',
         success: function (data) {
             var linksContainer = $('#links');
 
@@ -65,17 +64,18 @@ $(function () {
             console.log("filename:",filename);
 
 
-            var baseUrl = "https://21102541.users.info.unicaen.fr/MetaImage/img" + filename + "_s.jpg";
+            var baseUrl = "https://21102541.users.info.unicaen.fr/MetaImage/img";
+            var thumbnails = baseUrl+"/thumbnails" + filename;
+            var img = baseUrl + filename.substring(0,filename.length-2) + ".jpg";
+            console.log(img);
+
             $('<a/>')
-                .append($('<img>').prop('src', baseUrl))
-                .prop('href', baseUrl)
+                .append($('<img>').prop('src', thumbnails))
+                .prop('href', img)
                 .prop('title', filename)
                 .attr('data-gallery', '')
                 .appendTo(linksContainer);
         });
-            /*$("#fileNames").append( '<li>'+filename+<'/li'>);
-                });
-            $("#fileNames").append('</ul>');*/
         }
     });
 });

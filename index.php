@@ -41,7 +41,7 @@
         <!-- MENU -->
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
-               <li><a href="#">Upload Image</a></li>
+               <!-- <li><a href="#">Upload Image</a></li> -->
                 <!--<li><a href="https://github.com/blueimp/Bootstrap-Image-Gallery">Source Code</a></li>
                 <li><a href="https://github.com/blueimp/Bootstrap-Image-Gallery/blob/master/README.md">Documentation</a></li>
                 <li><a href="https://blueimp.net">&copy; Sebastian Tschan</a></li>-->
