@@ -36,10 +36,8 @@
         <!-- MENU -->
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
-               <!-- <li><a href="#">Upload Image</a></li> -->
-                <!--<li><a href="https://github.com/blueimp/Bootstrap-Image-Gallery">Source Code</a></li>
-                <li><a href="https://github.com/blueimp/Bootstrap-Image-Gallery/blob/master/README.md">Documentation</a></li>
-                <li><a href="https://blueimp.net">&copy; Sebastian Tschan</a></li>-->
+               <li><a href="#">Upload Image</a></li>
+               <li><a href="info.html">A propos</a></li>
             </ul>
         </div>
     </div>
@@ -103,7 +101,7 @@
 		 <div class="form-group">
 		  <label class="control-label col-sm-2" for="description">Description:</label>
 		  <div class="col-sm-10">
-			<input type="text" class="form-control" id="description" name="ImageDescription" value="'.$data['IFD0']['ImageDescription'].'" >
+			<textarea class="form-control custom-control" rows="3" style="resize:none">'.$data['IFD0']['ImageDescription'].'</textarea>     
 		  </div>
 		</div>
 		<div class="form-group">
