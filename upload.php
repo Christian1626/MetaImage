@@ -21,8 +21,8 @@ $nomImage = '';
 
    function makeThumbnails($updir, $img, $extension)
 {
-    $thumbnail_width = 75;
-    $thumbnail_height = 75;
+    $thumbnail_width = 350;
+    $thumbnail_height = 250;
     $thumb_beforeword = "thumb";
     $arr_image_details = getimagesize("$updir" . "$img" ."." .$extension); // pass id to thumb name
     $original_width = $arr_image_details[0];
@@ -52,7 +52,7 @@ $nomImage = '';
         $old_image = $imgcreatefrom("$updir" . "$img" ."." .$extension);
         $new_image = imagecreatetruecolor($thumbnail_width, $thumbnail_height);
         imagecopyresized($new_image, $old_image, $dest_x, $dest_y, 0, 0, $new_width, $new_height, $original_width, $original_height);
-        $imgt($new_image, "$updir/thumbnail" . $img."_s" ."." .$extension);
+        $imgt($new_image, $updir."thumbnails/" . $img."_s" ."." .$extension);
     }
 }
     
