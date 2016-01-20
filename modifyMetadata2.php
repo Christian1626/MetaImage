@@ -23,32 +23,66 @@
 
 </head>
 <body>
+<div class="navbar navbar-default navbar-fixed-top navbar-inverse">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-fixed-top .navbar-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="https://github.com/blueimp/Bootstrap-Image-Gallery">MetaImage</a>
+        </div>
+        <!-- MENU -->
+        <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+               <!-- <li><a href="#">Upload Image</a></li> -->
+                <!--<li><a href="https://github.com/blueimp/Bootstrap-Image-Gallery">Source Code</a></li>
+                <li><a href="https://github.com/blueimp/Bootstrap-Image-Gallery/blob/master/README.md">Documentation</a></li>
+                <li><a href="https://blueimp.net">&copy; Sebastian Tschan</a></li>-->
+            </ul>
+        </div>
+    </div>
+</div>
 <?php
-
-	//$img 		= $_POST['imageSelected'];
 	$imageName 	= $_GET['imageName'];
-	//$imageName 	= 'img/photo1.jpg';
+
+	//Si la modification est envoyée, on exec
+	if (isset($_POST['EnvoyerModif']))
+    {
+		$param1='-Title="'.$_POST['title_photo'].'"';
+		$param2='-IFD0:ImageDescription="'.$_POST['ImageDescription'].'"';
+		$param3='-IPTC:Keywords="'.$_POST['keywords'].'"';
+		$param4='-IFD0:Copyright="'.$_POST['copyright'].'"';
+		$param5='-IFD0:Artist="'.$_POST['artist'].'"';
+
+		$listeParam=$param1.' '.$param2.' '.$param3.' '.$param4.' '.$param5.' img/'.$imageName;
+		//echo 'exiftool '.$listeParam;
+		shell_exec('exiftool '.$listeParam);
+    }
 
 	$str = shell_exec('exiftool -json -g1 img/'.$imageName);
-
 	$data=json_decode($str, true);
 	$data = $data[0];
+	
 	/*echo "<pre>";
 	print_r($data);
 	echo "</pre>";*/
+	
 	$listeKW = "";
-	//var_dump($data['IPTC']['Keywords']);
-	foreach($data['IPTC']['Keywords'] as $value ) {
-		//echo $value;
-		if($listeKW == "") {
-			$listeKW = $listeKW . $value ;
+	
+	if (is_array($data['IPTC']['Keywords'])){
+		foreach($data['IPTC']['Keywords'] as $value ) {
+			if($listeKW == "") {
+				$listeKW = $listeKW . $value ;
+			}
+			else {
+				$listeKW = $listeKW . ', '.  $value ;
+			}
 		}
-		else {
-			$listeKW = $listeKW . ','.  $value ;
-		}
-
-		//echo $listeKW;
-	} 
+	}else{
+		$listeKW=$data['IPTC']['Keywords'];
+	}
 
 	echo '<div class="centrer">
 			<h1>Modification de "'.$imageName.'" :</h1>
@@ -56,57 +90,53 @@
 		</div><br/><br/>';
 
 	
+	//action="https://21101130.users.info.unicaen.fr/MetaImage/index.php"
+	echo '<div class="container">
+	  <form class="form-horizontal" role="form" method="post">
+		<div class="form-group">
+		  <label class="control-label col-sm-2" for="filename">Title:</label>
+		  <div class="col-sm-10">
+			<input type="text" class="form-control" id="title_photo" name="title_photo" value="'.$data['XMP-dc']['Title'].'" >
+		  </div>
+		</div>
 
-echo '<div class="container">
-  <form class="form-horizontal" role="form">
-    <div class="form-group">
-      <label class="control-label col-sm-2" for="filename">FileName:</label>
-      <div class="col-sm-10">
-        <input type="text" class="form-control" id="filename" value="'.$data['System']['FileName'].'" >
-      </div>
-    </div>
+		 <div class="form-group">
+		  <label class="control-label col-sm-2" for="description">Description:</label>
+		  <div class="col-sm-10">
+			<input type="text" class="form-control" id="description" name="ImageDescription" value="'.$data['IFD0']['ImageDescription'].'" >
+		  </div>
+		</div>
+		<div class="form-group">
+		  <label class="control-label col-sm-2" for="keywords">Keywords:</label>
+		  <div class="col-sm-10">
+			<input type="text" class="form-control" id="keyword" name="keywords" value="'.$listeKW.'" >
+		  </div>
+		</div>
 
-     <div class="form-group">
-      <label class="control-label col-sm-2" for="description">Description:</label>
-      <div class="col-sm-10">
-        <input type="text" class="form-control" id="description" value="'.$data['IFD0']['ImageDescription'].'" >
-      </div>
-    </div>
-	<div class="form-group">
-      <label class="control-label col-sm-2" for="keywords">Keywords:</label>
-      <div class="col-sm-10">
-        <input type="text" class="form-control" id="keyword" value="'.$listeKW.'" >
-      </div>
-    </div>
+		<div class="form-group">
+		  <label class="control-label col-sm-2" for="copyright">Copyright:</label>
+		  <div class="col-sm-10">
+			<input type="text" class="form-control" id="copyright" name="copyright" value="'.$data['IFD0']['Copyright'].'" >
+		  </div>
+		</div>
 
-    <div class="form-group">
-      <label class="control-label col-sm-2" for="copyright">Copyright:</label>
-      <div class="col-sm-10">
-        <input type="text" class="form-control" id="copyright" value="'.$data['IFD0']['Copyright'].'" >
-      </div>
-    </div>
-
-     <div class="form-group">
-      <label class="control-label col-sm-2" for="artist">Artist:</label>
-      <div class="col-sm-10">
-        <input type="text" class="form-control" id="artist" value="'.$data['IFD0']['Artist'].'" >
-      </div>
-    </div>
-
-
-
-    <div class="form-group">        
-      <div class="col-sm-offset-2 col-sm-10">
-        <button type="submit" class="btn btn-default">Submit</button>
-      </div>
-    </div>
-  </form>
-</div>';
+		 <div class="form-group">
+		  <label class="control-label col-sm-2" for="artist">Artist:</label>
+		  <div class="col-sm-10">
+			<input type="text" class="form-control" id="artist" name="artist" value="'.$data['IFD0']['Artist'].'" >
+		  </div>
+		</div>
 
 
-	
 
-	?>
+		<div class="form-group">        
+		  <div class="col-sm-offset-2 col-sm-10">
+			<button type="submit" class="btn btn-warning" name="EnvoyerModif" onclick="return confirm(\'Appliquer définitivement les modifications aux metadatas de :\n '.$imageName.' ?\')">Modifier</button>
+		  </div>
+		</div>
+	  </form>
+	</div>';
+?>
 
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 <!-- Bootstrap JS is not required, but included for the responsive demo navigation and button states -->
