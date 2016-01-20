@@ -36,7 +36,7 @@
         <!-- MENU -->
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
-               <li><a href="#">Upload Image</a></li>
+               <li><a href="index.php">Upload Image</a></li>
                <li><a href="info.html">A propos</a></li>
             </ul>
         </div>
@@ -48,11 +48,11 @@
 	//Si la modification est envoyée, on exec
 	if (isset($_POST['EnvoyerModif']))
     {
-		$param1='-Title="'.$_POST['title_photo'].'"';
-		$param2='-IFD0:ImageDescription="'.$_POST['ImageDescription'].'"';
-		$param3='-IPTC:Keywords="'.$_POST['keywords'].'"';
-		$param4='-IFD0:Copyright="'.$_POST['copyright'].'"';
-		$param5='-IFD0:Artist="'.$_POST['artist'].'"';
+		$param1='-Title="'.addcslashes($_POST['title_photo'], '"').'"';
+		$param2='-IFD0:ImageDescription="'.addcslashes($_POST['ImageDescription'], '"').'"';
+		$param3='-IPTC:Keywords="'.addcslashes($_POST['keywords'], '"').'"';
+		$param4='-IFD0:Copyright="'.addcslashes($_POST['copyright'], '"').'"';
+		$param5='-IFD0:Artist="'.addcslashes($_POST['artist'], '"').'"';
 
 		$listeParam=$param1.' '.$param2.' '.$param3.' '.$param4.' '.$param5.' img/'.$imageName;
 		//echo 'exiftool '.$listeParam;
@@ -88,7 +88,7 @@
 		</div><br/><br/>';
 
 	
-	//action="https://21101130.users.info.unicaen.fr/MetaImage/index.php"
+	
 	echo '<div class="container">
 	  <form class="form-horizontal" role="form" method="post">
 		<div class="form-group">
@@ -101,7 +101,7 @@
 		 <div class="form-group">
 		  <label class="control-label col-sm-2" for="description">Description:</label>
 		  <div class="col-sm-10">
-			<textarea class="form-control custom-control" rows="3" style="resize:none">'.$data['IFD0']['ImageDescription'].'</textarea>     
+			<textarea class="form-control custom-control" rows="3" style="resize:none" name="ImageDescription">'.$data['IFD0']['ImageDescription'].'</textarea>     
 		  </div>
 		</div>
 		<div class="form-group">
