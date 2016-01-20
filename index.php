@@ -49,40 +49,12 @@
         <!-- MENU -->
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
-               <!-- <li><a href="#">Upload Image</a></li> -->
-                <!--<li><a href="https://github.com/blueimp/Bootstrap-Image-Gallery">Source Code</a></li>
-                <li><a href="https://github.com/blueimp/Bootstrap-Image-Gallery/blob/master/README.md">Documentation</a></li>
-                <li><a href="https://blueimp.net">&copy; Sebastian Tschan</a></li>-->
+               <li><a href="#">Upload Image</a></li>
             </ul>
         </div>
     </div>
 </div>
 <div class="container">
-    <!--<h1>MetaImage</h1>-->
-    <form class="form-inline">
-        <!-- <div class="form-group">
-           <button id="video-gallery-button" type="button" class="btn btn-success btn-lg">
-                <i class="glyphicon glyphicon-film"></i>
-                Launch Video Gallery
-            </button>
-        </div>
-        <div class="form-group">
-            <button id="image-gallery-button" type="button" class="btn btn-primary btn-lg">
-                <i class="glyphicon glyphicon-picture"></i>
-                Launch Image Gallery
-            </button>
-        </div>
-        <div class="btn-group" data-toggle="buttons">
-          <label class="btn btn-success btn-lg">
-            <i class="glyphicon glyphicon-leaf"></i>
-            <input id="borderless-checkbox" type="checkbox"> Borderless
-          </label>
-          <label class="btn btn-primary btn-lg">
-            <i class="glyphicon glyphicon-fullscreen"></i>
-            <input id="fullscreen-checkbox" type="checkbox"> Fullscreen
-          </label>
-        </div>-->
-    </form>
     <?php include('upload.php') ?>
     <br>
     <!-- The container for the list of example images -->
@@ -106,7 +78,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" aria-hidden="true">&times;</button>
-                    <h4 class="modal-title"></h4>
+                    <!--<h4 class="modal-title"></h4>-->
                 </div>
                 <div class="modal-body next"></div>
                 <div class="modal-footer">

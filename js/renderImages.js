@@ -48,11 +48,11 @@ $(function () {
         blueimp.Gallery($('#links a'), $('#blueimp-gallery').data());
     });
 
-    var dir = "img/";
+    var dir = "https://21102541.users.info.unicaen.fr/MetaImage/img";
     var fileextension = ".jpg";
     $.ajax({
         //This will retrieve the contents of the folder if the folder is configured as 'browsable'
-        url: 'https://21101130.users.info.unicaen.fr/MetaImage/img/thumbnails',
+        url: dir+'/thumbnails',
         success: function (data) {
             var linksContainer = $('#links');
 
@@ -64,9 +64,8 @@ $(function () {
             console.log("filename:",filename);
 
 
-            var baseUrl = "https://21101130.users.info.unicaen.fr/MetaImage/img";
-            var thumbnails = baseUrl+"/thumbnails" + filename;
-            var img = baseUrl + filename.substring(0,filename.length-2) + ".jpg";
+            var thumbnails = dir+"/thumbnails" + filename;
+            var img = dir + filename.substring(0,filename.length-2) + ".jpg";
             console.log(img);
 
             $('<a/>')
