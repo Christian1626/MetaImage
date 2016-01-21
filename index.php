@@ -50,6 +50,7 @@
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
                <li><a href="#">Upload Image</a></li>
+               <li><a href="info.html">A propos</a></li>
             </ul>
         </div>
     </div>
