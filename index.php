@@ -44,20 +44,19 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="https://github.com/blueimp/Bootstrap-Image-Gallery">MetaImage</a>
+            <a class="navbar-brand" href="index.php">MetaImage</a>
         </div>
         <!-- MENU -->
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
-               <li><a href="#">Upload Image</a></li>
-               <li><a href="info.html">A propos</a></li>
+               <li><a href="info.html">A Propos</a></li>
             </ul>
         </div>
     </div>
 </div>
 <div class="container">
     <?php include('upload.php') ?>
-    <br>
+    <br/>
     <!-- The container for the list of example images -->
     <div id="links"></div>
     <br>

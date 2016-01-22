@@ -10,15 +10,23 @@
 	<link rel="stylesheet" href="css/bootstrap-image-gallery.css">
 	<link rel="stylesheet" href="css/demo.css">
 
+	<!-- Polymer -->
+	<script src="bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
+	<link rel="import" href="bower_components/google-map/google-map.html">
+
 
 	<style media="screen" type="text/css">
-	.img-thumbnail{
-		max-height: 20em;
-	}
-	.centrer{
-		margin : auto;
-		text-align : center;
-	}
+		.img-thumbnail{
+			max-height: 20em;
+		}
+		.centrer{
+			margin : auto;
+			text-align : center;
+		}
+		google-map {
+			height: 300px;
+			width: 300px;
+		}
 	</style>
 
 </head>
@@ -31,18 +39,32 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="https://github.com/blueimp/Bootstrap-Image-Gallery">MetaImage</a>
+            <a class="navbar-brand" href="index.php">MetaImage</a>
         </div>
         <!-- MENU -->
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
-               <li><a href="index.php">Upload Image</a></li>
                <li><a href="info.html">A propos</a></li>
             </ul>
         </div>
     </div>
 </div>
 <?php
+
+	function DMStoDEC($deg,$min,$sec,$dir)
+	{
+
+	// Converts DMS ( Degrees / minutes / seconds / direction ) 
+	// to decimal format longitude / latitude
+	    $res = $deg+((($min*60)+($sec))/3600);
+
+	    if($dir == "S" || $dir == "W") {
+	    	return -$res;
+	    }
+
+	    return $res;
+	}  
+
 	$imageName 	= $_GET['imageName'];
 
 	//Si la modification est envoyée, on exec
@@ -66,7 +88,15 @@
 	/*echo "<pre>";
 	print_r($data);
 	echo "</pre>";*/
-	
+
+	$latitude = explode(" ",$data['Composite']['GPSLatitude']);
+	$latitude = DMStoDEC($latitude[0],str_replace("'","",$latitude[2]),str_replace("\"","",$latitude[3]),$latitude[4]);
+
+	$longitude = explode(" ",$data['Composite']['GPSLongitude']);
+	$longitude = DMStoDEC($longitude[0],str_replace("'","",$longitude[2]),str_replace("\"","",$longitude[3]),$longitude[4]);
+		
+	//echo $latitude;
+	//echo $longitude;
 	$listeKW = "";
 	
 	if (is_array($data['IPTC']['Keywords'])){
@@ -134,7 +164,13 @@
 		</div>
 	  </form>
 	</div>';
+
+	echo '  <google-map latitude="37.77493" longitude="-122.41942" fit-to-markers>
+	 	 <google-map-marker latitude="'.$latitude.'" longitude="'.$longitude.'"></google-map-marker>
+		</google-map>';
 ?>
+
+
 
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 <!-- Bootstrap JS is not required, but included for the responsive demo navigation and button states -->
