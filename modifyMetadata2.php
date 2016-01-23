@@ -165,9 +165,11 @@
 	  </form>
 	</div>';
 
-	echo '  <google-map latitude="37.77493" longitude="-122.41942" fit-to-markers>
+	if (!empty($latitude) && !empty($longitude)) {
+		echo '  <google-map latitude="37.77493" longitude="-122.41942" fit-to-markers>
 	 	 <google-map-marker latitude="'.$latitude.'" longitude="'.$longitude.'"></google-map-marker>
 		</google-map>';
+	}
 ?>
 
 
