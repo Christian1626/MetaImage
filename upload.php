@@ -5,7 +5,7 @@
  
 // Constantes
 define('TARGET', 'img/');    // Repertoire cible
-define('MAX_SIZE', 1000000);    // Taille max en octets du fichier
+define('MAX_SIZE', 10485760);    // Taille max en octets du fichier
 define('WIDTH_MAX', 20000);    // Largeur max de l'image en pixels
 define('HEIGHT_MAX', 20000);    // Hauteur max de l'image en pixels
  
@@ -80,6 +80,7 @@ if(!empty($_POST))
     // On verifie l'extension du fichier
     if(in_array(strtolower($extension),$tabExt))
     {
+	print_r($_FILES['fichier']);
       // On recupere les dimensions du fichier
       $infosImg = getimagesize($_FILES['fichier']['tmp_name']);
  
@@ -116,13 +117,13 @@ if(!empty($_POST))
         else
         {
           // Sinon erreur sur les dimensions et taille de l'image
-          $message = 'Erreur dans les dimensions de l\'image !';
+          $message = 'Votre image ne respecte pas les limites (20000x2000 en taille et 10Mo maxi)';
         }
       }
       else
       {
         // Sinon erreur sur le type de l'image
-        $message = 'Le fichier à uploader n\'est pas une image !';
+        $message = "L'image uploadée n'est pas correcte !";
       }
     }
     else
