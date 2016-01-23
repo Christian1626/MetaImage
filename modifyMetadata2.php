@@ -9,11 +9,12 @@
 	<link rel="stylesheet" href="//blueimp.github.io/Gallery/css/blueimp-gallery.min.css">
 	<link rel="stylesheet" href="css/bootstrap-image-gallery.css">
 	<link rel="stylesheet" href="css/demo.css">
+	
 
 	<!-- Polymer -->
 	<script src="bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
 	<link rel="import" href="bower_components/google-map/google-map.html">
-
+    <script src="//code.jquery.com/jquery-2.1.1.min.js"></script>
 
 	<style media="screen" type="text/css">
 		.img-thumbnail{
@@ -80,9 +81,12 @@
 		
 		$arr_kw=explode(',', addcslashes(str_replace(' ', '', $_POST['keywords']), '"'));
 		shell_exec('exiftool -Keywords="" img/'.$imageName); //clear
+		$strkw="exiftool";
 		foreach($arr_kw as $value ) {
-			shell_exec('exiftool -Keywords+="'.$value.'" img/'.$imageName); //reconstruction kw
+			$strkw=$strkw.' -Keywords+="'.$value.'"';
 		}
+		echo $strkw;
+		shell_exec($strkw.' img/'.$imageName); //reconstruction kw
 
     }
 
@@ -124,7 +128,12 @@
 
 	
 	
-	echo '<div class="container">
+	echo '
+
+
+	<div class="container">
+	    <div class="row row-centered">
+        <div class="col-xs-6 col-centered col-max"><div class="item"><div class="content">
 	  <form class="form-horizontal" role="form" method="post">
 		<div class="form-group">
 		  <label class="control-label col-sm-2" for="filename">Title:</label>
@@ -168,14 +177,36 @@
 		  </div>
 		</div>
 	  </form>
-	</div>';
+	</div>
+	</div></div>';
 
 	if (!empty($latitude) && !empty($longitude)) {
-		echo '  <google-map latitude="37.77493" longitude="-122.41942" fit-to-markers>
+		echo '<div class="col-xs-6 col-centered col-max"><div class="item"><div class="content">
+		<google-map latitude="37.77493" longitude="-122.41942" fit-to-markers>
 	 	 <google-map-marker latitude="'.$latitude.'" longitude="'.$longitude.'"></google-map-marker>
-		</google-map>';
+		</google-map></div></div></div>';
 	}
 ?>
+
+
+    </div>
+</div>
+
+
+<div id="accordion">
+	<div id="headingZero" class="panel-heading">
+		<h4 class="panel-title"><a href="#collapseZero" data-toggle="collapse" data-parent="#accordion">Cliquer pour afficher les metadatas complètes de l'image</a></h4>
+	</div>
+	<div id="collapseZero" class="panel-collapse collapse">
+		<div class="panel-body"><pre>
+<?php
+$info=shell_exec('exiftool -g1 img/'.$imageName);
+print_r($info);
+?>
+		</pre>
+		</div>
+	</div>
+</div>
 
 
 
