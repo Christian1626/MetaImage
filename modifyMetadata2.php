@@ -26,7 +26,7 @@
 		}
 		google-map {
 			height: 300px;
-			width: 600px;
+			width: 95%;
 		}
 	</style>
 
@@ -122,7 +122,7 @@
 	}
 
 	echo '<div class="centrer">
-			<h1>Modification de "'.$imageName.'" :</h1>
+			<h1>'.$data['XMP-dc']['Title'].'</h1>
 			<img src="img/'.$imageName.'" alt="Modifier L\'image courante" class="img-thumbnail" size="5em">
 		</div><br/><br/>';
 
@@ -133,37 +133,37 @@
 
 	<div class="container">
 	    <div class="row row-centered">
-        <div class="col-xs-6 col-centered col-max"><div class="item"><div class="content">
+        <div class="col-xs-8 col-centered col-max"><div class="item"><div class="content">
 	  <form class="form-horizontal" role="form" method="post">
 		<div class="form-group">
-		  <label class="control-label col-sm-2" for="filename">Title:</label>
+		  <label class="control-label col-sm-2" for="filename">Title :</label>
 		  <div class="col-sm-10">
 			<input type="text" class="form-control" id="title_photo" name="title_photo" value="'.$data['XMP-dc']['Title'].'" >
 		  </div>
 		</div>
 
 		 <div class="form-group">
-		  <label class="control-label col-sm-2" for="description">Description:</label>
+		  <label class="control-label col-sm-2" for="description">Description :</label>
 		  <div class="col-sm-10">
 			<textarea class="form-control custom-control" rows="3" style="resize:none" name="ImageDescription">'.$data['IFD0']['ImageDescription'].'</textarea>     
 		  </div>
 		</div>
 		<div class="form-group">
-		  <label class="control-label col-sm-2" for="keywords">Keywords:</label>
+		  <label class="control-label col-sm-2" for="keywords">Keywords :</label>
 		  <div class="col-sm-10">
 			<input type="text" class="form-control" id="keyword" name="keywords" value="'.$listeKW.'" >
 		  </div>
 		</div>
 
 		<div class="form-group">
-		  <label class="control-label col-sm-2" for="copyright">Copyright:</label>
+		  <label class="control-label col-sm-2" for="copyright">Copyright :</label>
 		  <div class="col-sm-10">
 			<input type="text" class="form-control" id="copyright" name="copyright" value="'.$data['IFD0']['Copyright'].'" >
 		  </div>
 		</div>
 
 		 <div class="form-group">
-		  <label class="control-label col-sm-2" for="artist">Artist:</label>
+		  <label class="control-label col-sm-2" for="artist">Artist :</label>
 		  <div class="col-sm-10">
 			<input type="text" class="form-control" id="artist" name="artist" value="'.$data['IFD0']['Artist'].'" >
 		  </div>
@@ -181,7 +181,7 @@
 	</div></div>';
 
 	if (!empty($latitude) && !empty($longitude)) {
-		echo '<div class="col-xs-6 col-centered col-max"><div class="item"><div class="content">
+		echo '<div class="col-xs-4 col-centered col-max"><div class="item"><div class="content">
 		<google-map latitude="37.77493" longitude="-122.41942" fit-to-markers>
 	 	 <google-map-marker latitude="'.$latitude.'" longitude="'.$longitude.'"></google-map-marker>
 		</google-map></div></div></div>';
@@ -195,7 +195,7 @@
 
 <div id="accordion">
 	<div id="headingZero" class="panel-heading">
-		<h4 class="panel-title"><a href="#collapseZero" data-toggle="collapse" data-parent="#accordion">Cliquer pour afficher les metadatas complètes de l'image</a></h4>
+		<h4 class="panel-title"><a href="#collapseZero" data-toggle="collapse" data-parent="#accordion">Cliquez pour afficher toutes les métadonnées de l'image</a></h4>
 	</div>
 	<div id="collapseZero" class="panel-collapse collapse">
 		<div class="panel-body"><pre>
