@@ -89,7 +89,7 @@
                     
                     <a href='' id="bouton_modifier" class="mr"><button type="button" class="btn btn-warning pull-middle" >
                         <i class="glyphicon"></i>
-                        Voir et modifier les métadonnées de l'image
+                        Voir et modifier les métadonnées
                     </button></a>
                     
                     
