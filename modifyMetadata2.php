@@ -39,12 +39,12 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="index.php">MetaImage</a>
+            <a class="navbar-brand" href="index.php" name="accueil">MetaImage</a>
         </div>
         <!-- MENU -->
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
-               <li><a href="info.html">A propos</a></li>
+               <li><a href="info.html" name="A propos">A propos</a></li>
             </ul>
         </div>
     </div>
@@ -72,13 +72,18 @@
     {
 		$param1='-Title="'.addcslashes($_POST['title_photo'], '"').'"';
 		$param2='-IFD0:ImageDescription="'.addcslashes($_POST['ImageDescription'], '"').'"';
-		$param3='-IPTC:Keywords="'.addcslashes($_POST['keywords'], '"').'"';
 		$param4='-IFD0:Copyright="'.addcslashes($_POST['copyright'], '"').'"';
 		$param5='-IFD0:Artist="'.addcslashes($_POST['artist'], '"').'"';
 
-		$listeParam=$param1.' '.$param2.' '.$param3.' '.$param4.' '.$param5.' img/'.$imageName;
-		//echo 'exiftool '.$listeParam;
+		$listeParam=$param1.' '.$param2.' '.$param4.' '.$param5.' img/'.$imageName;
 		shell_exec('exiftool '.$listeParam);
+		
+		$arr_kw=explode(',', addcslashes(str_replace(' ', '', $_POST['keywords']), '"'));
+		shell_exec('exiftool -Keywords="" img/'.$imageName); //clear
+		foreach($arr_kw as $value ) {
+			shell_exec('exiftool -Keywords+="'.$value.'" img/'.$imageName); //reconstruction kw
+		}
+
     }
 
 	$str = shell_exec('exiftool -json -g1 img/'.$imageName);
@@ -87,8 +92,8 @@
 	
 	/*echo "<pre>";
 	print_r($data);
-	echo "</pre>";*/
-
+	echo "</pre>";
+	*/
 	$latitude = explode(" ",$data['Composite']['GPSLatitude']);
 	$latitude = DMStoDEC($latitude[0],str_replace("'","",$latitude[2]),str_replace("\"","",$latitude[3]),$latitude[4]);
 
