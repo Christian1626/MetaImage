@@ -1,12 +1,4 @@
-# Bootstrap Image Gallery
-
-- [Demo](#demo)
-- [Description](#description)
-- [Setup](#setup)
-- [Documentation](#documentation)
-- [Extras](#extras)
-- [Requirements](#requirements)
-- [License](#license)
+# MetaImage
 
 ## Demo
 https://21102541.users.info.unicaen.fr/MetaImage/index.php
