@@ -15,6 +15,12 @@ Ce projet, fait dans le cadre du cours d'Ingénierie des Documents Composites, a
 * LEROY Christian
 
 ## Outils utilisés
-* Bootstrap
-* Polymer
-* Exiftool
+### Bootstrap et Blueimp gallery
+Bootstrap est un framework CSS connu et performant permettant la création de design web facilement et rapidement.
+En plus de bootstrap nous avons utilisé une gallerie d'image, développée par blueimp, qui se base sur du javascript et bootstrap.
+
+### Polymer
+Nous avons utilisé Polymer au sein du site afin d'afficher sur google maps le lieu ou a été pris la photographie quand celle-ci a une position.
+
+### Exiftool
+Exiftool est un programme executable en console qui permet d'acceder à la totalité des métadonnées des images et les modifier.
