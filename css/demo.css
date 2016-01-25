@@ -10,13 +10,17 @@
  * http://www.opensource.org/licenses/MIT
  */
 
+
+
 body {
-    padding-top: 60px;
+    padding-top: 100px;
+    font-size: 18px;
     background: #222;
     color: #fff;
+    font-family: 'Dosis', sans-serif;
 }
 h1 {
-    font-family: "Lucida Grande", "Lucida Sans Unicode", Arial, sans-serif;
+    font-family: 'Oswald', sans-serif;
 }
 a {
     color: orange;
@@ -51,5 +55,39 @@ a:hover {
 input[readonly] {
   background-color: white !important;
   cursor: text !important;
+}
+
+.mr{
+    margin-right : 26%;
+  }
+
+a.navbar-brand {
+  color: white;
+}
+
+/* Navigation bar */
+.navbar-default .navbar-brand {
+    /*color: orange;*/
+    color: #FFC274;
+    font-family: 'Lobster', cursive;
+    font-size: 25px;
+}
+
+.navbar-default .navbar-brand:hover{
+    color: #FF9600;
+}
+
+.navbar-inverse .navbar-nav>li>a{
+    color: #FFC274;
+
+}
+
+.navbar-inverse .navbar-nav>li>a:hover{
+    color: #FF9600;
+}
+
+/* upload input */
+.form-inline .input-group>.form-control {
+  width:400px;
 }
 

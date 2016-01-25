@@ -18,46 +18,26 @@
 <![endif]-->
 <meta charset="utf-8">
 <title>MetaImage - Infos</title>
-<meta name="description" content="Bootstrap Image Gallery is an extension to blueimp Gallery, a touch-enabled, responsive and customizable image and video gallery. It displays images and videos in the modal dialog of the Bootstrap framework, features swipe, mouse and keyboard navigation, transition effects, fullscreen support and on-demand content loading and can be extended to display additional content types.">
+<meta name="description" content="MetaImage affiche les métadonnées des images">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+<link rel="stylesheet" href="css/demo.css">
 <link rel="stylesheet" href="//blueimp.github.io/Gallery/css/blueimp-gallery.min.css">
 <link rel="stylesheet" href="css/bootstrap-image-gallery.css">
-<link rel="stylesheet" href="css/demo.css">
+<link href='https://fonts.googleapis.com/css?family=Lobster|Pacifico|Dosis|Oswald' rel='stylesheet' type='text/css'>
 <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
 <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+
 
 <!-- Polymer -->
 <script src="bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
 <link rel="import" href="bower_components/google-map/google-map.html">
 
-	<style media="screen" type="text/css">
-	.mr{
-		margin-right : 35%;
-	}
-
-	</style>
 
 </head>
 <body>
-<div class="navbar navbar-default navbar-fixed-top navbar-inverse">
-    <div class="container">
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-fixed-top .navbar-collapse">
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" href="index.php">MetaImage</a>
-        </div>
-        <!-- MENU -->
-        <div class="navbar-collapse collapse">
-            <ul class="nav navbar-nav">
-               <li><a href="info.html">A Propos</a></li>
-            </ul>
-        </div>
-    </div>
-</div>
+<?php include("src/navigation-bar.php"); ?>
+
 <div class="container">
 <h1>Objectifs du projet</h1>
 Ce projet, fait dans le cadre du cours d'<strong>Ingénierie des Documents Composites</strong>, a pour objectif le développement d'un site web permettant plusieurs actions autour des images et de leurs métadonnées :

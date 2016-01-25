@@ -1,3 +1,5 @@
+
+
 <!DOCTYPE HTML>
 <html lang="fr">
 <head>
@@ -9,81 +11,79 @@
 	<link rel="stylesheet" href="//blueimp.github.io/Gallery/css/blueimp-gallery.min.css">
 	<link rel="stylesheet" href="css/bootstrap-image-gallery.css">
 	<link rel="stylesheet" href="css/demo.css">
+	<link href='https://fonts.googleapis.com/css?family=Lobster|Pacifico|Dosis|Oswald' rel='stylesheet' type='text/css'>
+	
+
+	<!-- Polymer -->
+	<script src="bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
+	<link rel="import" href="bower_components/google-map/google-map.html">
 
 
 	<style media="screen" type="text/css">
-	.img-thumbnail{
-		max-height: 20em;
-	}
-	.centrer{
-		margin : auto;
-		text-align : center;
-	}
+		.img-thumbnail{
+			max-height: 20em;
+		}
+		.centrer{
+			margin : auto;
+			text-align : center;
+		}
+		google-map {
+			height: 300px;
+			width: 95%;
+		}
 	</style>
 
 </head>
 <body>
+<?php include("src/navigation-bar.php"); ?>
+<?php include("src/function_modify.php"); ?>
+
+
+
 <?php
+	///////////////////////////////////////////////////////
+	//                   MODIFICATION
+	///////////////////////////////////////////////////////
+	//Si la modification est envoyée, on exec
+	if (isset($_POST['EnvoyerModif']))
+    {
+		modifyMetadata();
+    }
+    ///////////////////////////////////////////////////////?>
 
-	//$img 		= $_POST['imageSelected'];
-	//$name 		= $_POST['imageName'];
-	$imageNameTmp 	= 'img/photo1.jpg';
 
-	echo '<div class="centrer">
-			<h1>Modification de "'.$imageNameTmp.'" :</h1>
-			<img src="'.$imageNameTmp.'" alt="Modifier L\'image courante" class="img-thumbnail" size="5em">
-		</div>
-		<fieldset>
-			<legend>Modification des metadata de l\'image :</legend>
- 			<form class ="form-horizontal" action="TODOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO" method="post">';
 
-	/*Liste des champs autorisés pour modification (non techniques) :
-	keywords
-	artiste
-	title
-	description
-	credit
-	copyright
-	date ?
-	location ?
-	xmp headline
-	*/
 
-	/*
-	FORM :
-	Titre
-	chapo
-	description
-	Mots-clés
-	droits
-	licence
-	auteur
 
-	COMPATIBILITE :
-	JPG
-	PNG
-	*/
 
-	$exif = exif_read_data($imageNameTmp, 0,true);
-	echo $exif===false ? "Aucun en-tête de donnés n'a été trouvé.<br />\n" : "";
-	foreach ($exif as $key => $section) {
-		echo '<h2>'.$key.'</h2>';
-	    foreach ($section as $name => $value) {
-	    	//$exif_tab[$name] .= $value;
-	        //echo "$key: $val<br />\n";
-	        echo '
-	        <div class="form-gourp">
-	        	<label for="id_'.$name.'" class="col-sm-2 control-label">'.$name.'</label>
-	        	<div class="col-sm-10">
-	        		<input type="text" id="id_"'.$name.'" class="form-control" value="'.$value.'" />
-	        	</div>
-	        </div>';
-	    }
-	}
-	?>
- <input type="submit" value="Envoyer"> <input type="reset">
- </form>
-</fieldset>
+<?php
+	///////////////////////////////////////////////////////
+	//               AFFICHAGE DES METADATA
+	///////////////////////////////////////////////////////
+
+	$imageName 	= $_GET['imageName'];
+
+    //exécute EXIF
+	$data = getMetadata($imageName);
+	//var_dump($data);
+	
+
+	//Transforme les cordonnées GPS => DMS to DEC
+	$latitude = getLatitude($data);
+	$longitude = getLongiude($data);
+
+	//echo "GPS: ".$latitude . " : " .$longitude;
+
+	//Creer un tableau contenant les keyword de l'image
+	$listeKW = getListKW($data);
+
+	displayMetadata($imageName,$data,$listeKW,$latitude,$longitude);
+
+	displayAllMetadata($data);
+?>
+
+
+
 
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 <!-- Bootstrap JS is not required, but included for the responsive demo navigation and button states -->

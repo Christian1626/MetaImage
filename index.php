@@ -1,61 +1,29 @@
 <!DOCTYPE HTML>
-<!--
-/*
- * Bootstrap Image Gallery Demo
- * https://github.com/blueimp/Bootstrap-Image-Gallery
- *
- * Copyright 2013, Sebastian Tschan
- * https://blueimp.net
- *
- * Licensed under the MIT license:
- * http://www.opensource.org/licenses/MIT
- */
--->
 <html lang="en">
 <head>
 <!--[if IE]>
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 <![endif]-->
 <meta charset="utf-8">
-<title>Bootstrap Image Gallery</title>
-<meta name="description" content="Bootstrap Image Gallery is an extension to blueimp Gallery, a touch-enabled, responsive and customizable image and video gallery. It displays images and videos in the modal dialog of the Bootstrap framework, features swipe, mouse and keyboard navigation, transition effects, fullscreen support and on-demand content loading and can be extended to display additional content types.">
+<title>MetaImage</title>
+<meta name="description" content="MetaImage affiche les métadonnées des images.">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
 <link rel="stylesheet" href="//blueimp.github.io/Gallery/css/blueimp-gallery.min.css">
 <link rel="stylesheet" href="css/bootstrap-image-gallery.css">
 <link rel="stylesheet" href="css/demo.css">
+<link href='https://fonts.googleapis.com/css?family=Lobster|Pacifico|Dosis|Oswald' rel='stylesheet' type='text/css'>
 <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
 <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
 
-	<style media="screen" type="text/css">
-	.mr{
-		margin-right : 35%;
-	}
 
-	</style>
 
 </head>
 <body>
-<div class="navbar navbar-default navbar-fixed-top navbar-inverse">
-    <div class="container">
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-fixed-top .navbar-collapse">
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" href="index.php">MetaImage</a>
-        </div>
-        <!-- MENU -->
-        <div class="navbar-collapse collapse">
-            <ul class="nav navbar-nav">
-               <li><a href="info.html">A Propos</a></li>
-            </ul>
-        </div>
-    </div>
-</div>
+<?php include("src/navigation-bar.php"); ?>
+
 <div class="container">
-    <?php include('upload.php') ?>
+    <?php include('src/upload.php') ?>
     <br/>
     <!-- The container for the list of example images -->
     <div id="links"></div>
