@@ -5,6 +5,7 @@
 <head>
 	<meta charset="utf-8">
 	<title>Modification des Metadata</title>
+
 	<meta name="description" content="Outil de modification des metadata de l'image.">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
@@ -17,6 +18,7 @@
 	<link rel="import" href="bower_components/google-map/google-map.html">
 
 	<?php include("src/function_modify.php"); ?>
+	<?php include("src/flickr.php"); ?>
 		
 	<?php
 		$imageName 	= $_GET['imageName'];
@@ -52,6 +54,18 @@
 
 
 <?php
+
+	/*$Flickr = new Flickr("8ab106f76a997bba0c04f3772c8c0b4e"); 
+	$data_flickr = $Flickr->search('ouistreham'); 
+
+	var_dump($data_flickr);
+	/*foreach($data_flickr['photos']['photo'] as $photo) { 
+		// the image URL becomes somthing like 
+		// http://farm{farm-id}.static.flickr.com/{server-id}/{id}_{secret}.jpg  
+		echo '<img src="' . 'http://farm' . $photo["farm"] . '.static.flickr.com/' . $photo["server"] . '/' . $photo["id"] . '_' . $photo["secret"] . '.jpg">'; 
+	} */
+
+
 	///////////////////////////////////////////////////////
 	//                   MODIFICATION
 	///////////////////////////////////////////////////////

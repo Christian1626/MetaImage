@@ -1,4 +1,6 @@
 <?php 
+
+
 function modifyMetadata($imageName) {
 	$param1='-Title="'.addcslashes($_POST['title_photo'], '"').'"';
 	$param2='-IFD0:ImageDescription="'.addcslashes($_POST['ImageDescription'], '"').'"';
@@ -185,10 +187,10 @@ function openGraph($data) {
 function twitterCards($data) {
 echo '
 	<meta name="twitter:card" content="photo" />
-	<meta name="twitter:site" content="@flickr" />
+	<meta name="twitter:site" content="@MetaImage" />
 	<meta name="twitter:description" content="'.$data['IFD0']['ImageDescription'].'" />
 	<meta name="twitter:title" content="'.$data['XMP-dc']['Title'].'" />
 	<meta name="twitter:image" content=img/"'.$data['System']['FileName'].'" />
-	<meta name="twitter:url" content="'.$data['System']['FileName'].'" />';
+	<meta name="twitter:url" content=img/"'.$data['System']['FileName'].'" />';
 }
 ?>
