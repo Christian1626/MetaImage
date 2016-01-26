@@ -79,7 +79,7 @@
 
 	displayMetadata($imageName,$data,$listeKW,$latitude,$longitude);
 
-	displayAllMetadata($data);
+	displayAllMetadata($data,$imageName);
 ?>
 
 

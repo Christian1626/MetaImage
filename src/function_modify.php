@@ -101,7 +101,7 @@ function displayMetadata($imageName,$data,$listeKW,$latitude,$longitude){
 	}
 }
 
-function displayAllMetadata($data) {
+function displayAllMetadata($data, $imageName) {
 	echo '
 	<div id="accordion">
 		<div id="headingZero" class="panel-heading">
