@@ -12,11 +12,22 @@
 	<link rel="stylesheet" href="css/bootstrap-image-gallery.css">
 	<link rel="stylesheet" href="css/demo.css">
 	<link href='https://fonts.googleapis.com/css?family=Lobster|Pacifico|Dosis|Oswald' rel='stylesheet' type='text/css'>
-	
-
 	<!-- Polymer -->
 	<script src="bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
 	<link rel="import" href="bower_components/google-map/google-map.html">
+
+	<?php include("src/function_modify.php"); ?>
+		
+	<?php
+		$imageName 	= $_GET['imageName'];
+
+   		 //exécute EXIF
+		$data = getMetadata($imageName);
+
+		//METADATA
+		openGraph($data);
+		twitterCards($data);
+	?>
 
 
 	<style media="screen" type="text/css">
@@ -36,7 +47,7 @@
 </head>
 <body>
 <?php include("src/navigation-bar.php"); ?>
-<?php include("src/function_modify.php"); ?>
+
 
 
 
@@ -47,9 +58,11 @@
 	//Si la modification est envoyée, on exec
 	if (isset($_POST['EnvoyerModif']))
     {
-		modifyMetadata();
+		modifyMetadata($imageName);
     }
-    ///////////////////////////////////////////////////////?>
+    ///////////////////////////////////////////////////////
+
+    ?>
 
 
 
@@ -61,10 +74,6 @@
 	//               AFFICHAGE DES METADATA
 	///////////////////////////////////////////////////////
 
-	$imageName 	= $_GET['imageName'];
-
-    //exécute EXIF
-	$data = getMetadata($imageName);
 	//var_dump($data);
 	
 

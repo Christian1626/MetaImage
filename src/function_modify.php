@@ -1,5 +1,5 @@
 <?php 
-function modifyMetadata() {
+function modifyMetadata($imageName) {
 	$param1='-Title="'.addcslashes($_POST['title_photo'], '"').'"';
 	$param2='-IFD0:ImageDescription="'.addcslashes($_POST['ImageDescription'], '"').'"';
 	$param4='-IFD0:Copyright="'.addcslashes($_POST['copyright'], '"').'"';
@@ -141,7 +141,6 @@ function getListKW($data) {
 }
 
 
-
 function getLatitude($data) {
 	$latitude = explode(" ",$data['Composite']['GPSLatitude']);
 	$latitude = DMStoDEC($latitude[0],str_replace("'","",$latitude[2]),str_replace("\"","",$latitude[3]),$latitude[4]);
@@ -167,4 +166,29 @@ function DMStoDEC($deg,$min,$sec,$dir)
 
 	    return $res;
 	}  
+
+
+/////////////////////////////////////////////////////
+//                 METADATA
+/////////////////////////////////////////////////////
+function openGraph($data) {
+	echo '
+	<meta property="og:title" content="'.$data['XMP-dc']['Title'].'" />
+	<meta property="og:image" content="img/'.$data['System']['FileName'].'" />
+	<meta property="og:description" content="'.$data['IFD0']['ImageDescription'].'" />
+	<meta property="og:image:secure_url" content="img/'.$data['System']['FileName'].'" />
+	<meta property="og:image:type" content="image/jpeg" />
+	<meta property="og:image:width" content="'.$data['File']['ImageWidth'].'" />
+	<meta property="og:image:height" content="'.$data['File']['ImageHeight'].'" />'; 
+}
+
+function twitterCards($data) {
+echo '
+	<meta name="twitter:card" content="photo" />
+	<meta name="twitter:site" content="@flickr" />
+	<meta name="twitter:description" content="'.$data['IFD0']['ImageDescription'].'" />
+	<meta name="twitter:title" content="'.$data['XMP-dc']['Title'].'" />
+	<meta name="twitter:image" content=img/"'.$data['System']['FileName'].'" />
+	<meta name="twitter:url" content="'.$data['System']['FileName'].'" />';
+}
 ?>
