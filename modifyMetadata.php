@@ -19,7 +19,7 @@
 
 	<?php include("src/function_modify.php"); ?>
 	<?php include("src/flickr.php"); ?>
-		
+
 	<?php
 		$imageName 	= $_GET['imageName'];
 
@@ -55,14 +55,14 @@
 
 <?php
 
-	/*$Flickr = new Flickr("8ab106f76a997bba0c04f3772c8c0b4e"); 
-	$data_flickr = $Flickr->search('ouistreham'); 
+	/*$Flickr = new Flickr("8ab106f76a997bba0c04f3772c8c0b4e");
+	$data_flickr = $Flickr->search('ouistreham');
 
 	var_dump($data_flickr);
-	/*foreach($data_flickr['photos']['photo'] as $photo) { 
-		// the image URL becomes somthing like 
-		// http://farm{farm-id}.static.flickr.com/{server-id}/{id}_{secret}.jpg  
-		echo '<img src="' . 'http://farm' . $photo["farm"] . '.static.flickr.com/' . $photo["server"] . '/' . $photo["id"] . '_' . $photo["secret"] . '.jpg">'; 
+	/*foreach($data_flickr['photos']['photo'] as $photo) {
+		// the image URL becomes somthing like
+		// http://farm{farm-id}.static.flickr.com/{server-id}/{id}_{secret}.jpg
+		echo '<img src="' . 'http://farm' . $photo["farm"] . '.static.flickr.com/' . $photo["server"] . '/' . $photo["id"] . '_' . $photo["secret"] . '.jpg">';
 	} */
 
 
@@ -72,7 +72,7 @@
 	//Si la modification est envoyée, on exec
 	if (isset($_POST['EnvoyerModif']))
     {
-		modifyMetadata($imageName);
+			modifyMetadata($data,$imageName);
     }
     ///////////////////////////////////////////////////////
 
@@ -89,7 +89,8 @@
 	///////////////////////////////////////////////////////
 
 	//var_dump($data);
-	
+
+	$data = getMetadata($imageName);
 
 	//Transforme les cordonnées GPS => DMS to DEC
 	$latitude = getLatitude($data);

@@ -1,15 +1,51 @@
-<?php 
+<?php
 
 
-function modifyMetadata($imageName) {
-	$param1='-Title="'.addcslashes($_POST['title_photo'], '"').'"';
-	$param2='-IFD0:ImageDescription="'.addcslashes($_POST['ImageDescription'], '"').'"';
-	$param4='-IFD0:Copyright="'.addcslashes($_POST['copyright'], '"').'"';
-	$param5='-IFD0:Artist="'.addcslashes($_POST['artist'], '"').'"';
+function modifyMetadata($data,$imageName) {
+	//Pour contrôler les champs identiques, mettre des hiddens dans le formulaire avec les anciennes valeurs des champs
+	/*
+	1 - Comparerer _old et nouvelles valeurs.
+	2 - Si différents alors trouver tout les champs metadonnées ayant comme valeur le _old.
+	3 - Créer la fonction à exec grâce à cette boucle.
+	4 - Executer la fonction exec.
+	*/
+	$amodif=array('Title' =>array(),'Description' =>array(),'Copyright' =>array(),'Artist' =>array());
 
-	$listeParam=$param1.' '.$param2.' '.$param4.' '.$param5.' img/'.$imageName;
+	foreach (array_slice($data, 2) as $key => $type) {
+		foreach ($type as $name => $valeur) {
+			//Ptet faire un case
+			if($valeur==$_POST['old_title_photo']) {
+				$amodif['Title'][]=$key.":".$name;
+			}
+			if($valeur==$_POST['old_ImageDescription']) {
+				$amodif['Description'][]=$key.":".$name;
+			}
+			if($valeur==$_POST['old_copyright']) {
+				$amodif['Copyright'][]=$key.":".$name;
+			}
+			if($valeur==$_POST['old_artist']) {
+				$amodif['Artist'][]=$key.":".$name;
+			}
+		}
+	}
+	$listeParam="";
+	foreach($amodif['Title'] as $name) {
+		$listeParam.='-'.$name.'="'.addcslashes($_POST['title_photo'], '"').'" ';
+	}
+
+	foreach($amodif['Description'] as $name) {
+		$listeParam.='-'.$name.'="'.addcslashes($_POST['ImageDescription'], '"').'" ';
+	}
+	foreach($amodif['Copyright'] as $name) {
+		$listeParam.='-'.$name.'="'.addcslashes($_POST['copyright'], '"').'" ';
+	}
+	foreach($amodif['Artist'] as $name) {
+		$listeParam.='-'.$name.'="'.addcslashes($_POST['artist'], '"').'" ';
+	}
+
+	$listeParam.='img/'.$imageName;
 	shell_exec('exiftool '.$listeParam);
-	
+
 	$arr_kw=explode(',', addcslashes(str_replace(' ', '', $_POST['keywords']), '"'));
 	shell_exec('exiftool -Keywords="" img/'.$imageName); //clear
 	$strkw="exiftool";
@@ -31,6 +67,33 @@ function getMetadata($imageName) {
 
 }
 
+function formatdata($data) {
+	$tabvalue=array();
+	$tablinked=array();
+	$x=0;
+	//var_dump($data);
+	foreach (array_slice($data, 2) as $key => $type) {
+		foreach ($type as $name => $valeur) {
+			$validee=0;
+				foreach ($tabvalue as $cle => $donnee) {
+					if ($donnee==$valeur) {
+						$tablinked[$key."##".$name]=$cle;
+						$validee=1;
+						break;
+					}
+				}
+			if ($validee==0) {
+				$tabvalue[$x]=$valeur;
+				$tablinked[$key."##".$name]=$x;
+				$x++;
+			}
+		}
+	}
+	//var_dump($tabvalue);
+	//var_dump($tablinked);
+	return array($tabvalue,$tablinked);
+}
+
 function displayMetadata($imageName,$data,$listeKW,$latitude,$longitude){
 	echo '
 	<div class="centrer">
@@ -46,6 +109,7 @@ function displayMetadata($imageName,$data,$listeKW,$latitude,$longitude){
 					<div class="form-group">
 						<label class="control-label col-sm-2" for="filename">Title :</label>
 						<div class="col-sm-10">
+							<input type="hidden" id="old_title_photo" name="old_title_photo" value="'.$data['XMP-dc']['Title'].'" >
 							<input type="text" class="form-control" id="title_photo" name="title_photo" value="'.$data['XMP-dc']['Title'].'" >
 						</div>
 					</div>
@@ -53,12 +117,14 @@ function displayMetadata($imageName,$data,$listeKW,$latitude,$longitude){
 					<div class="form-group">
 						<label class="control-label col-sm-2" for="description">Description:</label>
 						<div class="col-sm-10">
-							<textarea class="form-control custom-control" rows="3" style="resize:none" name="ImageDescription">'.$data['IFD0']['ImageDescription'].'</textarea>     
+							<input type="hidden" id="old_ImageDescription" name="old_ImageDescription" value="'.$data['IFD0']['ImageDescription'].'" >
+							<textarea class="form-control custom-control" rows="3" style="resize:none" name="ImageDescription">'.$data['IFD0']['ImageDescription'].'</textarea>
 						</div>
 					</div>
 					<div class="form-group">
 						<label class="control-label col-sm-2" for="keywords">Keywords :</label>
 						<div class="col-sm-10">
+							<input type="hidden" id="old_keyword" name="old_keyword" value="'.$listeKW.'" >
 							<input type="text" class="form-control" id="keyword" name="keywords" value="'.$listeKW.'" >
 						</div>
 					</div>
@@ -66,6 +132,7 @@ function displayMetadata($imageName,$data,$listeKW,$latitude,$longitude){
 					<div class="form-group">
 						<label class="control-label col-sm-2" for="copyright">Copyright :</label>
 						<div class="col-sm-10">
+							<input type="hidden" id="old_copyright" name="old_copyright" value="'.$data['IFD0']['Copyright'].'" >
 							<input type="text" class="form-control" id="copyright" name="copyright" value="'.$data['IFD0']['Copyright'].'" >
 						</div>
 					</div>
@@ -73,13 +140,14 @@ function displayMetadata($imageName,$data,$listeKW,$latitude,$longitude){
 					<div class="form-group">
 						<label class="control-label col-sm-2" for="artist">Artist :</label>
 						<div class="col-sm-10">
+							<input type="hidden" id="old_artist" name="old_artist" value="'.$data['IFD0']['Artist'].'" >
 							<input type="text" class="form-control" id="artist" name="artist" value="'.$data['IFD0']['Artist'].'" >
 						</div>
 					</div>
 
 
 
-					<div class="form-group">        
+					<div class="form-group">
 						<div class="col-sm-offset-2 col-sm-10">
 							<button type="submit" class="btn btn-warning" name="EnvoyerModif" onclick="return confirm(\'Appliquer définitivement les modifications aux metadatas de :\n '.$imageName.' ?\')">Modifier</button>
 						</div>
@@ -89,6 +157,7 @@ function displayMetadata($imageName,$data,$listeKW,$latitude,$longitude){
 			</div>
 		</div>
 	</div>';
+
 
 	if (!empty($latitude) && !empty($longitude)) {
 		echo '
@@ -158,7 +227,7 @@ function getLongiude($data) {
 function DMStoDEC($deg,$min,$sec,$dir)
 	{
 
-	// Converts DMS ( Degrees / minutes / seconds / direction ) 
+	// Converts DMS ( Degrees / minutes / seconds / direction )
 	// to decimal format longitude / latitude
 	    $res = $deg+((($min*60)+($sec))/3600);
 
@@ -167,7 +236,7 @@ function DMStoDEC($deg,$min,$sec,$dir)
 	    }
 
 	    return $res;
-	}  
+	}
 
 
 /////////////////////////////////////////////////////
@@ -181,7 +250,7 @@ function openGraph($data) {
 	<meta property="og:image:secure_url" content="img/'.$data['System']['FileName'].'" />
 	<meta property="og:image:type" content="image/jpeg" />
 	<meta property="og:image:width" content="'.$data['File']['ImageWidth'].'" />
-	<meta property="og:image:height" content="'.$data['File']['ImageHeight'].'" />'; 
+	<meta property="og:image:height" content="'.$data['File']['ImageHeight'].'" />';
 }
 
 function twitterCards($data) {
