@@ -104,60 +104,72 @@ function displayMetadata($imageName,$data,$listeKW,$latitude,$longitude){
 	echo '
 	<div class="container">
 		<div class="row row-centered">
-			<div class="col-xs-8 col-centered col-max"><div class="item"><div class="content">
-				<form class="form-horizontal" role="form" method="post">
-					<div class="form-group">
-						<label class="control-label col-sm-2" for="filename">Title :</label>
-						<div class="col-sm-10">
-							<input type="hidden" id="old_title_photo" name="old_title_photo" value="'.$data['XMP-dc']['Title'].'" >
-							<input type="text" class="form-control" id="title_photo" name="title_photo" value="'.$data['XMP-dc']['Title'].'" >
-						</div>
+			<div class="col-xs-8 col-centered col-max">
+				<div class="item">
+					<div class="content" itemtype="http://schema.org/Photograph" itemscope>
+						<form class="form-horizontal" role="form" method="post">
+							<div class="form-group">
+								<label class="control-label col-sm-2" for="filename">Title :</label>
+								<div class="col-sm-10">
+									<input type="hidden" id="old_title_photo" name="old_title_photo" value="'.$data['XMP-dc']['Title'].'" >
+									<input itemprop="about" type="text" class="form-control" id="title_photo" name="title_photo" value="'.$data['XMP-dc']['Title'].'" >
+								</div>
+							</div>
+
+							<div class="form-group">
+								<label class="control-label col-sm-2" for="description">Description:</label>
+								<div class="col-sm-10" >
+									<input type="hidden" id="old_ImageDescription" name="old_ImageDescription" value="'.$data['IFD0']['ImageDescription'].'" >
+									<textarea itemprop="description" class="form-control custom-control" rows="3" style="resize:none" name="ImageDescription">'.$data['IFD0']['ImageDescription'].'</textarea>     
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="control-label col-sm-2" for="keywords">Keywords :</label>
+								<div class="col-sm-10">
+									<input type="hidden" id="old_keyword" name="old_keyword" value="'.$listeKW.'" >
+									<input itemprop="keywords" type="text" class="form-control" id="keyword" name="keywords" value="'.$listeKW.'" >
+								</div>
+							</div>
+
+							<div class="form-group">
+								<label class="control-label col-sm-2" for="copyright">Copyright :</label>
+								<div class="col-sm-10">
+									<input type="hidden" id="old_copyright" name="old_copyright" value="'.$data['IFD0']['Copyright'].'" >
+									<input itemprop="copyrightHolder" type="text" class="form-control" id="copyright" name="copyright" value="'.$data['IFD0']['Copyright'].'" >
+								</div>
+							</div>
+
+							<div class="form-group" itemprop="creator" itemscope itemtype="http://schema.org/Person">
+								<label class="control-label col-sm-2" for="artist">Artist :</label>
+								<div class="col-sm-10">
+									<input type="hidden" id="old_artist" name="old_artist" value="'.$data['IFD0']['Artist'].'" >
+									<input itemprop="givenName" type="text" class="form-control" id="artist" name="artist" value="'.$data['IFD0']['Artist'].'" >
+								</div>
+							</div>
+
+							<input type="hidden" itemprop="image" value="'.$data['XMP-photoshop']['Source'].'"/>
+							<input type="hidden" itemprop="url" value="'.$data['XMP-photoshop']['Source'].'"/>
+							<input type="hidden" itemprop="dateModified" value="'.$data['IFD0']['ModifyDate'].'"/>
+							<input type="hidden" itemprop="dateCreated" value="'.$data['ExifIFD']['CreateDate'].'"/>
+							<div itemprop="associatedMedia" itemscope itemtype="http://schema.org/MediaObject">
+								<input type="hidden" itemprop="height" value="'.$data['File']['ImageHeight'].'"/>
+								<input type="hidden" itemprop="width" value="'.$data['File']['ImageWidth'].'"/>
+								<input type="hidden" itemprop="encodingFormat" value="'.$data['File']['FileType'].'"/>
+								<input type="hidden" itemprop="contentSize" value="'.$data['System']['FileSize'].'"/>
+								<input type="hidden" itemprop="contentUrl" value="'.$data['XMP-photoshop']['Source'].'"/>
+							</div>
+
+
+							<div class="form-group">        
+								<div class="col-sm-offset-2 col-sm-10">
+									<button type="submit" class="btn btn-warning" name="EnvoyerModif" onclick="return confirm(\'Appliquer définitivement les modifications aux metadatas de :\n '.$imageName.' ?\')">Modifier</button>
+								</div>
+							</div>
+
+						</form>
 					</div>
-
-					<div class="form-group">
-						<label class="control-label col-sm-2" for="description">Description:</label>
-						<div class="col-sm-10">
-							<input type="hidden" id="old_ImageDescription" name="old_ImageDescription" value="'.$data['IFD0']['ImageDescription'].'" >
-							<textarea class="form-control custom-control" rows="3" style="resize:none" name="ImageDescription">'.$data['IFD0']['ImageDescription'].'</textarea>
-						</div>
-					</div>
-					<div class="form-group">
-						<label class="control-label col-sm-2" for="keywords">Keywords :</label>
-						<div class="col-sm-10">
-							<input type="hidden" id="old_keyword" name="old_keyword" value="'.$listeKW.'" >
-							<input type="text" class="form-control" id="keyword" name="keywords" value="'.$listeKW.'" >
-						</div>
-					</div>
-
-					<div class="form-group">
-						<label class="control-label col-sm-2" for="copyright">Copyright :</label>
-						<div class="col-sm-10">
-							<input type="hidden" id="old_copyright" name="old_copyright" value="'.$data['IFD0']['Copyright'].'" >
-							<input type="text" class="form-control" id="copyright" name="copyright" value="'.$data['IFD0']['Copyright'].'" >
-						</div>
-					</div>
-
-					<div class="form-group">
-						<label class="control-label col-sm-2" for="artist">Artist :</label>
-						<div class="col-sm-10">
-							<input type="hidden" id="old_artist" name="old_artist" value="'.$data['IFD0']['Artist'].'" >
-							<input type="text" class="form-control" id="artist" name="artist" value="'.$data['IFD0']['Artist'].'" >
-						</div>
-					</div>
-
-
-
-					<div class="form-group">
-						<div class="col-sm-offset-2 col-sm-10">
-							<button type="submit" class="btn btn-warning" name="EnvoyerModif" onclick="return confirm(\'Appliquer définitivement les modifications aux metadatas de :\n '.$imageName.' ?\')">Modifier</button>
-						</div>
-					</div>
-
-				</form>
-			</div>
-		</div>
-	</div>';
-
+				</div>
+			</div>';
 
 	if (!empty($latitude) && !empty($longitude)) {
 		echo '
@@ -168,7 +180,8 @@ function displayMetadata($imageName,$data,$listeKW,$latitude,$longitude){
 					</google-map>
 				</div>
 			</div>
-		</div></div>';
+		</div>
+	</div>';
 	}
 }
 
@@ -238,6 +251,58 @@ function DMStoDEC($deg,$min,$sec,$dir)
 	    return $res;
 	}
 
+/////////////////////////////////////////////////////
+//                 FLICKR
+/////////////////////////////////////////////////////
+function displaySimilarPicture($latitude,$longitude, $query) {
+	$api_key = '8ab106f76a997bba0c04f3772c8c0b4e';
+ 
+	$perPage = 30;
+	$url = "";
+
+	//TODO : authentification Flickr pour faire la recherche en fonction des cordonnées GPS
+ 	/*if (!empty($latitude) && !empty($longitude)) {
+		$url = 'https://api.flickr.com/services/rest/?method=flickr.photos.geo.photosForLocation';
+		$url.= '&tags='.$tag;
+		$url.= '&lat='.$latitude;
+		$url.= '&lon='.$longitude;
+		$url.= '&accuracy=5';
+	} else {*/
+		//$tag = ;
+		$url = 'https://api.flickr.com/services/rest/?method=flickr.photos.search';
+		$query = str_replace(' ', '', $query);
+		$url.= '&tags='.$query;
+		//$url.= '&tags='.$tag;
+		//$url.= '&safe_search=1';
+		//$url.= '&accuracy=16';
+		//$url.= '&place_id=Mairie';
+	//}
+
+		//$url.= '&tags=mountainview,google,mountainview,california';
+
+
+		$url.= '&api_key='.$api_key;
+		$url.= '&per_page='.$perPage;
+		$url.= '&format=json';
+		$url.= '&nojsoncallback=1';
+		$url.= '&sort=interestingness-desc';
+
+
+		$proxy = "http://proxy.unicaen.fr:3128";
+		$curl = curl_init();
+		curl_setopt($curl, CURLOPT_PROXY, $proxy);
+		curl_setopt($curl, CURLOPT_URL, $url);
+		curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+		$json = curl_exec($curl);
+		$data_flickr = json_decode($json,TRUE);
+		//var_dump($data_flickr);
+
+		echo "<h3> Images similaires via Flickr </h3>";
+	  	foreach($data_flickr['photos']['photo'] as $photo) { 
+			echo '<img width="100" height="100" src="' . 'http://farm' . $photo["farm"] . '.static.flickr.com/' . $photo["server"] . '/' . $photo["id"] . '_' . $photo["secret"] . '.jpg">'; 
+		}
+
+}
 
 /////////////////////////////////////////////////////
 //                 METADATA

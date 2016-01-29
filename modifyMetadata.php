@@ -44,6 +44,11 @@
 			height: 300px;
 			width: 95%;
 		}
+
+		h3 {
+		    font-family: 'Oswald', sans-serif !important;
+		    color: #FFC274 !important;
+		}
 	</style>
 
 </head>
@@ -104,6 +109,8 @@
 	displayMetadata($imageName,$data,$listeKW,$latitude,$longitude);
 
 	displayAllMetadata($data,$imageName);
+
+	displaySimilarPicture($latitude, $longitude, $listeKW);
 ?>
 
 
