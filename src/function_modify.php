@@ -319,12 +319,14 @@ function openGraph($data) {
 }
 
 function twitterCards($data) {
+	$actual_link = "https://$_SERVER[HTTP_HOST]";
+
 echo '
-	<meta name="twitter:card" content="photo" />
+	<meta name="twitter:card" content="summary_large_image" />
 	<meta name="twitter:site" content="@MetaImage" />
 	<meta name="twitter:description" content="'.$data['IFD0']['ImageDescription'].'" />
 	<meta name="twitter:title" content="'.$data['XMP-dc']['Title'].'" />
-	<meta name="twitter:image" content=img/"'.$data['System']['FileName'].'" />
-	<meta name="twitter:url" content=img/"'.$data['System']['FileName'].'" />';
+	<meta name="twitter:image:src" content="'.$actual_link.'/MetaImage/img/'.$data['System']['FileName'].'" />
+	<meta name="twitter:url" content="'.$actual_link.$_SERVER['REQUEST_URI'].'" />';
 }
 ?>

@@ -64,6 +64,10 @@ Nous avons utilisé Polymer au sein du site afin d'afficher sur google maps le l
 <h2><a href="http://www.sno.phy.queensu.ca/~phil/exiftool/">Exiftool</a></h2>
 Exiftool est un programme executable en console qui permet d'acceder à la totalité des métadonnées des images et les modifier.
 
+<h2><a href="https://dev.twitter.com/cards/overview">Twitter Card</a></h2>
+<img src="img/apropos/twittercards.png" width="400" height="400" name="twittercards">
+<h2><a href="http://ogp.me/">Open Graph</a></h2>
+<img src="img/apropos/opengraph.png" width="400" height="400" name="opengraph">
 </div>
 </body>
 </html>

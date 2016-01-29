@@ -60,17 +60,6 @@
 
 <?php
 
-	/*$Flickr = new Flickr("8ab106f76a997bba0c04f3772c8c0b4e");
-	$data_flickr = $Flickr->search('ouistreham');
-
-	var_dump($data_flickr);
-	/*foreach($data_flickr['photos']['photo'] as $photo) {
-		// the image URL becomes somthing like
-		// http://farm{farm-id}.static.flickr.com/{server-id}/{id}_{secret}.jpg
-		echo '<img src="' . 'http://farm' . $photo["farm"] . '.static.flickr.com/' . $photo["server"] . '/' . $photo["id"] . '_' . $photo["secret"] . '.jpg">';
-	} */
-
-
 	///////////////////////////////////////////////////////
 	//                   MODIFICATION
 	///////////////////////////////////////////////////////

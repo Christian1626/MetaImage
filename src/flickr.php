@@ -24,8 +24,10 @@ class Flickr {
 	} 
 	
 	private function file_get_contents_curl($url) {
+		$proxy = "http://proxy.unicaen.fr:3128";
 		$ch = curl_init();
 		curl_setopt($ch, CURLOPT_AUTOREFERER, 1);
+		curl_setopt($ch, CURLOPT_PROXY, $proxy);
 		curl_setopt($ch, CURLOPT_HEADER, 0);
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 		curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/31.0.1650.63 Safari/537.36');
