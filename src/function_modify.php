@@ -297,11 +297,55 @@ function displaySimilarPicture($latitude,$longitude, $query) {
 		$data_flickr = json_decode($json,TRUE);
 		//var_dump($data_flickr);
 
+		$img ="";
 		echo "<h3> Images similaires via Flickr </h3>";
 	  	foreach($data_flickr['photos']['photo'] as $photo) { 
-			echo '<img width="100" height="100" src="' . 'http://farm' . $photo["farm"] . '.static.flickr.com/' . $photo["server"] . '/' . $photo["id"] . '_' . $photo["secret"] . '.jpg">'; 
+	  		$src = 'http://farm' . $photo["farm"] . '.static.flickr.com/' . $photo["server"] . '/' . $photo["id"] . '_' . $photo["secret"] . '.jpg';
+			$img.= '<a data-gallery href="'.$src.'" ><img  width="100" height="100" src="'.$src.'"/></a>'; 
 		}
 
+		displayGallery($img);
+
+
+}
+
+function displayGallery($img) {
+	echo '
+<div class="container">
+    <div id="links">'.$img.'</div>
+    <br>
+</div>
+<div id="blueimp-gallery" class="blueimp-gallery">
+    <div class="slides"></div>
+    <h3 class="title"></h3>
+    <a class="prev">‹</a>
+    <a class="next">›</a>
+    <a class="close">×</a>
+    <a class="play-pause"></a>
+    <ol class="indicator"></ol>
+    <div class="modal fade">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" aria-hidden="true">&times;</button>
+                </div>
+                <div class="modal-body next"></div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default pull-left prev">
+                        <i class="glyphicon glyphicon-chevron-left"></i>
+                        Previous
+                    </button>
+                    
+                    <button type="button" class="btn btn-primary next">
+                        Next
+                        <i class="glyphicon glyphicon-chevron-right"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="fileNames"> </div>';
 }
 
 /////////////////////////////////////////////////////

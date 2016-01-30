@@ -15,40 +15,13 @@
 $(function () {
     'use strict';
 
-    // Load demo images from flickr:
-    /*$.ajax({
-        // Flickr API is SSL only:
-        // https://code.flickr.net/2014/04/30/flickr-api-going-ssl-only-on-june-27th-2014/
-        url: 'https://api.flickr.com/services/rest/',
-        data: {
-            format: 'json',
-            method: 'flickr.interestingness.getList',
-            api_key: '7617adae70159d09ba78cfec73c13be3' // jshint ignore:line
-        },
-        dataType: 'jsonp',
-        jsonp: 'jsoncallback'
-    }).done(function (result) {
-        var linksContainer = $('#links'),
-            baseUrl;
-        // Add the demo images as links with thumbnails to the page:
-        $.each(result.photos.photo, function (index, photo) {
-            baseUrl = 'https://farm' + photo.farm + '.static.flickr.com/' +
-                photo.server + '/' + photo.id + '_' + photo.secret;
-            $('<a/>')
-                .append($('<img>').prop('src', baseUrl + '_s.jpg'))
-                .prop('href', baseUrl + '_b.jpg')
-                .prop('title', photo.title)
-                .attr('data-gallery', '')
-                .appendTo(linksContainer);
-        });
-    });*/
-
     $('#image-gallery-button').on('click', function (event) {
         event.preventDefault();
         blueimp.Gallery($('#links a'), $('#blueimp-gallery').data());
     });
 
-    var dir = "https://21102716.users.info.unicaen.fr/MetaImage/img";
+    var current_url = window.location.href.replace("/index.php","");
+    var dir = current_url+"/img";
     var fileextension = ".jpg";
     $.ajax({
         //This will retrieve the contents of the folder if the folder is configured as 'browsable'
@@ -56,17 +29,14 @@ $(function () {
         success: function (data) {
             var linksContainer = $('#links');
 
-            console.log("test");
             //$("#fileNames").html('<ul>');
             //List all png or jpg or gif file names in the page
             $(data).find("a:contains(" + fileextension + ")").each(function () {
             var filename = this.href.replace(window.location.host, "").replace("https://", "").replace("/MetaImage","").replace(".jpg","");
-            console.log("filename:",filename);
 
 
             var thumbnails = dir+"/thumbnails" + filename;
             var img = dir + filename.substring(0,filename.length-2) + ".jpg";
-            console.log(img);
 
             $('<a/>')
                 .append($('<img>').prop('src', thumbnails))

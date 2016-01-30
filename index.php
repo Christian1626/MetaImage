@@ -26,7 +26,8 @@
     <?php include('src/upload.php') ?>
     <br/>
     <!-- The container for the list of example images -->
-    <div id="links"></div>
+    <div id="links">
+    </div>
     <br>
 </div>
 <!-- The Bootstrap Image Gallery lightbox, should be a child element of the document body -->

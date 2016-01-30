@@ -110,6 +110,5 @@
 <script src="//netdna.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 <script src="//blueimp.github.io/Gallery/js/jquery.blueimp-gallery.min.js"></script>
 <script src="js/bootstrap-image-gallery.js"></script>
-<script src="js/demo.js"></script>
 </body>
 </html>
