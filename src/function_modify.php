@@ -3,22 +3,21 @@
 
 function modifyMetadata($data,$imageName) {
 	//Pour contrôler les champs identiques, mettre des hiddens dans le formulaire avec les anciennes valeurs des champs
-	/*
-	1 - Comparerer _old et nouvelles valeurs.
-	2 - Si différents alors trouver tout les champs metadonnées ayant comme valeur le _old.
-	3 - Créer la fonction à exec grâce à cette boucle.
-	4 - Executer la fonction exec.
-	*/
 	$amodif=array('Title' =>array(),'Description' =>array(),'Copyright' =>array(),'Artist' =>array());
+
 
 	foreach (array_slice($data, 2) as $key => $type) {
 		foreach ($type as $name => $valeur) {
+			//var_dump($valeur);
 			//Ptet faire un case
 			if($valeur==$_POST['old_title_photo']) {
 				$amodif['Title'][]=$key.":".$name;
 			}
 			if($valeur==$_POST['old_ImageDescription']) {
 				$amodif['Description'][]=$key.":".$name;
+			}
+			if($valeur==explode(',', addcslashes(str_replace(' ', '', $_POST['old_keywords']), '"'))) {
+				$amodif['keywords'][]=$key.":".$name;
 			}
 			if($valeur==$_POST['old_copyright']) {
 				$amodif['Copyright'][]=$key.":".$name;
@@ -28,6 +27,7 @@ function modifyMetadata($data,$imageName) {
 			}
 		}
 	}
+	
 	$listeParam="";
 	foreach($amodif['Title'] as $name) {
 		$listeParam.='-'.$name.'="'.addcslashes($_POST['title_photo'], '"').'" ';
@@ -36,6 +36,7 @@ function modifyMetadata($data,$imageName) {
 	foreach($amodif['Description'] as $name) {
 		$listeParam.='-'.$name.'="'.addcslashes($_POST['ImageDescription'], '"').'" ';
 	}
+
 	foreach($amodif['Copyright'] as $name) {
 		$listeParam.='-'.$name.'="'.addcslashes($_POST['copyright'], '"').'" ';
 	}
@@ -46,18 +47,14 @@ function modifyMetadata($data,$imageName) {
 	$listeParam.='img/'.$imageName;
 	shell_exec('exiftool '.$listeParam);
 
-	$arr_kw=explode(',', addcslashes(str_replace(' ', '', $_POST['keywords']), '"'));
-	shell_exec('exiftool -Keywords="" img/'.$imageName); //clear
-	$strkw="exiftool";
-	foreach($arr_kw as $value ) {
-		$strkw=$strkw.' -Keywords+="'.$value.'"';
+	foreach($amodif['keywords'] as $name) {
+		shell_exec('exiftool -'.$name.'="" img/'.$imageName);
+		shell_exec('exiftool -sep ", " -'.$name.'="'.$_POST['keywords'].'"  img/'.$imageName);
 	}
-	echo $strkw;
-	shell_exec($strkw.' img/'.$imageName); //reconstruction kw
-
-	//header('Location: '.$_SERVER['PHP_SELF'].'page=1');
-	//echo "<script>alert('TOTO');</script>";
 }
+
+
+
 
 function getMetadata($imageName) {
 	$str = shell_exec('exiftool -json -g1 img/'.$imageName);
@@ -120,13 +117,13 @@ function displayMetadata($imageName,$data,$listeKW,$latitude,$longitude){
 								<label class="control-label col-sm-2" for="description">Description:</label>
 								<div class="col-sm-10" >
 									<input type="hidden" id="old_ImageDescription" name="old_ImageDescription" value="'.$data['IFD0']['ImageDescription'].'" >
-									<textarea itemprop="description" class="form-control custom-control" rows="3" style="resize:none" name="ImageDescription">'.$data['IFD0']['ImageDescription'].'</textarea>     
+									<textarea itemprop="description" class="form-control custom-control" rows="3" style="resize:none" name="ImageDescription">'.$data['IFD0']['ImageDescription'].'</textarea>
 								</div>
 							</div>
 							<div class="form-group">
 								<label class="control-label col-sm-2" for="keywords">Keywords :</label>
 								<div class="col-sm-10">
-									<input type="hidden" id="old_keyword" name="old_keyword" value="'.$listeKW.'" >
+									<input type="hidden" id="old_keyword" name="old_keywords" value="'.$listeKW.'" >
 									<input itemprop="keywords" type="text" class="form-control" id="keyword" name="keywords" value="'.$listeKW.'" >
 								</div>
 							</div>
@@ -160,7 +157,7 @@ function displayMetadata($imageName,$data,$listeKW,$latitude,$longitude){
 							</div>
 
 
-							<div class="form-group">        
+							<div class="form-group">
 								<div class="col-sm-offset-2 col-sm-10">
 									<button type="submit" class="btn btn-warning" name="EnvoyerModif" onclick="return confirm(\'Appliquer définitivement les modifications aux metadatas de :\n '.$imageName.' ?\')">Modifier</button>
 								</div>
@@ -256,7 +253,7 @@ function DMStoDEC($deg,$min,$sec,$dir)
 /////////////////////////////////////////////////////
 function displaySimilarPicture($latitude,$longitude, $query) {
 	$api_key = '8ab106f76a997bba0c04f3772c8c0b4e';
- 
+
 	$perPage = 30;
 	$url = "";
 
@@ -299,9 +296,9 @@ function displaySimilarPicture($latitude,$longitude, $query) {
 
 		$img ="";
 		echo "<h3> Images similaires via Flickr </h3>";
-	  	foreach($data_flickr['photos']['photo'] as $photo) { 
+	  	foreach($data_flickr['photos']['photo'] as $photo) {
 	  		$src = 'http://farm' . $photo["farm"] . '.static.flickr.com/' . $photo["server"] . '/' . $photo["id"] . '_' . $photo["secret"] . '.jpg';
-			$img.= '<a data-gallery href="'.$src.'" ><img  width="100" height="100" src="'.$src.'"/></a>'; 
+			$img.= '<a data-gallery href="'.$src.'" ><img  width="100" height="100" src="'.$src.'"/></a>';
 		}
 
 		displayGallery($img);
@@ -333,11 +330,11 @@ function displayGallery($img) {
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default pull-left prev">
                         <i class="glyphicon glyphicon-chevron-left"></i>
-                        Previous
+                        Précédente
                     </button>
-                    
+
                     <button type="button" class="btn btn-primary next">
-                        Next
+                        Suivante
                         <i class="glyphicon glyphicon-chevron-right"></i>
                     </button>
                 </div>
