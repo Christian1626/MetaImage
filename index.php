@@ -53,17 +53,17 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default pull-left prev">
                         <i class="glyphicon glyphicon-chevron-left"></i>
-                        Previous
+                        Précédente
                     </button>
-                    
+
                     <a href='' id="bouton_modifier" class="mr"><button type="button" class="btn btn-warning pull-middle" >
                         <i class="glyphicon"></i>
                         Voir et modifier les métadonnées
                     </button></a>
-                    
-                    
+
+
                     <button type="button" class="btn btn-primary next">
-                        Next
+                        Suivante
                         <i class="glyphicon glyphicon-chevron-right"></i>
                     </button>
                 </div>

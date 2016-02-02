@@ -3,12 +3,17 @@
 
 function modifyMetadata($data,$imageName) {
 	//Pour contrôler les champs identiques, mettre des hiddens dans le formulaire avec les anciennes valeurs des champs
+	/*
+	1 - Comparerer _old et nouvelles valeurs.
+	2 - Si différents alors trouver tout les champs metadonnées ayant comme valeur le _old.
+	3 - Créer la fonction à exec grâce à cette boucle.
+	4 - Executer la fonction exec.
+	*/
 	$amodif=array('Title' =>array(),'Description' =>array(),'Copyright' =>array(),'Artist' =>array());
-
 
 	foreach (array_slice($data, 2) as $key => $type) {
 		foreach ($type as $name => $valeur) {
-			//var_dump($valeur);
+			var_dump($valeur);
 			//Ptet faire un case
 			if($valeur==$_POST['old_title_photo']) {
 				$amodif['Title'][]=$key.":".$name;
@@ -27,7 +32,9 @@ function modifyMetadata($data,$imageName) {
 			}
 		}
 	}
-
+	var_dump($_POST['old_keywords']);
+	var_dump($_POST['keywords']);
+	var_dump($amodif['keywords']);
 	$listeParam="";
 	foreach($amodif['Title'] as $name) {
 		$listeParam.='-'.$name.'="'.addcslashes($_POST['title_photo'], '"').'" ';
@@ -36,7 +43,6 @@ function modifyMetadata($data,$imageName) {
 	foreach($amodif['Description'] as $name) {
 		$listeParam.='-'.$name.'="'.addcslashes($_POST['ImageDescription'], '"').'" ';
 	}
-
 	foreach($amodif['Copyright'] as $name) {
 		$listeParam.='-'.$name.'="'.addcslashes($_POST['copyright'], '"').'" ';
 	}
@@ -47,14 +53,18 @@ function modifyMetadata($data,$imageName) {
 	$listeParam.='img/'.$imageName;
 	shell_exec('exiftool '.$listeParam);
 
-	foreach($amodif['keywords'] as $name) {
-		shell_exec('exiftool -'.$name.'="" img/'.$imageName);
-		shell_exec('exiftool -sep ", " -'.$name.'="'.$_POST['keywords'].'"  img/'.$imageName);
+	$arr_kw=explode(',', addcslashes(str_replace(' ', '', $_POST['keywords']), '"'));
+	shell_exec('exiftool -Keywords="" img/'.$imageName); //clear
+	$strkw="exiftool";
+	foreach($arr_kw as $value ) {
+		$strkw=$strkw.' -Keywords+="'.$value.'"';
 	}
+	echo $strkw;
+	shell_exec($strkw.' img/'.$imageName); //reconstruction kw
+
+	//header('Location: '.$_SERVER['PHP_SELF'].'page=1');
+	//echo "<script>alert('TOTO');</script>";
 }
-
-
-
 
 function getMetadata($imageName) {
 	$str = shell_exec('exiftool -json -g1 img/'.$imageName);
@@ -62,6 +72,33 @@ function getMetadata($imageName) {
 
 	return $data[0];
 
+}
+
+function formatdata($data) {
+	$tabvalue=array();
+	$tablinked=array();
+	$x=0;
+	//var_dump($data);
+	foreach (array_slice($data, 2) as $key => $type) {
+		foreach ($type as $name => $valeur) {
+			$validee=0;
+				foreach ($tabvalue as $cle => $donnee) {
+					if ($donnee==$valeur) {
+						$tablinked[$key."##".$name]=$cle;
+						$validee=1;
+						break;
+					}
+				}
+			if ($validee==0) {
+				$tabvalue[$x]=$valeur;
+				$tablinked[$key."##".$name]=$x;
+				$x++;
+			}
+		}
+	}
+	//var_dump($tabvalue);
+	//var_dump($tablinked);
+	return array($tabvalue,$tablinked);
 }
 
 function displayMetadata($imageName,$data,$listeKW,$latitude,$longitude){
