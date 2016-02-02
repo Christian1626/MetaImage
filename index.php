@@ -21,6 +21,10 @@
 </head>
 <body>
 <?php include("src/navigation-bar.php"); ?>
+<?php include("src/function_modify.php"); 
+
+homeMetadata();
+?>
 
 <div class="container">
     <?php include('src/upload.php') ?>
