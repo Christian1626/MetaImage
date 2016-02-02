@@ -5,10 +5,10 @@ function modifyMetadata($data,$imageName) {
 	//Pour contrôler les champs identiques, mettre des hiddens dans le formulaire avec les anciennes valeurs des champs
 	$amodif=array('Title' =>array(),'Description' =>array(),'Copyright' =>array(),'Artist' =>array());
 
-	if (count(explode(',', addcslashes(str_replace(' ', '', $_POST['old_keywords']), '"')))==1) {
+	if (count(explode(',', addcslashes(str_replace(', ', ',', $_POST['old_keywords']), '"')))==1) {
 		$arraykw=$_POST['old_keywords'];
 	} else {
-		$arraykw=explode(',', addcslashes(str_replace(' ', '', $_POST['old_keywords']), '"'));
+		$arraykw=explode(',', addcslashes(str_replace(', ', ',', $_POST['old_keywords']), '"'));
 	}
 	foreach (array_slice($data, 2) as $key => $type) {
 		foreach ($type as $name => $valeur) {
