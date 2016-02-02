@@ -2,17 +2,17 @@
 /************************************************************
  * Definition des constantes / tableaux et variables
  *************************************************************/
- 
+
 // Constantes
 define('TARGET', 'img/');    // Repertoire cible
 define('MAX_SIZE', 10485760);    // Taille max en octets du fichier
 define('WIDTH_MAX', 20000);    // Largeur max de l'image en pixels
 define('HEIGHT_MAX', 20000);    // Hauteur max de l'image en pixels
- 
+
 // Tableaux de donnees
 $tabExt = array('jpg','jpeg');    // Extensions autorisees
 $infosImg = array();
- 
+
 // Variables
 $extension = '';
 $message = '';
@@ -55,8 +55,8 @@ $nomImage = '';
         $imgt($new_image, $updir."thumbnails/" . $img."_s" ."." .$extension);
     }
 }
-    
- 
+
+
 /************************************************************
  * Creation du repertoire cible si inexistant
  *************************************************************/
@@ -65,7 +65,7 @@ if( !is_dir(TARGET) ) {
     exit('Erreur : le répertoire cible ne peut-être créé ! Vérifiez que vous diposiez des droits suffisants pour le faire ou créez le manuellement !');
   }
 }
- 
+
 /************************************************************
  * Script d'upload
  *************************************************************/
@@ -76,14 +76,14 @@ if(!empty($_POST))
   {
     // Recuperation de l'extension du fichier
     $extension  = pathinfo($_FILES['fichier']['name'], PATHINFO_EXTENSION);
- 
+
     // On verifie l'extension du fichier
     if(in_array(strtolower($extension),$tabExt))
     {
 	print_r($_FILES['fichier']);
       // On recupere les dimensions du fichier
       $infosImg = getimagesize($_FILES['fichier']['tmp_name']);
- 
+
       // On verifie le type de l'image
       if($infosImg[2] >= 1 && $infosImg[2] <= 14)
       {
@@ -91,15 +91,17 @@ if(!empty($_POST))
         if(($infosImg[0] <= WIDTH_MAX) && ($infosImg[1] <= HEIGHT_MAX) && (filesize($_FILES['fichier']['tmp_name']) <= MAX_SIZE))
         {
           // Parcours du tableau d'erreurs
-          if(isset($_FILES['fichier']['error']) 
+          if(isset($_FILES['fichier']['error'])
             && UPLOAD_ERR_OK === $_FILES['fichier']['error'])
           {
             // On renomme le fichier
-            $nomImage = md5(uniqid()) .'.'. $extension;
- 
+            $nommd5 = md5(uniqid());
+            $nomImage = $nommd5 .'.'. $extension;
+
             // Si c'est OK, on teste l'upload
             if(move_uploaded_file($_FILES['fichier']['tmp_name'], TARGET.$nomImage))
             {
+              shell_exec('exiftool -json -g1 '.TARGET.$nomImage.' > '.TARGET.'/json/'.$nommd5.'.json');
               makeThumbnails(TARGET, explode(".",$nomImage)[0],$extension);
               $message = 'Upload réussi !';
             }
@@ -141,7 +143,7 @@ if(!empty($_POST))
 ?>
 
  <?php
-      if( !empty($message) ) 
+      if( !empty($message) )
       {
         echo '<p>',"\n";
         echo "\t\t<strong>", htmlspecialchars($message) ,"</strong>\n";
@@ -165,7 +167,7 @@ if(!empty($_POST))
         <button type="submit" class="btn btn-success">Envoyer</button>
     </form>
 <script>
-    
+
 $(document).on('change', '.btn-file :file', function() {
   var input = $(this),
       numFiles = input.get(0).files ? input.get(0).files.length : 1,
@@ -175,16 +177,16 @@ $(document).on('change', '.btn-file :file', function() {
 
 $(document).ready( function() {
     $('.btn-file :file').on('fileselect', function(event, numFiles, label) {
-        
+
         var input = $(this).parents('.input-group').find(':text'),
             log = numFiles > 1 ? numFiles + ' files selected' : label;
-        
+
         if( input.length ) {
             input.val(log);
         } else {
             if( log ) alert(log);
         }
-        
+
     });
 });
 </script>

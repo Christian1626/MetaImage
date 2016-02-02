@@ -55,13 +55,15 @@ function modifyMetadata($data,$imageName) {
 		shell_exec('exiftool -'.$name.'="" img/'.$imageName);
 		shell_exec('exiftool -sep ", " -'.$name.'="'.$_POST['keywords'].'"  img/'.$imageName);
 	}
+	shell_exec('exiftool -json -g1 img/'.$imageName.' > img/json/'.explode(".",$imageName)[0].'.json');
 }
 
 
 
 
 function getMetadata($imageName) {
-	$str = shell_exec('exiftool -json -g1 img/'.$imageName);
+	$filename = "img/json/".explode(".",$imageName)[0].".json";
+	$str = file_get_contents($filename);
 	$data=json_decode($str, true);
 
 	return $data[0];
