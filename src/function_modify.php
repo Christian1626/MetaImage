@@ -56,18 +56,36 @@ function modifyMetadata($data,$imageName) {
 		shell_exec('exiftool -sep ", " -'.$name.'="'.$_POST['keywords'].'"  img/'.$imageName);
 	}
 	shell_exec('exiftool -json -g1 img/'.$imageName.' > img/json/'.explode(".",$imageName)[0].'.json');
+	shell_exec('exiftool -json -XMP-dc:Title -XMP-dc:Creator -XMP-dc:Rights img/> img/json/home.json');
 }
 
 
 
 
-function getMetadata($imageName) {
+function getMetadata($imageName="") {
 	$filename = "img/json/".explode(".",$imageName)[0].".json";
 	$str = file_get_contents($filename);
 	$data=json_decode($str, true);
 
 	return $data[0];
 
+}
+
+function homeMetadata() {
+	$str = file_get_contents("img/json/home.json");
+	$data=json_decode($str, true);
+
+
+	foreach($data as $img) {
+		echo '<span itemtype="http://schema.org/Photograph" itemscope>
+		<meta itemprop="about" content="'.$img['Title'].'" />
+		<span itemprop="creator" itemscope itemtype="http://schema.org/Person">
+			<meta itemprop="givenName" content="'.$img['Creator'].'" />
+		</span>
+		<meta itemprop="copyrightHolder" content="'.$img['Rights'].'" />
+		</span>';
+
+	}
 }
 
 function displayMetadata($imageName,$data,$listeKW,$latitude,$longitude){
