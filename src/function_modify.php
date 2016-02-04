@@ -33,6 +33,26 @@ function modifyMetadata($data,$imageName) {
 	}
 
 	$listeParam="";
+
+	//Vérifie si il y a au moins un champ à modifier, si il y en a pas, alors il ajoute le champ de base.
+	//Cela permet d'éviter le problème des champs qui n'existent pas encore et qui ne sont donc pas créés.
+	if (count($amodif['Title'])==0) {
+		$amodif['Title'][]='XMP-dc:Title';
+	}
+	if (count($amodif['Description'])==0) {
+		$amodif['Description'][]='IFD0:ImageDescription';
+	}
+	if (count($amodif['Copyright'])==0) {
+		$amodif['Copyright'][]='IFD0:Copyright';
+	}
+	if (count($amodif['Artist'])==0) {
+		$amodif['Artist'][]='IFD0:Artist';
+	}
+	if (count($amodif['keywords'])==0) {
+		$amodif['keywords'][]='IPTC:Keywords';
+	}
+
+
 	foreach($amodif['Title'] as $name) {
 		$listeParam.='-'.$name.'="'.addcslashes($_POST['title_photo'], '"').'" ';
 	}
@@ -77,13 +97,19 @@ function homeMetadata() {
 
 
 	foreach($data as $img) {
-		echo '<span itemtype="http://schema.org/Photograph" itemscope>
-		<meta itemprop="about" content="'.$img['Title'].'" />
-		<span itemprop="creator" itemscope itemtype="http://schema.org/Person">
+		echo '<span itemtype="http://schema.org/Photograph" itemscope>';
+		if (isset($img['Title'])) {
+		echo '<meta itemprop="about" content="'.$img['Title'].'" />';
+		}
+		if (isset($img['Creator'])) {
+		echo '<span itemprop="creator" itemscope itemtype="http://schema.org/Person">
 			<meta itemprop="givenName" content="'.$img['Creator'].'" />
-		</span>
-		<meta itemprop="copyrightHolder" content="'.$img['Rights'].'" />
 		</span>';
+		}
+		if (isset($img['Rights'])) {
+		echo '<meta itemprop="copyrightHolder" content="'.$img['Rights'].'" />';
+		}
+		echo '</span>';
 
 	}
 }
@@ -97,8 +123,13 @@ function displayMetadata($imageName,$data,$listeKW,$latitude,$longitude){
 
 	echo '
 	<div class="container">
-		<div class="row row-centered">
-			<div class="col-xs-8 col-centered col-max">
+		<div class="row row-centered">';
+		if (!empty($latitude) && !empty($longitude)) {
+				echo '<div class="col-xs-8 col-centered col-max">';
+			} else {
+				echo '<div class="col-xs-12 col-centered col-max">';
+			}
+				echo '
 				<div class="item">
 					<div class="content" itemtype="http://schema.org/Photograph" itemscope>
 						<form class="form-horizontal" role="form" method="post">
@@ -139,21 +170,28 @@ function displayMetadata($imageName,$data,$listeKW,$latitude,$longitude){
 									<input type="hidden" id="old_artist" name="old_artist" value="'.$data['IFD0']['Artist'].'" >
 									<input itemprop="givenName" type="text" class="form-control" id="artist" name="artist" value="'.$data['IFD0']['Artist'].'" >
 								</div>
-							</div>
+							</div>';
 
-							<input type="hidden" itemprop="image" value="'.$data['XMP-photoshop']['Source'].'"/>
-							<input type="hidden" itemprop="url" value="'.$data['XMP-photoshop']['Source'].'"/>
-							<input type="hidden" itemprop="dateModified" value="'.$data['IFD0']['ModifyDate'].'"/>
-							<input type="hidden" itemprop="dateCreated" value="'.$data['ExifIFD']['CreateDate'].'"/>
-							<div itemprop="associatedMedia" itemscope itemtype="http://schema.org/MediaObject">
+							if (isset($data['XMP-photoshop']['Source'])) {
+								echo '<input type="hidden" itemprop="image" value="'.$data['XMP-photoshop']['Source'].'"/>
+								<input type="hidden" itemprop="url" value="'.$data['XMP-photoshop']['Source'].'"/>';
+							}
+							if (isset($data['IFD0']['ModifyDate'])) {
+								echo '<input type="hidden" itemprop="dateModified" value="'.$data['IFD0']['ModifyDate'].'"/>';
+							}
+							if (isset($data['ExifIFD']['CreateDate'])) {
+								echo '<input type="hidden" itemprop="dateCreated" value="'.$data['ExifIFD']['CreateDate'].'"/>';
+							}
+							echo '<div itemprop="associatedMedia" itemscope itemtype="http://schema.org/MediaObject">
 								<input type="hidden" itemprop="height" value="'.$data['File']['ImageHeight'].'"/>
 								<input type="hidden" itemprop="width" value="'.$data['File']['ImageWidth'].'"/>
 								<input type="hidden" itemprop="encodingFormat" value="'.$data['File']['FileType'].'"/>
-								<input type="hidden" itemprop="contentSize" value="'.$data['System']['FileSize'].'"/>
-								<input type="hidden" itemprop="contentUrl" value="'.$data['XMP-photoshop']['Source'].'"/>
+								<input type="hidden" itemprop="contentSize" value="'.$data['System']['FileSize'].'"/>';
+								if (isset($data['XMP-photoshop']['Source'])) {
+									echo '<input type="hidden" itemprop="contentUrl" value="'.$data['XMP-photoshop']['Source'].'"/>';
+								}
+							echo '
 							</div>
-
-
 							<div class="form-group">
 								<div class="col-sm-offset-2 col-sm-10">
 									<button type="submit" class="btn btn-warning" name="EnvoyerModif" onclick="return confirm(\'Appliquer définitivement les modifications aux metadatas de :\n '.$imageName.' ?\')">Modifier</button>
@@ -177,24 +215,29 @@ function displayMetadata($imageName,$data,$listeKW,$latitude,$longitude){
 		</div>
 	</div>';
 	}
+
 }
 
 function displayAllMetadata($data, $imageName) {
 	echo '
-	<div id="accordion">
-		<div id="headingZero" class="panel-heading">
-			<h4 class="panel-title"><a href="#collapseZero" data-toggle="collapse" data-parent="#accordion">Cliquez pour afficher toutes les métadonnées de l\'image</a></h4>
-		</div>
-
-		<div id="collapseZero" class="panel-collapse collapse">
-			<div class="panel-body">
-				<pre>';
-					$info=shell_exec('exiftool -g1 img/'.$imageName);
-					print_r($info);
-
-					echo '
-				</pre>
+	<div class="row row-centered">
+		<div class="col-xs-12 col-centered col-max">
+		<div id="accordion">
+			<div id="headingZero" class="panel-heading">
+				<h4 class="panel-title"><a href="#collapseZero" data-toggle="collapse" data-parent="#accordion">Cliquez pour afficher toutes les métadonnées de l\'image</a></h4>
 			</div>
+
+			<div id="collapseZero" class="panel-collapse collapse">
+				<div class="panel-body">
+					<pre>';
+						$info=shell_exec('exiftool -g1 img/'.$imageName);
+						print_r($info);
+
+						echo '
+					</pre>
+				</div>
+			</div>
+		</div>
 		</div>
 	</div>';
 
@@ -202,33 +245,40 @@ function displayAllMetadata($data, $imageName) {
 
 function getListKW($data) {
 	$listeKW = "";
-	if (is_array($data['IPTC']['Keywords'])){
-		foreach($data['IPTC']['Keywords'] as $value ) {
-			if($listeKW == "") {
-				$listeKW = $listeKW . $value ;
+	if (isset($data['IPTC']['Keywords'])) {
+		if (is_array($data['IPTC']['Keywords'])){
+			foreach($data['IPTC']['Keywords'] as $value ) {
+				if($listeKW == "") {
+					$listeKW = $listeKW . $value ;
+				}
+				else {
+					$listeKW = $listeKW . ', '.  $value ;
+				}
 			}
-			else {
-				$listeKW = $listeKW . ', '.  $value ;
-			}
+		}else{
+			$listeKW=$data['IPTC']['Keywords'];
 		}
-	}else{
-		$listeKW=$data['IPTC']['Keywords'];
 	}
-
 	return $listeKW;
 }
 
 
 function getLatitude($data) {
-	$latitude = explode(" ",$data['Composite']['GPSLatitude']);
-	$latitude = DMStoDEC($latitude[0],str_replace("'","",$latitude[2]),str_replace("\"","",$latitude[3]),$latitude[4]);
-	return $latitude;
+	if(isset($data['Composite']['GPSLatitude'])) {
+		$latitude = explode(" ",$data['Composite']['GPSLatitude']);
+		$latitude = DMStoDEC($latitude[0],str_replace("'","",$latitude[2]),str_replace("\"","",$latitude[3]),$latitude[4]);
+		return $latitude;
+	}
+	return 0;
 }
 
 function getLongiude($data) {
-	$longitude = explode(" ",$data['Composite']['GPSLongitude']);
-	$longitude = DMStoDEC($longitude[0],str_replace("'","",$longitude[2]),str_replace("\"","",$longitude[3]),$longitude[4]);
-	return $longitude;
+	if(isset($data['Composite']['GPSLatitude'])) {
+		$longitude = explode(" ",$data['Composite']['GPSLongitude']);
+		$longitude = DMStoDEC($longitude[0],str_replace("'","",$longitude[2]),str_replace("\"","",$longitude[3]),$longitude[4]);
+		return $longitude;
+	}
+	return 0;
 }
 
 function DMStoDEC($deg,$min,$sec,$dir)
@@ -346,25 +396,23 @@ function displayGallery($img) {
 //                 METADATA
 /////////////////////////////////////////////////////
 function openGraph($data) {
-	echo '
-	<meta property="og:title" content="'.$data['XMP-dc']['Title'].'" />
-	<meta property="og:image" content="img/'.$data['System']['FileName'].'" />
-	<meta property="og:description" content="'.$data['IFD0']['ImageDescription'].'" />
-	<meta property="og:image:secure_url" content="img/'.$data['System']['FileName'].'" />
-	<meta property="og:image:type" content="image/jpeg" />
-	<meta property="og:image:width" content="'.$data['File']['ImageWidth'].'" />
-	<meta property="og:image:height" content="'.$data['File']['ImageHeight'].'" />';
+	if(isset($data['XMP-dc']['Title'])) {echo '<meta property="og:title" content="'.$data['XMP-dc']['Title'].'" />';}
+	if(isset($data['System']['FileName'])) {echo '<meta property="og:image" content="img/'.$data['System']['FileName'].'" />';}
+	if(isset($data['IFD0']['ImageDescription'])) {echo '<meta property="og:description" content="'.$data['IFD0']['ImageDescription'].'" />';}
+	if(isset($data['System']['FileName'])) {echo '<meta property="og:image:secure_url" content="img/'.$data['System']['FileName'].'" />';}
+	echo '<meta property="og:image:type" content="image/jpeg" />';
+	if(isset($data['File']['ImageWidth'])) {echo '<meta property="og:image:width" content="'.$data['File']['ImageWidth'].'" />';}
+	if(isset($data['File']['ImageHeight'])) {echo '<meta property="og:image:height" content="'.$data['File']['ImageHeight'].'" />';}
 }
 
 function twitterCards($data) {
 	$actual_link = "https://$_SERVER[HTTP_HOST]";
 
-echo '
-	<meta name="twitter:card" content="summary_large_image" />
-	<meta name="twitter:site" content="@MetaImage" />
-	<meta name="twitter:description" content="'.$data['IFD0']['ImageDescription'].'" />
-	<meta name="twitter:title" content="'.$data['XMP-dc']['Title'].'" />
-	<meta name="twitter:image:src" content="'.$actual_link.'/MetaImage/img/'.$data['System']['FileName'].'" />
-	<meta name="twitter:url" content="'.$actual_link.$_SERVER['REQUEST_URI'].'" />';
+	echo '<meta name="twitter:card" content="summary_large_image" />';
+	echo '<meta name="twitter:site" content="@MetaImage" />';
+	if(isset($data['IFD0']['ImageDescription'])) {echo '<meta name="twitter:description" content="'.$data['IFD0']['ImageDescription'].'" />';}
+	if(isset($data['XMP-dc']['Title'])) {echo '<meta name="twitter:title" content="'.$data['XMP-dc']['Title'].'" />';}
+	if(isset($data['System']['FileName'])) {echo '<meta name="twitter:image:src" content="'.$actual_link.'/MetaImage/img/'.$data['System']['FileName'].'" />';}
+	echo '<meta name="twitter:url" content="'.$actual_link.$_SERVER['REQUEST_URI'].'" />';
 }
 ?>

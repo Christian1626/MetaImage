@@ -98,8 +98,9 @@
 	displayMetadata($imageName,$data,$listeKW,$latitude,$longitude);
 
 	displayAllMetadata($data,$imageName);
-
-	displaySimilarPicture($latitude, $longitude, $listeKW);
+	if(!empty($listeKW)) {
+		displaySimilarPicture($latitude, $longitude, $listeKW);
+	}
 ?>
 
 

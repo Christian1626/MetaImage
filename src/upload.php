@@ -102,6 +102,7 @@ if(!empty($_POST))
             if(move_uploaded_file($_FILES['fichier']['tmp_name'], TARGET.$nomImage))
             {
               shell_exec('exiftool -json -g1 '.TARGET.$nomImage.' > '.TARGET.'/json/'.$nommd5.'.json');
+              shell_exec('exiftool -json -XMP-dc:Title -XMP-dc:Creator -XMP-dc:Rights img/> img/json/home.json');
               makeThumbnails(TARGET, explode(".",$nomImage)[0],$extension);
               $message = 'Upload réussi !';
             }
