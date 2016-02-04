@@ -1,5 +1,9 @@
 <?php
 
+$var = (isset($foo)) ? $foo: 
+       (isset($bar)) ? $bar: 
+       (isset($fuzz)) ? $fuzz:
+       $default;
 
 function modifyMetadata($data,$imageName) {
 	//Pour contrôler les champs identiques, mettre des hiddens dans le formulaire avec les anciennes valeurs des champs
@@ -39,14 +43,15 @@ function modifyMetadata($data,$imageName) {
 	if (count($amodif['Title'])==0) {
 		$amodif['Title'][]='XMP-dc:Title';
 	}
+
 	if (count($amodif['Description'])==0) {
-		$amodif['Description'][]='IFD0:ImageDescription';
+		$amodif['Description'][]='XMP-dc:Description';
 	}
 	if (count($amodif['Copyright'])==0) {
-		$amodif['Copyright'][]='IFD0:Copyright';
+		$amodif['Copyright'][]='XMP-dc:Rights';
 	}
 	if (count($amodif['Artist'])==0) {
-		$amodif['Artist'][]='IFD0:Artist';
+		$amodif['Artist'][]='XMP-dc:Creator';
 	}
 	if (count($amodif['keywords'])==0) {
 		$amodif['keywords'][]='IPTC:Keywords';
@@ -91,30 +96,14 @@ function getMetadata($imageName="") {
 
 }
 
-function homeMetadata() {
-	$str = file_get_contents("img/json/home.json");
-	$data=json_decode($str, true);
 
-
-	foreach($data as $img) {
-		echo '<span itemtype="http://schema.org/Photograph" itemscope>';
-		if (isset($img['Title'])) {
-		echo '<meta itemprop="about" content="'.$img['Title'].'" />';
-		}
-		if (isset($img['Creator'])) {
-		echo '<span itemprop="creator" itemscope itemtype="http://schema.org/Person">
-			<meta itemprop="givenName" content="'.$img['Creator'].'" />
-		</span>';
-		}
-		if (isset($img['Rights'])) {
-		echo '<meta itemprop="copyrightHolder" content="'.$img['Rights'].'" />';
-		}
-		echo '</span>';
-
-	}
-}
 
 function displayMetadata($imageName,$data,$listeKW,$latitude,$longitude){
+
+	$description = getDescription($data);
+	$copyright = getCopyright($data);
+	$artist = getArtist($data);
+
 	echo '
 	<div class="centrer">
 		<h1>'.$data['XMP-dc']['Title'].'</h1>
@@ -144,8 +133,8 @@ function displayMetadata($imageName,$data,$listeKW,$latitude,$longitude){
 							<div class="form-group">
 								<label class="control-label col-sm-2" for="description">Description:</label>
 								<div class="col-sm-10" >
-									<input type="hidden" id="old_ImageDescription" name="old_ImageDescription" value="'.$data['IFD0']['ImageDescription'].'" >
-									<textarea itemprop="description" class="form-control custom-control" rows="3" style="resize:none" name="ImageDescription">'.$data['IFD0']['ImageDescription'].'</textarea>
+									<input type="hidden" id="old_ImageDescription" name="old_ImageDescription" value="'.$description.'" >
+									<textarea itemprop="description" class="form-control custom-control" rows="3" style="resize:none" name="ImageDescription">'.$description.'</textarea>
 								</div>
 							</div>
 							<div class="form-group">
@@ -159,37 +148,22 @@ function displayMetadata($imageName,$data,$listeKW,$latitude,$longitude){
 							<div class="form-group">
 								<label class="control-label col-sm-2" for="copyright">Copyright :</label>
 								<div class="col-sm-10">
-									<input type="hidden" id="old_copyright" name="old_copyright" value="'.$data['IFD0']['Copyright'].'" >
-									<input itemprop="copyrightHolder" type="text" class="form-control" id="copyright" name="copyright" value="'.$data['IFD0']['Copyright'].'" >
+									<input type="hidden" id="old_copyright" name="old_copyright" value="'.$copyright.'" >
+									<input itemprop="copyrightHolder" type="text" class="form-control" id="copyright" name="copyright" value="'.$copyright.'" >
 								</div>
 							</div>
 
 							<div class="form-group" itemprop="creator" itemscope itemtype="http://schema.org/Person">
 								<label class="control-label col-sm-2" for="artist">Artist :</label>
 								<div class="col-sm-10">
-									<input type="hidden" id="old_artist" name="old_artist" value="'.$data['IFD0']['Artist'].'" >
-									<input itemprop="givenName" type="text" class="form-control" id="artist" name="artist" value="'.$data['IFD0']['Artist'].'" >
+									<input type="hidden" id="old_artist" name="old_artist" value="'.$artist.'" >
+									<input itemprop="givenName" type="text" class="form-control" id="artist" name="artist" value="'.$artist.'" >
 								</div>
 							</div>';
 
-							if (isset($data['XMP-photoshop']['Source'])) {
-								echo '<input type="hidden" itemprop="image" value="'.$data['XMP-photoshop']['Source'].'"/>
-								<input type="hidden" itemprop="url" value="'.$data['XMP-photoshop']['Source'].'"/>';
-							}
-							if (isset($data['IFD0']['ModifyDate'])) {
-								echo '<input type="hidden" itemprop="dateModified" value="'.$data['IFD0']['ModifyDate'].'"/>';
-							}
-							if (isset($data['ExifIFD']['CreateDate'])) {
-								echo '<input type="hidden" itemprop="dateCreated" value="'.$data['ExifIFD']['CreateDate'].'"/>';
-							}
-							echo '<div itemprop="associatedMedia" itemscope itemtype="http://schema.org/MediaObject">
-								<input type="hidden" itemprop="height" value="'.$data['File']['ImageHeight'].'"/>
-								<input type="hidden" itemprop="width" value="'.$data['File']['ImageWidth'].'"/>
-								<input type="hidden" itemprop="encodingFormat" value="'.$data['File']['FileType'].'"/>
-								<input type="hidden" itemprop="contentSize" value="'.$data['System']['FileSize'].'"/>';
-								if (isset($data['XMP-photoshop']['Source'])) {
-									echo '<input type="hidden" itemprop="contentUrl" value="'.$data['XMP-photoshop']['Source'].'"/>';
-								}
+
+							metadataImage($data, $description, $copyright, $artist, $listeKW);
+							
 							echo '
 							</div>
 							<div class="form-group">
@@ -218,30 +192,6 @@ function displayMetadata($imageName,$data,$listeKW,$latitude,$longitude){
 
 }
 
-function displayAllMetadata($data, $imageName) {
-	echo '
-	<div class="row row-centered">
-		<div class="col-xs-12 col-centered col-max">
-		<div id="accordion">
-			<div id="headingZero" class="panel-heading">
-				<h4 class="panel-title"><a href="#collapseZero" data-toggle="collapse" data-parent="#accordion">Cliquez pour afficher toutes les métadonnées de l\'image</a></h4>
-			</div>
-
-			<div id="collapseZero" class="panel-collapse collapse">
-				<div class="panel-body">
-					<pre>';
-						$info=shell_exec('exiftool -g1 img/'.$imageName);
-						print_r($info);
-
-						echo '
-					</pre>
-				</div>
-			</div>
-		</div>
-		</div>
-	</div>';
-
-}
 
 function getListKW($data) {
 	$listeKW = "";
@@ -263,23 +213,8 @@ function getListKW($data) {
 }
 
 
-function getLatitude($data) {
-	if(isset($data['Composite']['GPSLatitude'])) {
-		$latitude = explode(" ",$data['Composite']['GPSLatitude']);
-		$latitude = DMStoDEC($latitude[0],str_replace("'","",$latitude[2]),str_replace("\"","",$latitude[3]),$latitude[4]);
-		return $latitude;
-	}
-	return 0;
-}
 
-function getLongiude($data) {
-	if(isset($data['Composite']['GPSLatitude'])) {
-		$longitude = explode(" ",$data['Composite']['GPSLongitude']);
-		$longitude = DMStoDEC($longitude[0],str_replace("'","",$longitude[2]),str_replace("\"","",$longitude[3]),$longitude[4]);
-		return $longitude;
-	}
-	return 0;
-}
+
 
 function DMStoDEC($deg,$min,$sec,$dir)
 	{
@@ -395,10 +330,13 @@ function displayGallery($img) {
 /////////////////////////////////////////////////////
 //                 METADATA
 /////////////////////////////////////////////////////
+
+
 function openGraph($data) {
+	$description = getDescription();
 	if(isset($data['XMP-dc']['Title'])) {echo '<meta property="og:title" content="'.$data['XMP-dc']['Title'].'" />';}
 	if(isset($data['System']['FileName'])) {echo '<meta property="og:image" content="img/'.$data['System']['FileName'].'" />';}
-	if(isset($data['IFD0']['ImageDescription'])) {echo '<meta property="og:description" content="'.$data['IFD0']['ImageDescription'].'" />';}
+	if(isset($description)) {echo '<meta property="og:description" content="'.$description.'" />';}
 	if(isset($data['System']['FileName'])) {echo '<meta property="og:image:secure_url" content="img/'.$data['System']['FileName'].'" />';}
 	echo '<meta property="og:image:type" content="image/jpeg" />';
 	if(isset($data['File']['ImageWidth'])) {echo '<meta property="og:image:width" content="'.$data['File']['ImageWidth'].'" />';}
@@ -414,5 +352,160 @@ function twitterCards($data) {
 	if(isset($data['XMP-dc']['Title'])) {echo '<meta name="twitter:title" content="'.$data['XMP-dc']['Title'].'" />';}
 	if(isset($data['System']['FileName'])) {echo '<meta name="twitter:image:src" content="'.$actual_link.'/MetaImage/img/'.$data['System']['FileName'].'" />';}
 	echo '<meta name="twitter:url" content="'.$actual_link.$_SERVER['REQUEST_URI'].'" />';
+}
+
+
+//creation de metadata de l'image
+function metadataImage($data, $description, $copyright, $artist, $listeKW) {
+
+	$source = getSource($data);
+
+	$modifyDate = getModifyDate($data);
+
+	$createdDate = getDateCreated($data);
+
+	if (isset($source)) {
+		echo '<meta itemprop="image" content="'.$source.'"/>
+			<meta itemprop="url" content="'.$source.'"/>
+			<meta itemprop="contentUrl" content="'.$source.'"/>';
+	}
+
+	if (isset($modifyDate)) {
+		echo '<meta itemprop="dateModified" content="'.$modifyDate.'"/>';
+	}
+
+	if (isset($createdDate)) {
+		echo '<meta itemprop="dateCreated" content="'.$createdDate.'"/>';
+	}
+
+	echo '
+		<meta itemprop="about" content="'.$data['XMP-dc']['Title'].'"/>
+		<meta itemprop="description" content="'.$description.'"/>
+		<meta itemprop="keywords" content="'.$listeKW.'"/>
+		<meta itemprop="copyrightHolder" content="'.$copyright.'"/>';
+	
+	echo '
+	<span itemprop="creator" itemscope itemtype="http://schema.org/Person">
+		<meta itemprop="givenName" content="'.$artist.'"/>
+	</span>
+	<span itemprop="associatedMedia" itemscope itemtype="http://schema.org/MediaObject">
+		<meta itemprop="height" content="'.$data['File']['ImageHeight'].'"/>
+		<meta itemprop="width" content="'.$data['File']['ImageWidth'].'"/>
+		<meta itemprop="encodingFormat" content="'.$data['File']['FileType'].'"/>
+		<meta itemprop="contentSize" content="'.$data['System']['FileSize'].'"/>
+	</span>';
+}
+
+//affiche toutes les metadata de l'image
+function displayAllMetadata($data, $imageName) {
+	echo '
+	<div class="row row-centered">
+		<div class="col-xs-12 col-centered col-max">
+		<div id="accordion">
+			<div id="headingZero" class="panel-heading">
+				<h4 class="panel-title"><a href="#collapseZero" data-toggle="collapse" data-parent="#accordion">Cliquez pour afficher toutes les métadonnées de l\'image</a></h4>
+			</div>
+
+			<div id="collapseZero" class="panel-collapse collapse">
+				<div class="panel-body">
+					<pre>';
+						$info=shell_exec('exiftool -g1 img/'.$imageName);
+						print_r($info);
+
+						echo '
+					</pre>
+				</div>
+			</div>
+		</div>
+		</div>
+	</div>';
+
+}
+
+//affiche les metada sur la page d'accueil
+function homeMetadata() {
+	$str = file_get_contents("img/json/home.json");
+	$data=json_decode($str, true);
+
+
+	foreach($data as $img) {
+		echo '<span itemtype="http://schema.org/Photograph" itemscope>';
+		if (isset($img['Title'])) {
+		echo '<meta itemprop="about" content="'.$img['Title'].'" />';
+		}
+		if (isset($img['Creator'])) {
+		echo '<span itemprop="creator" itemscope itemtype="http://schema.org/Person">
+			<meta itemprop="givenName" content="'.$img['Creator'].'" />
+		</span>';
+		}
+		if (isset($img['Rights'])) {
+		echo '<meta itemprop="copyrightHolder" content="'.$img['Rights'].'" />';
+		}
+		echo '</span>';
+
+	}
+}
+
+
+
+
+////////////////////////////////////////////////////////////
+//					    GETTERS
+/////////////////////////////////////////////////////////
+function getLatitude($data) {
+	if(isset($data['Composite']['GPSLatitude'])) {
+		$latitude = explode(" ",$data['Composite']['GPSLatitude']);
+		$latitude = DMStoDEC($latitude[0],str_replace("'","",$latitude[2]),str_replace("\"","",$latitude[3]),$latitude[4]);
+		return $latitude;
+	}
+	return 0;
+}
+
+function getLongiude($data) {
+	if(isset($data['Composite']['GPSLatitude'])) {
+		$longitude = explode(" ",$data['Composite']['GPSLongitude']);
+		$longitude = DMStoDEC($longitude[0],str_replace("'","",$longitude[2]),str_replace("\"","",$longitude[3]),$longitude[4]);
+		return $longitude;
+	}
+	return 0;
+}
+
+
+function getDescription($data) {
+	return (isset($data['IFD0']['ImageDescription'])) ? $data['IFD0']['ImageDescription']:
+		(isset($data['XMP-dc']['Description'])) ? $data['XMP-dc']['Description']: null;
+}
+
+
+function getCopyright($data) {
+	return (isset($data['IFD0']['Copyright'])) ? $data['IFD0']['Copyright']:
+		(isset($data['XMP-dc']['Rights'])) ? $data['XMP-dc']['Rights']: null;
+}
+
+function getArtist($data) {
+	return (isset($data['IPTC']['Artist'])) ? $data['IPTC']['Artist']:
+		(isset($data['XMP-dc']['Creator'])) ? $data['XMP-dc']['Creator']: null;
+}
+
+
+function getSource($data) {
+	return
+		(isset($data['IFD0']['Source'])) ? $data['IFD0']['Source']:
+		(isset($data['XMP-photoshop']['Source'])) ? $data['XMP-photoshop']['Source']: null;
+}
+
+function getModifyDate($data) {
+	return
+		(isset($data['IFD0']['ModifyDate'])) ? $data['IFD0']['ModifyDate']:
+		(isset($data['System']['FileModifyDate'])) ? $data['System']['FileModifyDate']: null;
+}
+
+function getDateCreated($data) {
+	return
+		(isset($data['IPTC']['DateCreated'])) ? $data['IPTC']['DateCreated']:
+		(isset($data['ExifIFD']['CreateDate'])) ? $data['ExifIFD']['CreateDate']:
+		(isset($data['XMP-xmp']['CreateDate'])) ? $data['XMP-xmp']['CreateDate']:
+		(isset($data['Composite']['DateTimeCreated'])) ? $data['Composite']['DateTimeCreated']:
+		(isset($data['XMP-photoshop']['DateCreated'])) ? $data['XMP-photoshop']['DateCreated']: null;
 }
 ?>
