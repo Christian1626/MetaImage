@@ -30,30 +30,10 @@
 		openGraph($data);
 		twitterCards($data);
 	?>
-
-
-	<style media="screen" type="text/css">
-		.img-thumbnail{
-			max-height: 20em;
-		}
-		.centrer{
-			margin : auto;
-			text-align : center;
-		}
-		google-map {
-			height: 300px;
-			width: 95%;
-		}
-
-		h3 {
-		    font-family: 'Oswald', sans-serif !important;
-		    color: #FFC274 !important;
-		}
-	</style>
-
 </head>
 <body>
 <?php include("src/navigation-bar.php"); ?>
+
 
 
 
@@ -98,10 +78,25 @@
 	displayMetadata($imageName,$data,$listeKW,$latitude,$longitude);
 
 	displayAllMetadata($data,$imageName);
-	if(!empty($listeKW)) {
+	/*if(!empty($listeKW)) {
 		displaySimilarPicture($latitude, $longitude, $listeKW);
-	}
+	}*/
 ?>
+
+<h3> Images similaires via Flickr </h3>
+<div class='loading'>
+  <div class='loader'>
+    <div class='loader--dot'></div>
+    <div class='loader--dot'></div>
+    <div class='loader--dot'></div>
+    <div class='loader--dot'></div>
+    <div class='loader--dot'></div>
+    <div class='loader--dot'></div>
+    <div class='loader--text'></div>
+  </div>
+</div>
+
+<div id="galleryFlickr"> </div>
 
 
 
@@ -111,5 +106,22 @@
 <script src="//netdna.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 <script src="//blueimp.github.io/Gallery/js/jquery.blueimp-gallery.min.js"></script>
 <script src="js/bootstrap-image-gallery.js"></script>
+
+<script>
+$(function() {
+	var keywords = $('#keyword').val();
+	var title = $('#title_photo').val();
+
+	var query = keywords ? keywords: title;
+
+	if(query) {
+		 $('#galleryFlickr').load("src/galleryFlickr.php",{query:query},function() {
+		 	$(".loading").fadeOut("slow");
+		 });
+	}
+   
+});
+</script>
+
 </body>
 </html>

@@ -23,7 +23,11 @@
 <?php include("src/navigation-bar.php"); ?>
 <?php include("src/function_modify.php"); 
 
-homeMetadata();
+$str = file_get_contents("img/json/home.json");
+$data=json_decode($str, true);
+
+homeMetadata($data);
+
 ?>
 
 <div class="container">
@@ -31,6 +35,20 @@ homeMetadata();
     <br/>
     <!-- The container for the list of example images -->
     <div id="links">
+    <?php
+     // echo '<pre>';print_r($data);echo '</pre>';
+    
+     
+     foreach($data as $img) {
+         $imageName =   str_replace('.jpg', '', str_replace('img/', '', $img['SourceFile']));
+         //var_dump( $imageName);
+
+         $title = isset($img['Title']) ? $img['Title'] : "";
+        echo'<a data-gallery href="'.$img['SourceFile'].'" title="'.$title.'"><img width="350" height="300" src="'.$img['SourceFile'].'"/></a>';
+
+    }
+    ?>
+
     </div>
     <br>
 </div>
@@ -51,7 +69,7 @@ homeMetadata();
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" aria-hidden="true">&times;</button>
-                    <!--<h4 class="modal-title"></h4>-->
+                    <h4 class="modal-title"></h4>
                 </div>
                 <div class="modal-body next"></div>
                 <div class="modal-footer">

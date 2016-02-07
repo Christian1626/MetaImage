@@ -39,6 +39,7 @@
     $.extend(Gallery.prototype, {
 
         modalFactory: function (obj, callback, factoryInterface, factory) {
+            
             if (!this.options.useBootstrapModal || factoryInterface) {
                 return factory.call(this, obj, callback, factoryInterface);
             }
@@ -59,13 +60,19 @@
                         type: event.type,
                         target: modal[0]
                     });
+                    console.log(element);
+
                     modal.addClass('in');
                 }, factoryInterface);
-                element.title = element.title.substring(1,element.title.length-2);
+                //element.title = element.title.substring(1,element.title.length-2);
+
             modal.find('.modal-title').text(element.title || String.fromCharCode(160));
             modal.find('.modal-body').append(element);
             
-       		modal.find('#bouton_modifier').attr('href', 'modifyMetadata.php?imageName='+element.title+'.jpg');
+            var current_url = window.location.href.replace("/index.php","");
+            var imageName = element.src.replace(current_url,"").replace("/img/","").replace(".jpg","");
+            console.log(imageName);
+       		modal.find('#bouton_modifier').attr('href', 'modifyMetadata.php?imageName='+imageName);
        		
             return modal[0];
         },

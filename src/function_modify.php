@@ -1,10 +1,5 @@
 <?php
 
-$var = (isset($foo)) ? $foo: 
-       (isset($bar)) ? $bar: 
-       (isset($fuzz)) ? $fuzz:
-       $default;
-
 function modifyMetadata($data,$imageName) {
 	//Pour contrôler les champs identiques, mettre des hiddens dans le formulaire avec les anciennes valeurs des champs
 	$amodif=array('Title' =>array(),'Description' =>array(),'Copyright' =>array(),'Artist' =>array());
@@ -73,14 +68,14 @@ function modifyMetadata($data,$imageName) {
 		$listeParam.='-'.$name.'="'.addcslashes($_POST['artist'], '"').'" ';
 	}
 
-	$listeParam.='img/'.$imageName;
+	$listeParam.='img/'.$imageName.'.jpg';
 	shell_exec('exiftool '.$listeParam);
 
 	foreach($amodif['keywords'] as $name) {
-		shell_exec('exiftool -'.$name.'="" img/'.$imageName);
-		shell_exec('exiftool -sep ", " -'.$name.'="'.$_POST['keywords'].'"  img/'.$imageName);
+		shell_exec('exiftool -'.$name.'="" img/'.$imageName.'.jpg');
+		shell_exec('exiftool -sep ", " -'.$name.'="'.$_POST['keywords'].'"  img/'.$imageName.'.jpg');
 	}
-	shell_exec('exiftool -json -g1 img/'.$imageName.' > img/json/'.explode(".",$imageName)[0].'.json');
+	shell_exec('exiftool -json -g1 img/'.$imageName.'.jpg > img/json/'.$imageName.'.json');
 	shell_exec('exiftool -json -XMP-dc:Title -XMP-dc:Creator -XMP-dc:Rights img/> img/json/home.json');
 }
 
@@ -88,7 +83,7 @@ function modifyMetadata($data,$imageName) {
 
 
 function getMetadata($imageName="") {
-	$filename = "img/json/".explode(".",$imageName)[0].".json";
+	$filename = "img/json/".$imageName.".json";
 	$str = file_get_contents($filename);
 	$data=json_decode($str, true);
 
@@ -107,7 +102,7 @@ function displayMetadata($imageName,$data,$listeKW,$latitude,$longitude){
 	echo '
 	<div class="centrer">
 		<h1>'.$data['XMP-dc']['Title'].'</h1>
-		<img src="img/'.$imageName.'" alt="Modifier L\'image courante" class="img-thumbnail" size="5em">
+		<img src="img/'.$imageName.'.jpg" alt="Modifier L\'image courante" class="img-thumbnail" size="5em">
 	</div><br/><br/>';
 
 	echo '
@@ -168,14 +163,14 @@ function displayMetadata($imageName,$data,$listeKW,$latitude,$longitude){
 							</div>
 							<div class="form-group">
 								<div class="col-sm-offset-2 col-sm-10">
-									<button type="submit" class="btn btn-warning" name="EnvoyerModif" onclick="return confirm(\'Appliquer définitivement les modifications aux metadatas de :\n '.$imageName.' ?\')">Modifier</button>
+									<button type="submit" class="btn btn-warning" name="EnvoyerModif" onclick="return confirm(\'Appliquer définitivement les modifications aux metadatas de :\n '.$data['XMP-dc']['Title'].' ?\')">Modifier</button>
 								</div>
 							</div>
 
 						</form>
 					</div>
 				</div>
-			</div>';
+			';
 
 	if (!empty($latitude) && !empty($longitude)) {
 		echo '
@@ -289,42 +284,43 @@ function displaySimilarPicture($latitude,$longitude, $query) {
 }
 
 function displayGallery($img) {
-	echo '
-<div class="container">
-    <div id="links">'.$img.'</div>
-    <br>
-</div>
-<div id="blueimp-gallery" class="blueimp-gallery">
-    <div class="slides"></div>
-    <h3 class="title"></h3>
-    <a class="prev">‹</a>
-    <a class="next">›</a>
-    <a class="close">×</a>
-    <a class="play-pause"></a>
-    <ol class="indicator"></ol>
-    <div class="modal fade">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" aria-hidden="true">&times;</button>
-                </div>
-                <div class="modal-body next"></div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default pull-left prev">
-                        <i class="glyphicon glyphicon-chevron-left"></i>
-                        Précédente
-                    </button>
 
-                    <button type="button" class="btn btn-primary next">
-                        Suivante
-                        <i class="glyphicon glyphicon-chevron-right"></i>
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-<div id="fileNames"> </div>';
+	echo '
+	<div class="container">
+	    <div id="links">'.$img.'</div>
+	    <br>
+	</div>
+	<div id="blueimp-gallery" class="blueimp-gallery">
+	    <div class="slides"></div>
+	    <h3 class="title"></h3>
+	    <a class="prev">‹</a>
+	    <a class="next">›</a>
+	    <a class="close">×</a>
+	    <a class="play-pause"></a>
+	    <ol class="indicator"></ol>
+	    <div class="modal fade">
+	        <div class="modal-dialog modal-lg">
+	            <div class="modal-content">
+	                <div class="modal-header">
+	                    <button type="button" class="close" aria-hidden="true">&times;</button>
+	                </div>
+	                <div class="modal-body next"></div>
+	                <div class="modal-footer">
+	                    <button type="button" class="btn btn-default pull-left prev">
+	                        <i class="glyphicon glyphicon-chevron-left"></i>
+	                        Précédente
+	                    </button>
+
+	                    <button type="button" class="btn btn-primary next">
+	                        Suivante
+	                        <i class="glyphicon glyphicon-chevron-right"></i>
+	                    </button>
+	                </div>
+	            </div>
+	        </div>
+	    </div>
+	</div>
+	<div id="fileNames"> </div>';
 }
 
 /////////////////////////////////////////////////////
@@ -333,7 +329,7 @@ function displayGallery($img) {
 
 
 function openGraph($data) {
-	$description = getDescription();
+	$description = getDescription($data);
 	if(isset($data['XMP-dc']['Title'])) {echo '<meta property="og:title" content="'.$data['XMP-dc']['Title'].'" />';}
 	if(isset($data['System']['FileName'])) {echo '<meta property="og:image" content="img/'.$data['System']['FileName'].'" />';}
 	if(isset($description)) {echo '<meta property="og:description" content="'.$description.'" />';}
@@ -409,7 +405,7 @@ function displayAllMetadata($data, $imageName) {
 			<div id="collapseZero" class="panel-collapse collapse">
 				<div class="panel-body">
 					<pre>';
-						$info=shell_exec('exiftool -g1 img/'.$imageName);
+						$info=shell_exec('exiftool -g1 img/'.$imageName.'.jpg');
 						print_r($info);
 
 						echo '
@@ -423,9 +419,7 @@ function displayAllMetadata($data, $imageName) {
 }
 
 //affiche les metada sur la page d'accueil
-function homeMetadata() {
-	$str = file_get_contents("img/json/home.json");
-	$data=json_decode($str, true);
+function homeMetadata($data) {
 
 
 	foreach($data as $img) {
@@ -478,34 +472,38 @@ function getDescription($data) {
 
 
 function getCopyright($data) {
-	return (isset($data['IFD0']['Copyright'])) ? $data['IFD0']['Copyright']:
-		(isset($data['XMP-dc']['Rights'])) ? $data['XMP-dc']['Rights']: null;
+	return 
+		isset($data['IFD0']['Copyright']) ? $data['IFD0']['Copyright']:
+		(isset($data['XMP-dc']['Rights']) ? $data['XMP-dc']['Rights']: null);
 }
 
 function getArtist($data) {
-	return (isset($data['IPTC']['Artist'])) ? $data['IPTC']['Artist']:
-		(isset($data['XMP-dc']['Creator'])) ? $data['XMP-dc']['Creator']: null;
+	return 
+		isset($data['IPTC']['Artist']) ? $data['IPTC']['Artist']:
+		(isset($data['XMP-dc']['Creator']) ? $data['XMP-dc']['Creator']: null);
 }
 
 
 function getSource($data) {
 	return
-		(isset($data['IFD0']['Source'])) ? $data['IFD0']['Source']:
-		(isset($data['XMP-photoshop']['Source'])) ? $data['XMP-photoshop']['Source']: null;
+		isset($data['IFD0']['Source']) ? $data['IFD0']['Source']:
+		(isset($data['XMP-photoshop']['Source']) ? $data['XMP-photoshop']['Source']: null);
 }
 
 function getModifyDate($data) {
 	return
-		(isset($data['IFD0']['ModifyDate'])) ? $data['IFD0']['ModifyDate']:
-		(isset($data['System']['FileModifyDate'])) ? $data['System']['FileModifyDate']: null;
+		isset($data['IFD0']['ModifyDate']) ? $data['IFD0']['ModifyDate']:
+		(isset($data['System']['FileModifyDate']) ? $data['System']['FileModifyDate']: null);
 }
 
 function getDateCreated($data) {
 	return
-		(isset($data['IPTC']['DateCreated'])) ? $data['IPTC']['DateCreated']:
-		(isset($data['ExifIFD']['CreateDate'])) ? $data['ExifIFD']['CreateDate']:
-		(isset($data['XMP-xmp']['CreateDate'])) ? $data['XMP-xmp']['CreateDate']:
-		(isset($data['Composite']['DateTimeCreated'])) ? $data['Composite']['DateTimeCreated']:
-		(isset($data['XMP-photoshop']['DateCreated'])) ? $data['XMP-photoshop']['DateCreated']: null;
+		isset($data['IPTC']['DateCreated']) ? $data['IPTC']['DateCreated'] :
+		(isset($data['ExifIFD']['CreateDate']) ? $data['ExifIFD']['CreateDate'] :
+		(isset($data['XMP-xmp']['CreateDate']) ? $data['XMP-xmp']['CreateDate'] :
+		(isset($data['Composite']['DateTimeCreated']) ? $data['Composite']['DateTimeCreated'] :
+		(isset($data['XMP-photoshop']['DateCreated']) ? $data['XMP-photoshop']['DateCreated']: null))));
+
+
 }
 ?>

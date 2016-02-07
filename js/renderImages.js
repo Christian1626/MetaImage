@@ -20,7 +20,7 @@ $(function () {
         blueimp.Gallery($('#links a'), $('#blueimp-gallery').data());
     });
 
-    var current_url = window.location.href.replace("/index.php","");
+   /* var current_url = window.location.href.replace("/index.php","");
     var dir = current_url+"/img";
     var fileextension = ".jpg";
     $.ajax({
@@ -46,5 +46,5 @@ $(function () {
                 .appendTo(linksContainer);
         });
         }
-    });
+    });*/
 });
