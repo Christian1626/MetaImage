@@ -22,10 +22,14 @@ require_once ROOT.'/app/Json.php';
 <link href='https://fonts.googleapis.com/css?family=Lobster|Pacifico|Dosis|Oswald' rel='stylesheet' type='text/css'>
 <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
 <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
-
-
-
+<?php 
+    $json = new Json();
+    $gallery = $json->getAllImages();
+    require ROOT.'/app/Views/homeMetadata.php';
+?>
 </head>
+
+
 <body>
 <?php include(ROOT."/app/Views/navigation-bar.php"); ?>
 
@@ -33,10 +37,7 @@ require_once ROOT.'/app/Json.php';
 //affiche le formulaire d'upload
 require ROOT.'/app/Views/upload.php';
 
-
 //affiche la gallerie des images
-$json = new Json();
-$gallery = $json->getAllImages();
 require ROOT.'/app/Views/gallery.php';
 ?>
 
