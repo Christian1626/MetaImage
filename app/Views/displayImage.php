@@ -3,13 +3,13 @@
 <!-- ================================================================ -->
 
 <div class="centrer">
-	<h1><?= $title ?></h1>
-	<img src="img/<?= $fileName ?>" alt="Modifier L\'image courante" class="img-thumbnail" size="5em">
+	<h1><?= $image->title ?></h1>
+	<img src="img/<?= $image->fileName ?>" alt="Modifier L\'image courante" class="img-thumbnail" size="5em">
 </div><br/><br/>
 
 <div class="container">
 	<div class="row row-centered">
-		<?php if (!empty($latitude) && !empty($longitude)) { ?>
+		<?php if (!empty($image->latitude) && !empty($image->longitude)) { ?>
 		<div class="col-xs-8 col-centered col-max">
 			<?php} else { ?>
 			<div class="col-xs-12 col-centered col-max">
@@ -20,50 +20,50 @@
 							<div class="form-group">
 								<label class="control-label col-sm-2" for="filename">Title :</label>
 								<div class="col-sm-10">
-									<input type="hidden" id="old_title_photo" name="old_title_photo" value="<?= $title ?>" >
-									<input itemprop="about" type="text" class="form-control" id="title_photo" name="title_photo" value="<?= $title ?>" >
+									<input type="hidden" id="old_title_photo" name="old_title_photo" value="<?= $image->title ?>" >
+									<input itemprop="about" type="text" class="form-control" id="title_photo" name="title_photo" value="<?= $image->title ?>" >
 								</div>
 							</div>
 
 							<div class="form-group">
 								<label class="control-label col-sm-2" for="description">Description:</label>
 								<div class="col-sm-10" >
-									<input type="hidden" id="old_ImageDescription" name="old_ImageDescription" value="<?= $description ?>" >
-									<textarea itemprop="description" class="form-control custom-control" rows="3" style="resize:none" name="ImageDescription"><?= $description ?></textarea>
+									<input type="hidden" id="old_ImageDescription" name="old_ImageDescription" value="<?= $image->description ?>" >
+									<textarea itemprop="description" class="form-control custom-control" rows="3" style="resize:none" name="ImageDescription"><?= $image->description ?></textarea>
 								</div>
 							</div>
 							<div class="form-group">
 								<label class="control-label col-sm-2" for="keywords">Keywords :</label>
 								<div class="col-sm-10">
-									<input type="hidden" id="old_keyword" name="old_keywords" value="<?= $keywords ?>" >
-									<input itemprop="keywords" type="text" class="form-control" id="keyword" name="keywords" value="<?= $keywords ?>" >
+									<input type="hidden" id="old_keyword" name="old_keywords" value="<?= $image->keywords ?>" >
+									<input itemprop="keywords" type="text" class="form-control" id="keyword" name="keywords" value="<?= $image->keywords ?>" >
 								</div>
 							</div>
 
 							<div class="form-group">
 								<label class="control-label col-sm-2" for="copyright">Copyright :</label>
 								<div class="col-sm-10">
-									<input type="hidden" id="old_copyright" name="old_copyright" value="<?= $copyright ?>" >
-									<input itemprop="copyrightHolder" type="text" class="form-control" id="copyright" name="copyright" value="<?= $copyright ?>" >
+									<input type="hidden" id="old_copyright" name="old_copyright" value="<?= $image->copyright ?>" >
+									<input itemprop="copyrightHolder" type="text" class="form-control" id="copyright" name="copyright" value="<?= $image->copyright ?>" >
 								</div>
 							</div>
 
 							<div class="form-group" itemprop="creator" itemscope itemtype="http://schema.org/Person">
 								<label class="control-label col-sm-2" for="artist">Artist :</label>
 								<div class="col-sm-10">
-									<input type="hidden" id="old_artist" name="old_artist" value="<?= $artist ?>" >
-									<input itemprop="givenName" type="text" class="form-control" id="artist" name="artist" value="<?= $artist ?>" >
+									<input type="hidden" id="old_artist" name="old_artist" value="<?= $image->artist ?>" >
+									<input itemprop="givenName" type="text" class="form-control" id="artist" name="artist" value="<?= $image->artist ?>" >
 								</div>
 							</div>
 
 
-							<?php //metadataImage($data, $description, $copyright, $artist, $listeKW); ?>
+							<?php //metadataImage($image->data, $image->description, $image->copyright, $image->artist, $image->listeKW); ?>
 
 						<!-- </div> -->
 
 							<div class="form-group">
 								<div class="col-sm-offset-2 col-sm-10">
-									<button type="submit" class="btn btn-warning" name="EnvoyerModif" onclick="return confirm(\'Appliquer définitivement les modifications aux metadatas de :\n <?= $title ?> ?\')">Modifier</button>
+									<button type="submit" class="btn btn-warning" name="EnvoyerModif" onclick="return confirm(\'Appliquer définitivement les modifications aux metadatas de :\n <?= $image->title ?> ?\')">Modifier</button>
 								</div>
 							</div>
 
@@ -73,12 +73,12 @@
 			</div>
 		</div>
 
-		<?php if (!empty($latitude) && !empty($longitude)) { ?>
+		<?php if (!empty($image->latitude) && !empty($image->longitude)) { ?>
 		<div class="col-xs-4 col-centered col-max">
 			<div class="item">
 				<div class="content">
 					<google-map latitude="37.77493" longitude="-122.41942" fit-to-markers>
-					<google-map-marker latitude="<?= $latitude ?>" longitude="<?= $longitude ?>"></google-map-marker>
+					<google-map-marker latitude="<?= $image->latitude ?>" longitude="<?= $image->longitude ?>"></google-map-marker>
 				</google-map>
 				</div>
 			</div>
@@ -86,7 +86,7 @@
 		<?php } ?>
 	</div>
 
-
+	<div class="container">
 	<div class="row row-centered">
 		<div class="col-xs-12 col-centered col-max">
 			<div id="accordion">
@@ -98,10 +98,11 @@
 					<div class="panel-body">
 						<pre>
 							<?php 
-							 print_r($fullinfo); ?>
+							 print_r($image->data); ?>
 						</pre>
 					</div>
 				</div>
 			</div>
 		</div>
+	</div>
 	</div>

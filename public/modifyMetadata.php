@@ -2,7 +2,9 @@
 <?php 
 define('ROOT', dirname(__DIR__)); 
 //require ROOT.'app/Flickr.php';
-require ROOT.'/app/Images.php';
+require_once ROOT.'/app/Image.php';
+require_once ROOT.'/app/Json.php';
+require_once ROOT.'/app/ExifTool.php';
 ?>
 
 <!DOCTYPE HTML>
@@ -24,9 +26,8 @@ require ROOT.'/app/Images.php';
 
 	<?php
 		extract($_GET);
-		$images = new Images();
-		$data = $images->getImage($imageName);
-		extract($data);
+		$image = new Image($imageName);
+		//var_dump($image); //TODO : A DELETE
 
 		//Affiche les metadata, twittercard et opengraph de l'image,
 		require ROOT.'/app/Views/metadataImage.php';
@@ -46,21 +47,21 @@ require ROOT.'/app/Images.php';
 	///////////////////////////////////////////////////////
 	//                   MODIFICATION
 	///////////////////////////////////////////////////////
-	var_dump($data);
+	//var_dump($image);
 	if (isset($_POST['EnvoyerModif']))
     {
-
-    	$images->modifyMetadata($data);
-    	$data = $images->getImage($imageName);
-    	extract($data);
+    	//TODO 
+    	$image->modifyMetadata();
+    	$image = new Image($imageName);
+		//var_dump($image);
     }
 
 	///////////////////////////////////////////////////////
 	//               AFFICHAGE DES METADATA
 	///////////////////////////////////////////////////////
-	$fullinfo =  $images->exifImage($imageName);
 	require ROOT.'/app/Views/displayImage.php';
 ?>
+
 
 <div class="container">
 	<h3> Images similaires via Flickr  </h3>
@@ -102,7 +103,5 @@ $(function() {
    
 });
 </script>
-
-
 </body>
 </html>

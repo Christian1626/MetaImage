@@ -1,7 +1,8 @@
 <?php 
 define('ROOT', dirname(__DIR__)); 
 //require ROOT.'app/Flickr.php';
-require ROOT.'/app/Images.php';
+require_once ROOT.'/app/Image.php';
+require_once ROOT.'/app/Json.php';
 ?>
 
 <!DOCTYPE HTML>
@@ -34,8 +35,8 @@ require ROOT.'/app/Views/upload.php';
 
 
 //affiche la gallerie des images
-$images = new Images();
-$gallery = $images->getImages();
+$json = new Json();
+$gallery = $json->getAllImages();
 require ROOT.'/app/Views/gallery.php';
 ?>
 
