@@ -169,9 +169,9 @@ class Image {
 	}
 
 	public function getDescription() {
-		return ((isset($this->data['XMP-dc']['Description']) ? $this->data['XMP-dc']['Description']:
-		(isset($this->data['IFD0']['ImageDescription'])) ? $this->data['IFD0']['ImageDescription']:
-			(isset($this->data['IPTC']['Caption-Abstract']) ? $this->data['IPTC']['Caption-Abstract']: null)));
+		return isset($this->data['XMP-dc']['Description']) ? $this->data['XMP-dc']['Description']:
+		(isset($this->data['IFD0']['ImageDescription']) ? $this->data['IFD0']['ImageDescription']:
+			(isset($this->data['IPTC']['Caption-Abstract']) ? $this->data['IPTC']['Caption-Abstract']: null));
 	}
 
 
