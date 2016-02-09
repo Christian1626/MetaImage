@@ -27,6 +27,8 @@
 }(function ($, Gallery) {
     'use strict';
 
+    //alert(window.location.pathname );
+
     $.extend(Gallery.prototype.options, {
         useBootstrapModal: true
     });
@@ -60,21 +62,15 @@
                         type: event.type,
                         target: modal[0]
                     });
-                    console.log(element);
-
                     modal.addClass('in');
                 }, factoryInterface);
 
-            var current_url = window.location.href.replace("/index.php","");
-            console.log("current_url"+current_url);
-            var imageName = ((element.src.replace(current_url,"").replace("/img/","")).replace("img/","")).replace(".jpg","").replace(".jpeg");
-            console.log("imageName:"+imageName);
 
+            var url =  window.location.href.split("public")[0];
+            var img = element.src.replace(url+"public/img/","").replace(".jpg","").replace(".jpeg");
             modal.find('.modal-title').text(element.title || String.fromCharCode(160));
             modal.find('.modal-body').append(element);
-                
-            
-       		modal.find('#bouton_modifier').attr('href', 'modifyMetadata.php?imageName='+imageName);
+       		modal.find('#bouton_modifier').attr('href', 'index.php?p=details&imageName='+img);
        		
             return modal[0];
         },
