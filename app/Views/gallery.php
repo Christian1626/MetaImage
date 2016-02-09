@@ -22,7 +22,8 @@
                 $imageName =   str_replace('.jpg', '', str_replace('img/', '', $img['SourceFile']));
 
                 $title = isset($img['Title']) ? $img['Title'] : "";
-                echo'<a data-gallery href="'.$img['SourceFile'].'" title="'.$title.'"><img width="350" height="300" src="'.$img['SourceFile'].'"/></a>';
+                $author = isset($img['Creator']) ? $img['Creator'] : "";
+                echo'<a data-gallery href="'.$img['SourceFile'].'" title="'.$title.' - Par '.$author.'"><img width="350" height="300" src="'.$img['SourceFile'].'"/></a>';
             }
         }
       ?>

@@ -57,30 +57,29 @@ class Image {
 
 	function modifyMetadata() {
 		//Pour contrôler les champs identiques, mettre des hiddens dans le formulaire avec les anciennes valeurs des champs
-		$amodif=array('Title' =>array(),'Description' =>array(),'Copyright' =>array(),'Artist' =>array());
+		$amodif=array('Title' =>array(),'Description' =>array(),'Copyright' =>array(),'Artist' =>array(),'Keywords' =>array());
 
 		if (count(explode(',', addcslashes(str_replace(', ', ',', $_POST['old_keywords']), '"')))==1) {
 			$arraykw=$_POST['old_keywords'];
 		} else {
 			$arraykw=explode(',', addcslashes(str_replace(', ', ',', $_POST['old_keywords']), '"'));
 		}
+
 		foreach (array_slice($this->data, 2) as $key => $type) {
 			foreach ($type as $name => $valeur) {
-				//var_dump($valeur);
-				//Ptet faire un case
-				if($valeur==$_POST['old_title_photo']) {
+				if($valeur===$_POST['old_title_photo']) {
 					$amodif['Title'][]=$key.":".$name;
 				}
-				if($valeur==$_POST['old_ImageDescription']) {
+				if(str_replace("\n","",(str_replace("\r","",$valeur)))===str_replace("\n","",(str_replace("\r","",$_POST['old_ImageDescription'])))) {
 					$amodif['Description'][]=$key.":".$name;
 				}
-				if($valeur==$arraykw) {
-					$amodif['keywords'][]=$key.":".$name;
+				if($valeur===$arraykw) {
+					$amodif['Keywords'][]=$key.":".$name;
 				}
-				if($valeur==$_POST['old_copyright']) {
+				if($valeur===$_POST['old_copyright']) {
 					$amodif['Copyright'][]=$key.":".$name;
 				}
-				if($valeur==$_POST['old_artist']) {
+				if($valeur===$_POST['old_artist']) {
 					$amodif['Artist'][]=$key.":".$name;
 				}
 			}
@@ -93,7 +92,6 @@ class Image {
 		if (count($amodif['Title'])==0) {
 			$amodif['Title'][]='XMP-dc:Title';
 		}
-
 		if (count($amodif['Description'])==0) {
 			$amodif['Description'][]='XMP-dc:Description';
 		}
@@ -103,37 +101,38 @@ class Image {
 		if (count($amodif['Artist'])==0) {
 			$amodif['Artist'][]='XMP-dc:Creator';
 		}
-		if (count($amodif['keywords'])==0) {
-			$amodif['keywords'][]='IPTC:Keywords';
+		if (count($amodif['Keywords'])==0) {
+			$amodif['Keywords'][]='IPTC:Keywords';
 		}
-
-
 		foreach($amodif['Title'] as $name) {
-			$listeParam.='-'.$name.'="'.addcslashes($_POST['title_photo'], '"').'" ';
+			if ($name=="XMP-dc:Title" || $name=="IPTC:Headline" || $name=="IPTC:ObjectName" || $name=="XMP-photoshop:Headline") {
+				$listeParam.='-'.$name.'="'.addcslashes($_POST['title_photo'], '"').'" ';
+			}
 		}
-
 		foreach($amodif['Description'] as $name) {
-			$listeParam.='-'.$name.'="'.addcslashes($_POST['ImageDescription'], '"').'" ';
+			if ($name=="IFD0:ImageDescription" || $name=="XMP-dc:Description" || $name=="IPTC:Caption-Abstract") {
+				$listeParam.='-'.$name.'="'.addcslashes($_POST['ImageDescription'], '"').'" ';
+			}
 		}
-
 		foreach($amodif['Copyright'] as $name) {
-			$listeParam.='-'.$name.'="'.addcslashes($_POST['copyright'], '"').'" ';
+			if ($name=="IFD0:Copyright" || $name=="XMP-dc:Rights" || $name=="IPTC:CopyrightNotice") {
+				$listeParam.='-'.$name.'="'.addcslashes($_POST['copyright'], '"').'" ';
+			}
 		}
 		foreach($amodif['Artist'] as $name) {
-			$listeParam.='-'.$name.'="'.addcslashes($_POST['artist'], '"').'" ';
+			if ($name=="IFD0:Artist" || $name=="XMP-dc:Creator" || $name=="IPTC:By-line") {
+				$listeParam.='-'.$name.'="'.addcslashes($_POST['artist'], '"').'" ';
+			}
 		}
-
 		$listeParam.=ROOT.'/public/img/'.$this->fileName;
 		shell_exec('exiftool '.$listeParam);
 
-		foreach($amodif['keywords'] as $name) {
-			//shell_exec('exiftool -'.$name.'="" img/'.$imageName.'.jpg');
-			//shell_exec('exiftool -sep ", " -'.$name.'="'.$_POST['keywords'].'"  img/'.$this->data['fileName']);
-			$this->exifKeyword($name,$imageName,$_POST['keywords'],$this->data['fileName']);
+		foreach($amodif['Keywords'] as $name) {
+			if ($name=="IPTC:Keywords" || $name=="XMP-dc:Subject") {
+				$this->exif->exifKeyword($name,$_POST['keywords'],$this->fileName);
+			}
 		}
-		$this->exif->modify($this->data['fileName']);
-		//shell_exec('exiftool -json -g1 img/'.$this->data['fileName'].'> img/json/'.str_replace(".jpg","",$this->data['fileName']).'.json');
-		//shell_exec('exiftool -json -XMP-dc:Title -XMP-dc:Creator -XMP-dc:Rights img/> img/json/home.json');
+		$this->exif->modify($this->fileName);
 		$this->exif->refreshHomeJSON();
 
 	}
@@ -145,7 +144,10 @@ class Image {
 
 
 	public function getTitle(){
-		return isset($this->data['XMP-dc']['Title']) ? $this->data['XMP-dc']['Title'] : null;
+		return isset($this->data['XMP-dc']['Title']) ? $this->data['XMP-dc']['Title']:
+		(isset($this->data['IPTC']['Headline']) ? $this->data['IPTC']['Headline']:
+			(isset($this->data['IPTC']['ObjectName']) ? $this->data['IPTC']['ObjectName']:
+				(isset($this->data['XMP-photoshop']['Headline']) ? $this->data['XMP-photoshop']['Headline']: null)));
 	}
 
 	public function getLatitude() {
@@ -167,21 +169,23 @@ class Image {
 	}
 
 	public function getDescription() {
-		return (isset($this->data['IFD0']['ImageDescription'])) ? $this->data['IFD0']['ImageDescription']:
-		(isset($this->data['XMP-dc']['Description'])) ? $this->data['XMP-dc']['Description']: null;
+		return ((isset($this->data['XMP-dc']['Description']) ? $this->data['XMP-dc']['Description']:
+		(isset($this->data['IFD0']['ImageDescription'])) ? $this->data['IFD0']['ImageDescription']:
+			(isset($this->data['IPTC']['Caption-Abstract']) ? $this->data['IPTC']['Caption-Abstract']: null)));
 	}
 
 
 	public function getCopyright() {
-		return 
-		isset($this->data['IFD0']['Copyright']) ? $this->data['IFD0']['Copyright']:
-		(isset($this->data['XMP-dc']['Rights']) ? $this->data['XMP-dc']['Rights']: null);
+		return isset($this->data['IFD0']['Copyright']) ? $this->data['IFD0']['Copyright']:
+		(isset($this->data['XMP-dc']['Rights']) ? $this->data['XMP-dc']['Rights']:
+			(isset($this->data['IPTC']['CopyrightNotice']) ? $this->data['IPTC']['CopyrightNotice']: null));
 	}
 
 	public function getArtist() {
-		return 
-		isset($this->data['IPTC']['Artist']) ? $this->data['IPTC']['Artist']:
-		(isset($this->data['XMP-dc']['Creator']) ? $this->data['XMP-dc']['Creator']: null);
+		return
+		isset($this->data['IFD0']['Artist']) ? $this->data['IFD0']['Artist']:
+		(isset($this->data['XMP-dc']['Creator']) ? $this->data['XMP-dc']['Creator']:
+			(isset($this->data['IPTC']['By-line']) ? $this->data['IPTC']['By-line']: null));
 	}
 
 	public function getFileName() {

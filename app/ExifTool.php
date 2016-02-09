@@ -12,10 +12,10 @@ class ExifTool {
 		shell_exec('exiftool -json -XMP-dc:Title -XMP-dc:Creator -XMP-dc:Rights img/> img/json/home.json');
 	}
 
-	public function exifKeyword($name,$imageName,$keywords,$filename) {
+	public function exifKeyword($name,$keywords,$filename) {
 		//TODO: Alban
-		shell_exec('exiftool -'.$name.'="" img/'.$imageName.'.jpg');
-		shell_exec('exiftool -sep ", " -'.$name.'="'.$keywords.'"  img/'.$fileName);
+		shell_exec('exiftool -'.$name.'="" img/'.$filename);
+		shell_exec('exiftool -sep ", " -'.$name.'="'.$keywords.'"  img/'.$filename);
 	}
 
 
