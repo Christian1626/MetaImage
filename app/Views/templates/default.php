@@ -15,7 +15,9 @@
     <link href='https://fonts.googleapis.com/css?family=Lobster|Pacifico|Dosis|Oswald|Marmelad ' rel='stylesheet' type='text/css'>
     <link rel="import" href="../bower_components/google-map/google-map.html">
 
-    <?= $metadata; ?>
+    <?php if(isset($metadata)) {
+        echo $metadata;
+    }; ?>
 
 </head>
 
