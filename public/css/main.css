@@ -72,6 +72,14 @@ a.navbar-brand {
   color: white;
 }
 
+.titleli {
+  color: #FF9600;
+}
+
+.titleli2 {
+  color: #FFC274;
+}
+
 /* Navigation bar */
 .navbar-default .navbar-brand {
     /*color: orange;*/

@@ -5,11 +5,8 @@
 <!--                      METADATA DE L'IMAGE                         -->
 <!-- ================================================================ -->
 
-<?php $actual_link = "https://".$_SERVER['HTTP_HOST']; ?>
-
 <!-- Ces Metadata seront placées dans le <head> -->
 <!-- OpenGraph -->
-<meta property="fb:admins" content="1234" />
 <meta name="fb:app_id" content="966242223397117" />
 <meta property="og:title" content="<?= $image->title ?>" />
 <meta property="og:image" content="<?=$actual_link?>/MetaImage/public/img/<?= $image->fileName ?>" />
@@ -18,7 +15,7 @@
 <meta property="og:image:type" content="image/jpeg" />
 <meta property="og:image:width" content="<?= $image->width ?>" />
 <meta property="og:image:height" content="<?= $image->height ?>" />
-
+<meta property="og:url" content="<?= $full_url ?>" />
 
 <!-- TwitterCard -->
 <meta name="twitter:card" content="summary_large_image" />

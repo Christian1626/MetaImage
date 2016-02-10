@@ -14,7 +14,10 @@ class ImageController extends Controller {
 	public function index(){
     	$this->json = new Models\Json();
     	$image = $this->image;
-		$this->render('pages.details',compact('image'));
+    	$actual_link = "https://".$_SERVER['HTTP_HOST'];
+		$full_url = $actual_link.$_SERVER['REQUEST_URI'];
+
+		$this->render('pages.details',compact('image','actual_link','full_url'));
 	}
 
 	public function modifyMetadata() {
