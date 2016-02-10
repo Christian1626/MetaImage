@@ -11,6 +11,10 @@ class ExifTool {
 	}
 
 	public function refreshHomeJSON() {
+		if(!is_dir(ROOT."/public/img/json/")) {
+			mkdir(ROOT."/public/img/json/",0700);
+		}
+
 		shell_exec('exiftool -json -XMP-dc:Title -XMP-dc:Creator -XMP-dc:Rights img/> img/json/home.json');
 	}
 
