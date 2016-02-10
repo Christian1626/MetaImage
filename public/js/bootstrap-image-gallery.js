@@ -67,7 +67,7 @@
 
 
             var url =  window.location.href.split("public")[0];
-            var img = element.src.replace(url+"public/img/","").replace(".jpg","").replace(".jpeg");
+            var img = element.src.replace(url+"public/img/","").replace(".jpg","").replace(".jpeg","");
             modal.find('.modal-title').text(element.title || String.fromCharCode(160));
             modal.find('.modal-body').append(element);
        		modal.find('#bouton_modifier').attr('href', 'index.php?p=details&imageName='+img);
