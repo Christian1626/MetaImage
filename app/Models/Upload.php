@@ -47,6 +47,10 @@ class Upload {
                 // Si c'est OK, on teste l'upload
                 if(move_uploaded_file($_FILES['fichier']['tmp_name'], $this->TARGET.$nomImage))
                 {
+                  if(!is_dir(ROOT."/public/img/json/")) {
+                    mkdir(ROOT."/public/img/json/",0700);
+                  }
+    
                   $exif = new ExifTool();
                   $exif->createJSON($this->TARGET.$nomImage,$this->TARGET.'/json/'.$this->nommd5.'.json');
                   $exif->refreshHomeJSON();
