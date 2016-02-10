@@ -128,7 +128,7 @@ class Image {
 			}
 		}
 		$listeParam.=ROOT.'/public/img/'.$this->fileName;
-		shell_exec('exiftool '.$listeParam);
+		shell_exec('exiftool -overwrite_original '.$listeParam);
 
 		foreach($amodif['Keywords'] as $name) {
 			if ($name=="IPTC:Keywords" || $name=="XMP-dc:Subject") {
