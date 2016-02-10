@@ -82,6 +82,7 @@
 		<?php } ?>
 	</div>
 
+	<div class="container">
 		<div class="row row-centered">
 			<div class="col-xs-12 col-centered col-max">
 				<div id="accordion">
@@ -100,6 +101,7 @@
 				</div>
 			</div>
 		</div>
+	</div>
 
 
 		
