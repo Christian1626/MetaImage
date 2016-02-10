@@ -21,7 +21,11 @@ class ExifTool {
 	}
 
 
-	public function modify($filename) {
+	public function modifyJSON($filename) {
 		shell_exec('exiftool -json -g1 img/'.$filename.'> img/json/'.str_replace(".jpg","",$filename).'.json');
+	}
+
+	public function replaceOriginal($listeParam) {
+		//shell_exec('exiftool -overwrite_original '.$listeParam);
 	}
 }

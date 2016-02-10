@@ -128,14 +128,14 @@ class Image {
 			}
 		}
 		$listeParam.=ROOT.'/public/img/'.$this->fileName;
-		shell_exec('exiftool -overwrite_original '.$listeParam);
+		$this->exif->replaceOriginal($listeParam);
 
 		foreach($amodif['Keywords'] as $name) {
 			if ($name=="IPTC:Keywords" || $name=="XMP-dc:Subject") {
 				$this->exif->exifKeyword($name,$_POST['keywords'],$this->fileName);
 			}
 		}
-		$this->exif->modify($this->fileName);
+		$this->exif->modifyJSON($this->fileName);
 		$this->exif->refreshHomeJSON();
 
 	}
