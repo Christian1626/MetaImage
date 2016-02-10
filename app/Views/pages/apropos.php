@@ -64,9 +64,10 @@
 	C'est donc avec ce système que nous avons 'optimisé' le site, en ne réduisant les appels à exiftool qu'en cas d'upload et de modification d'image, ne prenant ensuite que les fichiers JSON pour les différents affichages.</br>
 
 	<h3>Modification de différents champs 'identiques'</h3>
-	Dans les métadonnées il existe des champs parlant des mêmes valeurs, par exemple "object name", "title" et "headline". Afin de garder une cohérence dans les données, nous avons mit en place un algorithme qui lie chaque champ modifié dans l'application à un ensemble de champ des métadonnées et qui les modifient toutes quand on modifie une nouvelle valeur.</br>
+	Dans les métadonnées il existe des champs parlant des mêmes valeurs, par exemple "object name", "title" et "headline". Afin de garder une cohérence dans les données, nous avons mit en place un algorithme qui lie chaque champ modifié dans l'application à un ensemble de champ des métadonnées et qui modifient les champs seulement si ceux-ci sont présents dans le .json.</br>
 	L'algorithme, lors de la modification, liste tout les champs des métadonnées ayant exactement la même valeur que la valeur précédente du champ qu'on veut modifier, les stocke, et les modifie ensuite tous avec la nouvelle valeur.</br>
-	Ainsi, au lieu de mettre en place un formulaire supplémentaire nécessitant l'action d'un utilisateur pour valider le problème, nous avons automatisé la modification pour la rendre transparente à l'utilisateur.
+	Ainsi, au lieu de mettre en place un formulaire supplémentaire nécessitant l'action d'un utilisateur pour valider le problème, nous avons automatisé la modification pour la rendre transparente à l'utilisateur.</br>
+	Il faut noter que la fonction ne créé des nouveaux champs dans le fichier json seulement si il n'existe aucune métadonnées pour un de nos champs et que l'utilisateur veut ajouter une information.
 
 	<h2><a href="https://www.flickr.com/">Recherche Flickr</a></h2>
 	Nous avons ajouté, sur la page de détails d'une image, une recherche flickr montrant un ensemble d'image se rapprochant de celle détaillée, ce grâce à une recherche sur flickr avec les keywords ou le titre contenus dans les métadonnées de l'image.
