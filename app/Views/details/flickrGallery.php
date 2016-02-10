@@ -1,4 +1,4 @@
-
+<?php if((isset($image->title) && !empty($image->title)) || (isset($image->keywords)&& !empty($image->keywords))) { ?>
 <div class="container">
 	<h3> Images similaires via Flickr  </h3>
 	<div class='loading'>
@@ -13,6 +13,7 @@
 	  </div>
 	</div>
 
-
 	<div id="flickrGallery"> </div>
+	
 </div>
+<?php } ?>

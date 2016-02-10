@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
     <link rel="stylesheet" href="//blueimp.github.io/Gallery/css/blueimp-gallery.min.css">
     <link rel="stylesheet" href="css/bootstrap-image-gallery.css">
-    <link rel="stylesheet" href="css/demo.css">
+    <link rel="stylesheet" href="css/main.css">
     <link href='https://fonts.googleapis.com/css?family=Lobster|Pacifico|Dosis|Oswald|Marmelad ' rel='stylesheet' type='text/css'>
     <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
     <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>

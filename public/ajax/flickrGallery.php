@@ -6,6 +6,7 @@
 	$gallery= $flickr->search($_POST['query']);
 	
 	require ROOT.'/../app/Views/utils/gallery.php';
+	
 
 
 
