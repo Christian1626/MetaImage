@@ -1,0 +1,159 @@
+[{
+  "SourceFile": "/users/21102541/www-dev/devoir-idc/public/img/53073fbe335dde1fceec8a91662260d3.jpg",
+  "ExifTool": {
+    "ExifToolVersion": 8.60
+  },
+  "System": {
+    "FileName": "53073fbe335dde1fceec8a91662260d3.jpg",
+    "Directory": "/users/21102541/www-dev/devoir-idc/public/img",
+    "FileSize": "241 kB",
+    "FileModifyDate": "2016:02:10 17:25:23+01:00",
+    "FilePermissions": "rw-r--r--"
+  },
+  "File": {
+    "FileType": "JPEG",
+    "MIMEType": "image/jpeg",
+    "CurrentIPTCDigest": "fed5d1cffb2f6dc208a470128bcf8532",
+    "ExifByteOrder": "Big-endian (Motorola, MM)",
+    "ImageWidth": 800,
+    "ImageHeight": 533,
+    "EncodingProcess": "Baseline DCT, Huffman coding",
+    "BitsPerSample": 8,
+    "ColorComponents": 3,
+    "YCbCrSubSampling": "YCbCr4:2:0 (2 2)"
+  },
+  "JFIF": {
+    "JFIFVersion": 1.01,
+    "ResolutionUnit": "inches",
+    "XResolution": 72,
+    "YResolution": 72
+  },
+  "IPTC": {
+    "CodedCharacterSet": "UTF8",
+    "ApplicationRecordVersion": 2,
+    "By-line": "Albert Duce",
+    "Headline": "Abandoned Packard Automobile Factory, Detroit",
+    "Source": "http://commons.wikimedia.org/wiki/File:Abandoned_Packard_Automobile_Factory_Detroit_200.jpg",
+    "Caption-Abstract": "Western part of the abandoned Packard Automotive Plant in Detroit, Michigan.",
+    "Credit": "Wikimedia Commons",
+    "DateCreated": "2009:10:07",
+    "CopyrightNotice": "CC-by-sa",
+    "Keywords": ["abandoned","detroit","factory","michigan"],
+    "TimeCreated": "16:04:52+02:00",
+    "Province-State": "Michigan",
+    "ObjectName": "Abandoned Packard Automobile Factory, Detroit",
+    "City": "Detroit",
+    "Country-PrimaryLocationName": "USA"
+  },
+  "Photoshop": {
+    "IPTCDigest": "fed5d1cffb2f6dc208a470128bcf8532"
+  },
+  "ICC-header": {
+    "ProfileCMMType": "Lino",
+    "ProfileVersion": "2.1.0",
+    "ProfileClass": "Display Device Profile",
+    "ColorSpaceData": "RGB ",
+    "ProfileConnectionSpace": "XYZ ",
+    "ProfileDateTime": "1998:02:09 06:49:00",
+    "ProfileFileSignature": "acsp",
+    "PrimaryPlatform": "Microsoft Corporation",
+    "CMMFlags": "Not Embedded, Independent",
+    "DeviceManufacturer": "IEC ",
+    "DeviceModel": "sRGB",
+    "DeviceAttributes": "Reflective, Glossy, Positive, Color",
+    "RenderingIntent": "Perceptual",
+    "ConnectionSpaceIlluminant": "0.9642 1 0.82491",
+    "ProfileCreator": "HP  ",
+    "ProfileID": 0
+  },
+  "ICC_Profile": {
+    "ProfileCopyright": "Copyright (c) 1998 Hewlett-Packard Company",
+    "ProfileDescription": "sRGB IEC61966-2.1",
+    "MediaWhitePoint": "0.95045 1 1.08905",
+    "MediaBlackPoint": "0 0 0",
+    "RedMatrixColumn": "0.43607 0.22249 0.01392",
+    "GreenMatrixColumn": "0.38515 0.71687 0.09708",
+    "BlueMatrixColumn": "0.14307 0.06061 0.7141",
+    "DeviceMfgDesc": "IEC http://www.iec.ch",
+    "DeviceModelDesc": "IEC 61966-2.1 Default RGB colour space - sRGB",
+    "ViewingCondDesc": "Reference Viewing Condition in IEC61966-2.1",
+    "Luminance": "76.03647 80 87.12462",
+    "Technology": "Cathode Ray Tube Display",
+    "RedTRC": "(Binary data 2060 bytes)",
+    "GreenTRC": "(Binary data 2060 bytes)",
+    "BlueTRC": "(Binary data 2060 bytes)"
+  },
+  "ICC-view": {
+    "ViewingCondIlluminant": "19.6445 20.3718 16.8089",
+    "ViewingCondSurround": "3.92889 4.07439 3.36179",
+    "ViewingCondIlluminantType": "D50"
+  },
+  "ICC-meas": {
+    "MeasurementObserver": "CIE 1931",
+    "MeasurementBacking": "0 0 0",
+    "MeasurementGeometry": "Unknown (0)",
+    "MeasurementFlare": "0.999%",
+    "MeasurementIlluminant": "D65"
+  },
+  "IFD0": {
+    "ImageDescription": "Western part of the abandoned Packard Automotive Plant in Detroit, Michigan.",
+    "Orientation": "Horizontal (normal)",
+    "XResolution": 72,
+    "YResolution": 72,
+    "ResolutionUnit": "inches",
+    "Software": "Aperture 3.5.1",
+    "ModifyDate": "2013:10:07 09:36:52",
+    "Artist": "Albert Duce",
+    "Copyright": "CC-by-sa"
+  },
+  "ExifIFD": {
+    "ExifVersion": "0231",
+    "DateTimeOriginal": "2013:10:07 09:36:52",
+    "CreateDate": "2013:10:07 09:36:52",
+    "ComponentsConfiguration": "Y, Cb, Cr, -",
+    "FlashpixVersion": "0100",
+    "ColorSpace": "sRGB",
+    "ExifImageWidth": 800,
+    "ExifImageHeight": 533
+  },
+  "GPS": {
+    "GPSLatitudeRef": "North",
+    "GPSLatitude": "42 deg 22' 46.61\"",
+    "GPSLongitudeRef": "West",
+    "GPSLongitude": "83 deg 1' 44.51\""
+  },
+  "XMP-x": {
+    "XMPToolkit": "XMP Core 5.4.0"
+  },
+  "XMP-xmp": {
+    "ModifyDate": "2013:10:07 09:36:52",
+    "CreateDate": "2013:10:07 09:36:52",
+    "CreatorTool": "Aperture 3.5.1"
+  },
+  "XMP-photoshop": {
+    "City": "Detroit",
+    "State": "Michigan",
+    "Country": "USA",
+    "Credit": "Wikimedia Commons",
+    "DateCreated": "2009:10:07 16:04:52+02:00",
+    "Source": "http://commons.wikimedia.org/wiki/File:Abandoned_Packard_Automobile_Factory_Detroit_200.jpg",
+    "Headline": "Abandoned Packard Automobile Factory, Detroit"
+  },
+  "XMP-xmpRights": {
+    "UsageTerms": "http://creativecommons.org/licenses/by-sa/3.0/deed.en"
+  },
+  "XMP-dc": {
+    "Rights": "CC-by-sa",
+    "Description": "Western part of the abandoned Packard Automotive Plant in Detroit, Michigan.",
+    "Creator": "Albert Duce",
+    "Title": "Abandoned Packard Automobile Factory, Detroit",
+    "Subject": ["abandoned","detroit","factory","michigan"]
+  },
+  "Composite": {
+    "DateTimeCreated": "2009:10:07 16:04:52+02:00",
+    "GPSLatitude": "42 deg 22' 46.61\" N",
+    "GPSLongitude": "83 deg 1' 44.51\" W",
+    "GPSPosition": "42 deg 22' 46.61\" N, 83 deg 1' 44.51\" W",
+    "ImageSize": "800x533"
+  }
+}]

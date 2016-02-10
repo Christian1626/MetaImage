@@ -1,0 +1,162 @@
+[{
+  "SourceFile": "/users/21102541/www-dev/devoir-idc/public/img/c8d4e23e3d2d01b0d23877008cb6d7c7.jpg",
+  "ExifTool": {
+    "ExifToolVersion": 8.60
+  },
+  "System": {
+    "FileName": "c8d4e23e3d2d01b0d23877008cb6d7c7.jpg",
+    "Directory": "/users/21102541/www-dev/devoir-idc/public/img",
+    "FileSize": "229 kB",
+    "FileModifyDate": "2016:02:10 17:26:31+01:00",
+    "FilePermissions": "rw-r--r--"
+  },
+  "File": {
+    "FileType": "JPEG",
+    "MIMEType": "image/jpeg",
+    "CurrentIPTCDigest": "9b5c38d9923c3ab5a5f7d9aa9d223d2f",
+    "ExifByteOrder": "Big-endian (Motorola, MM)",
+    "ImageWidth": 800,
+    "ImageHeight": 522,
+    "EncodingProcess": "Baseline DCT, Huffman coding",
+    "BitsPerSample": 8,
+    "ColorComponents": 3,
+    "YCbCrSubSampling": "YCbCr4:2:0 (2 2)"
+  },
+  "JFIF": {
+    "JFIFVersion": 1.01,
+    "ResolutionUnit": "inches",
+    "XResolution": 72,
+    "YResolution": 72
+  },
+  "IPTC": {
+    "CodedCharacterSet": "UTF8",
+    "ApplicationRecordVersion": 2,
+    "By-line": "David Iliff ",
+    "Headline": "Tunnel View, Yosemite Valley, Yosemite NP",
+    "Sub-location": "Yosemite National Park",
+    "Source": "http://commons.wikimedia.org/wiki/File:Tunnel_View,_Yosemite_Valley,_Yosemite_NP_-_Diliff.jpg",
+    "Caption-Abstract": "The view of Yosemite Valley from Tunnel View in Yosemite National Park, California, United States.",
+    "Credit": "Wikimedia Commons",
+    "DateCreated": "2013:05:16",
+    "CopyrightNotice": "CC-by-sa",
+    "Keywords": ["california","yosemite"],
+    "Province-State": "California",
+    "TimeCreated": "18:37:30+02:00",
+    "ObjectName": "Tunnel View, Yosemite Valley, Yosemite NP",
+    "Country-PrimaryLocationName": "USA"
+  },
+  "Photoshop": {
+    "IPTCDigest": "9b5c38d9923c3ab5a5f7d9aa9d223d2f"
+  },
+  "ICC-header": {
+    "ProfileCMMType": "Lino",
+    "ProfileVersion": "2.1.0",
+    "ProfileClass": "Display Device Profile",
+    "ColorSpaceData": "RGB ",
+    "ProfileConnectionSpace": "XYZ ",
+    "ProfileDateTime": "1998:02:09 06:49:00",
+    "ProfileFileSignature": "acsp",
+    "PrimaryPlatform": "Microsoft Corporation",
+    "CMMFlags": "Not Embedded, Independent",
+    "DeviceManufacturer": "IEC ",
+    "DeviceModel": "sRGB",
+    "DeviceAttributes": "Reflective, Glossy, Positive, Color",
+    "RenderingIntent": "Perceptual",
+    "ConnectionSpaceIlluminant": "0.9642 1 0.82491",
+    "ProfileCreator": "HP  ",
+    "ProfileID": 0
+  },
+  "ICC_Profile": {
+    "ProfileCopyright": "Copyright (c) 1998 Hewlett-Packard Company",
+    "ProfileDescription": "sRGB IEC61966-2.1",
+    "MediaWhitePoint": "0.95045 1 1.08905",
+    "MediaBlackPoint": "0 0 0",
+    "RedMatrixColumn": "0.43607 0.22249 0.01392",
+    "GreenMatrixColumn": "0.38515 0.71687 0.09708",
+    "BlueMatrixColumn": "0.14307 0.06061 0.7141",
+    "DeviceMfgDesc": "IEC http://www.iec.ch",
+    "DeviceModelDesc": "IEC 61966-2.1 Default RGB colour space - sRGB",
+    "ViewingCondDesc": "Reference Viewing Condition in IEC61966-2.1",
+    "Luminance": "76.03647 80 87.12462",
+    "Technology": "Cathode Ray Tube Display",
+    "RedTRC": "(Binary data 2060 bytes)",
+    "GreenTRC": "(Binary data 2060 bytes)",
+    "BlueTRC": "(Binary data 2060 bytes)"
+  },
+  "ICC-view": {
+    "ViewingCondIlluminant": "19.6445 20.3718 16.8089",
+    "ViewingCondSurround": "3.92889 4.07439 3.36179",
+    "ViewingCondIlluminantType": "D50"
+  },
+  "ICC-meas": {
+    "MeasurementObserver": "CIE 1931",
+    "MeasurementBacking": "0 0 0",
+    "MeasurementGeometry": "Unknown (0)",
+    "MeasurementFlare": "0.999%",
+    "MeasurementIlluminant": "D65"
+  },
+  "IFD0": {
+    "ImageDescription": "The view of Yosemite Valley from Tunnel View in Yosemite National Park, California, United States.",
+    "Orientation": "Horizontal (normal)",
+    "XResolution": 72,
+    "YResolution": 72,
+    "ResolutionUnit": "inches",
+    "Software": "Aperture 3.5.1",
+    "ModifyDate": "2013:10:07 09:38:30",
+    "Artist": "David Iliff",
+    "Copyright": "CC-by-sa"
+  },
+  "ExifIFD": {
+    "ExifVersion": "0231",
+    "DateTimeOriginal": "2013:10:07 09:38:30",
+    "CreateDate": "2013:10:07 09:38:30",
+    "ComponentsConfiguration": "Y, Cb, Cr, -",
+    "FlashpixVersion": "0100",
+    "ColorSpace": "sRGB",
+    "ExifImageWidth": 800,
+    "ExifImageHeight": 522
+  },
+  "GPS": {
+    "GPSLatitudeRef": "North",
+    "GPSLatitude": "37 deg 50' 23.64\"",
+    "GPSLongitudeRef": "West",
+    "GPSLongitude": "119 deg 31' 10.92\""
+  },
+  "XMP-x": {
+    "XMPToolkit": "XMP Core 5.4.0"
+  },
+  "XMP-xmp": {
+    "ModifyDate": "2013:10:07 09:38:30",
+    "CreateDate": "2013:10:07 09:38:30",
+    "CreatorTool": "Aperture 3.5.1"
+  },
+  "XMP-iptcCore": {
+    "CreatorWorkURL": "http://commons.wikimedia.org/wiki/User:Diliff",
+    "Location": "Yosemite National Park"
+  },
+  "XMP-dc": {
+    "Subject": ["california","yosemite"],
+    "Rights": "CC-by-sa",
+    "Description": "The view of Yosemite Valley from Tunnel View in Yosemite National Park, California, United States.",
+    "Creator": "David Iliff ",
+    "Title": "Tunnel View, Yosemite Valley, Yosemite NP"
+  },
+  "XMP-xmpRights": {
+    "UsageTerms": "http://creativecommons.org/licenses/by-sa/3.0/deed.en"
+  },
+  "XMP-photoshop": {
+    "State": "California",
+    "Country": "USA",
+    "Credit": "Wikimedia Commons",
+    "DateCreated": "2013:05:16 18:37:30+02:00",
+    "Source": "http://commons.wikimedia.org/wiki/File:Tunnel_View,_Yosemite_Valley,_Yosemite_NP_-_Diliff.jpg",
+    "Headline": "Tunnel View, Yosemite Valley, Yosemite NP"
+  },
+  "Composite": {
+    "DateTimeCreated": "2013:05:16 18:37:30+02:00",
+    "GPSLatitude": "37 deg 50' 23.64\" N",
+    "GPSLongitude": "119 deg 31' 10.92\" W",
+    "GPSPosition": "37 deg 50' 23.64\" N, 119 deg 31' 10.92\" W",
+    "ImageSize": "800x522"
+  }
+}]
