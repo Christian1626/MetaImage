@@ -82,23 +82,24 @@
 		<?php } ?>
 	</div>
 
-	<div class="container">
-	<div class="row row-centered">
-		<div class="col-xs-12 col-centered col-max">
-			<div id="accordion">
-				<div id="headingZero" class="panel-heading">
-					<h4 class="panel-title"><a href="#collapseZero" data-toggle="collapse" data-parent="#accordion">Cliquez pour afficher toutes les métadonnées de l'image</a></h4>
-				</div>
+		<div class="row row-centered">
+			<div class="col-xs-12 col-centered col-max">
+				<div id="accordion">
+					<div id="headingZero" class="panel-heading">
+						<h4 class="panel-title"><a href="#collapseZero" data-toggle="collapse" data-parent="#accordion">Cliquez pour afficher toutes les métadonnées de l'image</a></h4>
+					</div>
 
-				<div id="collapseZero" class="panel-collapse collapse">
-					<div class="panel-body">
-						<pre>
-							<?php 
-							 print_r($image->data); ?>
-						</pre>
+					<div id="collapseZero" class="panel-collapse collapse">
+						<div class="panel-body">
+							<pre>
+								<?php 
+								 print_r($image->data); ?>
+							</pre>
+						</div>
 					</div>
 				</div>
 			</div>
 		</div>
-	</div>
-	</div>
+
+
+		

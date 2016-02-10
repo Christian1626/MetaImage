@@ -13,9 +13,6 @@
     <link rel="stylesheet" href="css/bootstrap-image-gallery.css">
     <link rel="stylesheet" href="css/main.css">
     <link href='https://fonts.googleapis.com/css?family=Lobster|Pacifico|Dosis|Oswald|Marmelad ' rel='stylesheet' type='text/css'>
-    <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
-    <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
-    <script src="../bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
     <link rel="import" href="../bower_components/google-map/google-map.html">
 
     <?= $metadata; ?>
@@ -46,13 +43,13 @@
 
 <?= $content; ?>
 
-<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-<!-- Bootstrap JS is not required, but included for the responsive demo navigation and button states -->
+<!-- Scripts -->
+<script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+<script src="../bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
 <script src="//netdna.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 <script src="//blueimp.github.io/Gallery/js/jquery.blueimp-gallery.min.js"></script>
 <script src="js/bootstrap-image-gallery.js"></script>
 <script src="js/metajs.js"></script>
-
-
 </body>
 </html>
