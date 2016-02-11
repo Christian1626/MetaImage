@@ -15,7 +15,6 @@ class ExifTool {
 	}
 
 	public function exifKeyword($name,$keywords,$filename) {
-		//TODO: Alban
 		shell_exec('exiftool -'.$name.'="" img/'.$filename);
 		shell_exec('exiftool -sep ", " -'.$name.'="'.$keywords.'"  img/'.$filename);
 	}
