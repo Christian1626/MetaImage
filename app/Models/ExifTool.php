@@ -26,6 +26,6 @@ class ExifTool {
 	}
 
 	public function replaceOriginal($listeParam) {
-		//shell_exec('exiftool -overwrite_original '.$listeParam);
+		shell_exec('exiftool -overwrite_original '.$listeParam);
 	}
 }
